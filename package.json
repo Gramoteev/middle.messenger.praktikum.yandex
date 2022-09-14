@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Smiler - веб мессенджер",
   "scripts": {
-    "dev": "parcel src/pages/index.hbs --no-cache",
+    "dev": "parcel src/index.hbs --no-cache",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +23,7 @@
     "postcss-import": "^15.0.0",
     "postcss-nested": "^5.0.6"
   },
-  "dependencies": {}
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  }
 }
