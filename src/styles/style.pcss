@@ -1,0 +1,99 @@
+@import "normalize.css";
+
+/* Layouts */
+@import "../layouts/auth/auth.pcss";
+
+/* Partials */
+@import '../partials/dialog/dialog.pcss';
+
+:root {
+    --primary-color: #3369F3;
+}
+
+html {
+    height: 100%;
+    font-size: 13px;
+    font-family: 'Inter';
+    font-weight: 500;
+    color: #1E1E1E;
+}
+body {
+    height: 100%;
+}
+a {
+    color: var(--primary-color);
+}
+
+.auth-form {
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &__content {
+        margin-bottom: 30px;
+    }
+    &__title {
+        font-size: 20px;
+        line-height: 20px;
+        text-align: center;
+        color: #1E1E1E;
+        margin: 18px 0 25px 0;
+    }
+    &__submit {
+        margin: 15px 0;
+        color: white;
+        padding: 10px 0;
+        background: var(--primary-color);
+        border-radius: 8px;
+        display: block;
+        border: 0;
+        width: 100%;
+    }
+    &__footer {
+        text-align: center;
+    }
+    &__footer-link {
+        font-size: 11px;
+    }
+}
+
+.field {
+    position: relative;
+    margin-top: 20px;
+    &__label {
+        font-size: 13px;
+        font-weight: normal;
+        position: absolute;
+        pointer-events: none;
+        left: 0px;
+        top: 10px;
+        color: #999999;
+        transition: 300ms ease;
+        transition-property: font-size, top;
+    }
+    &__input {
+        width: 100%;
+        padding: 10px 0;
+        background: none;
+        font-size: 13px;
+        line-height: 13px;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid #3369F3;
+        &:focus {
+            outline: none;
+            & ~ .field__label {
+                top: -4px;
+                font-size: 9px;
+            }
+        }
+        &:valid ~ .field__label {
+            top: -4px;
+            font-size: 9px;
+        }
+
+    }
+    &__error {
+        display: none;
+    }
+}

@@ -1,22 +1,19 @@
-{{!< tight/tight}}
-<div class="page page_login">
-    <form class="form">
-        <div class="form__content">
-            <h1 class="form__title">Вход</h1>
-            <div class="field">
-                <label class="field__label" for="login">Логин</label>
-                <input class="field__input" id="login" type="text">
-                <div class="field__error">Неверный логин</div>
-            </div>
-            <div class="field">
-                <label class="field__label" for="pass">Пароль</label>
-                <input class="field__input" id="pass" type="hidden">
-            </div>
+{{!< auth/auth}}
+<form class="form auth-form">
+    <div class="auth-form__content">
+        <h1 class="auth-form__title">Вход</h1>
+        <div class="field">
+            <input class="field__input" id="login" type="text" required>
+            <label class="field__label" for="login">Логин</label>
+            <div class="field__error">Неверный логин</div>
         </div>
-        <div class="form__footer">
-            <button type="submit">Авторизоваться</button>
-            <a href="#" class="form__footer-link">Нет аккаунта?</a>
+        <div class="field">
+            <input class="field__input" id="pass" type="password" required>
+            <label class="field__label" for="pass">Пароль</label>
         </div>
-    </form>
-
-</div>
+    </div>
+    <div class="auth-form__footer">
+        <button class="auth-form__submit" type="submit">Авторизоваться</button>
+        <a href="../signin/signin.hbs" class="auth-form__footer-link">Нет аккаунта?</a>
+    </div>
+</form>
