@@ -1,3 +1,17 @@
 <li class="dialog">
-    <h2 class="dialog__title">{{this}}</h2>
+        <img class="avatar dialog__avatar-img" src="https://pickaface.net/gallery/avatar/20140911_184056_617_demo.png" alt="Avatar">
+    <div class="dialog__inner">
+        <div class="dialog__top">
+            <div class="dialog__title">{{this.title}}</div>
+            <div class="dialog__date text-muted">{{this.date}}</div>
+        </div>
+        <div class="dialog__bottom">
+            <div class="dialog__text text-muted">{{this.text}}</div>
+            <div class="dialog__unread">
+                <div class="text-circle">
+                    {{this.unread}}
+                </div>
+            </div>
+        </div>
+    </div>
 </li>
