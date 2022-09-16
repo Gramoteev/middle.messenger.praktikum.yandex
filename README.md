@@ -1,4 +1,5 @@
 ## Smiler - приложение для общения
+Демо: https://gentle-griffin-f3f916.netlify.app/
 
 ### Описание
 - **Parcel** - сборка проекта
