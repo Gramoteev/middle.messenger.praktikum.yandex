@@ -1,10 +1,14 @@
 @import "normalize.css";
 /* Variables */
 @import "variables.pcss";
+
 /* Pages */
 @import "../pages/chat/chat.pcss";
+@import "../pages/profile/profile.pcss";
+
 /* Layouts */
 @import "../layouts/auth/auth.pcss";
+@import "../layouts/account/account.pcss";
 
 /* Partials */
 @import '../partials/dialog/dialog.pcss';
@@ -22,6 +26,9 @@ body {
 }
 a {
     color: var(--primary-color);
+}
+button {
+    cursor: pointer;
 }
 
 .auth-form {
@@ -57,7 +64,7 @@ a {
     }
 }
 
-.field {
+.auth-field {
     position: relative;
     margin-top: 20px;
     &__label {
@@ -81,12 +88,12 @@ a {
         border-bottom: 1px solid #3369F3;
         &:focus {
             outline: none;
-            & ~ .field__label {
+            & ~ .auth-field__label {
                 top: -4px;
                 font-size: 9px;
             }
         }
-        &:not(:placeholder-shown) ~ .field__label {
+        &:not(:placeholder-shown) ~ .auth-field__label {
             top: -4px;
             font-size: 9px;
         }
@@ -116,10 +123,40 @@ a {
     color: var(--muted);
 }
 
+.text-danger {
+    color: var(--error-color);
+}
+
+
 .clean-input {
     background: none;
     border: none;
     &:focus {
         outline: none;
+    }
+}
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &_circle {
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        background: var(--primary-color);
+    }
+}
+
+.group-list {
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border-top: 1px solid var(--borders);
+        padding: 10px 0;
+        align-items: center;
+        &:first-child {
+            border-top: none;
+        }
     }
 }
