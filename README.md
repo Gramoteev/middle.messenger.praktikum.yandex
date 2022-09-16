@@ -13,5 +13,7 @@
 
 `npm run dev` — запуск версии для разработчика
 
-`npm run start` — запуск express сервера,
+`npm run start` — сборка проекта и запуск express сервера
+
+`npm run build` — сборка проекта
 
