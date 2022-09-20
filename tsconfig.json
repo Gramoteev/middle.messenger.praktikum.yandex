@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "target": "es2017",
+    "declaration": false,
+    "module": "commonjs",
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+   }
+}
