@@ -6,6 +6,7 @@
     "target": "es2017",
     "declaration": false,
     "module": "commonjs",
+    "typeRoots": ["node_modules/@types", "typings/app.d.ts"],
     "alwaysStrict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
