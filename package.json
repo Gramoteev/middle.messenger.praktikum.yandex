@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Smiler - веб мессенджер",
   "alias": {
-    "core": "./src/core"
+    "core": "./src/core",
+    "components": "./src/components",
+    "halpers": "./src/halpers",
+    "pages": "./src/pages",
+    "styles": "./src/styles"
   },
   "scripts": {
     "dev": "parcel src/index.hbs --no-cache",
