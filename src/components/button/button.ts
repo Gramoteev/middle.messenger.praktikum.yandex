@@ -15,9 +15,7 @@ export class Button extends Block {
   protected render(): string {
     // language=hbs
     return `
-      <div class="button">
-        <button class="button__button" type="button">{{text}}</button>
-      </div>
+        <button class="auth-form__submit" type="button">{{text}}</button>
     `;
   }
 }

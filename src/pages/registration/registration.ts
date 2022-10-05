@@ -1,13 +1,13 @@
 import Block from 'core/Block';
 
-export class SignInPage extends Block {
+export class RegistrationPage extends Block {
   render() {
     // language=hbs
     return `
     {{#Layout type="auth" }}
         <form class="form auth-form">
             <div class="auth-form__content">
-                <h1 class="auth-form__title">Регистрация</h1>
+                <h1 class="auth-form__title">Registration</h1>
                 <div class="auth-field">
                     <input class="auth-field__input" id="email" type="email" placeholder=" " required>
                     <label class="auth-field__label" for="email">Почта</label>
@@ -39,8 +39,8 @@ export class SignInPage extends Block {
                 </div>
             </div>
             <div class="auth-form__footer">
-                <button class="auth-form__submit" type="submit">Зарегистрироваться</button>
-                <a href="../login/login.hbs" class="auth-form__footer-link">Войти</a>
+                {{{Button text="Register" onClick=onButtonClick}}}
+                {{{Link class="auth-form__footer-link" text="Sign in" to="/"}}}
             </div>
         </form>
   {{/Layout}}

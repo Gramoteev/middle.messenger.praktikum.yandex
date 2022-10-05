@@ -110,7 +110,6 @@ export default class Block<P = any> {
     const fragment = this._compile();
 
     this._removeEvents();
-    console.log(fragment.firstElementChild)
     const newElement = fragment.firstElementChild!;
 
     this._element!.replaceWith(newElement);

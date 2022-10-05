@@ -10,11 +10,6 @@ interface LinkProps {
 export class Link extends Block {
   constructor(props: LinkProps) {
     const onClick = (e: MouseEvent) => {
-      // const router = new Router();
-      // router.go(this.props.to);
-
-      console.log(13);
-
       e.preventDefault();
     }
 
@@ -23,6 +18,6 @@ export class Link extends Block {
 
   render() {
     // language=hbs
-    return `<a href="{{to}}">{{text}}</a>`;
+    return `<a class="{{class}}" href="{{to}}">{{text}}</a>`;
   }
 }
