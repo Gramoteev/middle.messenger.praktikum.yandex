@@ -1,0 +1,26 @@
+.profile-field {
+  border-top: 1px solid var(--borders);
+  position: relative;
+  &:first-child {
+    border-top: none;
+  }
+  &__label {
+    position: absolute;
+    line-height: 39px;
+  }
+  &__input {
+    color: var(--muted);
+    text-align: right;
+    outline: none;
+    border: none;
+    width: 100%;
+    padding: 12px 0;
+  }
+  &__error {
+    left: 100%;
+    width: 100%;
+    z-index: 10;
+    bottom: 0;
+    padding: 12px;
+  }
+}
