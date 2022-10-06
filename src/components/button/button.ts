@@ -1,4 +1,4 @@
-import Block from 'core/Block';
+import Block from 'core/block';
 
 import './button.pcss';
 
@@ -16,7 +16,9 @@ export class Button extends Block {
   protected render(): string {
     // language=hbs
     return `
-        <button class="auth-form__submit" type="{{type}}">{{text}}</button>
+        <button class="button button_{{#if style}}{{style}}{{else}}default{{/if}}"
+                type="{{type}}">{{text}}
+        </button>
     `;
   }
 }

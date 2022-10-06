@@ -1,4 +1,6 @@
-import Block from 'core/Block';
+import Block from 'core/block';
+
+import './error.pcss'
 
 interface ErrorProps {
   text?: string;
