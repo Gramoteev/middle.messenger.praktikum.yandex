@@ -1,19 +1,26 @@
-import SignIn from "./pages/sign-in";
+import SignIn from "pages/sign-in";
+import {registerComponent, renderDOM} from './core';
+
+import 'styles/style.pcss';
+
+import Button from 'components/button';
+import Link from 'components/link';
+import Layout from 'components/layout';
+import RegistrationPage from "pages/registration";
+import AuthField from "components/authField";
+import ErrorComponent from "./components/error";
+import Label from "./components/label";
+import Input from "./components/input";
+
 require("babel-core/register");
-import { Block, renderDOM, registerComponent }  from './core';
-
-import './styles/style.pcss';
-
-import Button from './components/button';
-import Link from './components/link';
-import Input from './components/input';
-import Layout from './components/layout';
-import RegistrationPage from "./pages/registration";
 
 registerComponent(Button);
 registerComponent(Link);
-registerComponent(Input);
+registerComponent(AuthField);
 registerComponent(Layout);
+registerComponent(ErrorComponent);
+registerComponent(Label);
+registerComponent(Input);
 
 document.addEventListener("DOMContentLoaded", () => {
   renderDOM(new SignIn());

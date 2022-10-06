@@ -4,18 +4,19 @@ import './button.pcss';
 
 interface ButtonProps {
   text: string;
+  type: string;
   onClick: () => void;
 }
 
 export class Button extends Block {
-  constructor({text, onClick}: ButtonProps) {
-    super({text, events: {click: onClick}});
+  constructor({text, type, onClick}: ButtonProps) {
+    super({text, type, events: {click: onClick}});
   }
 
   protected render(): string {
     // language=hbs
     return `
-        <button class="auth-form__submit" type="button">{{text}}</button>
+        <button class="auth-form__submit" type="{{type}}">{{text}}</button>
     `;
   }
 }

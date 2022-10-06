@@ -1,27 +1,23 @@
-import Block from '../../core/Block';
-
-import './input.css';
+import Block from 'core/Block';
 
 interface InputProps {
-  onChange?: () => void;
+  onInput?: () => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
-  value?: string;
-  error?: string;
+  name?: string;
 }
 
 export class Input extends Block {
-  constructor({onChange = () => {}, type = 'text', error, placeholder, value}: InputProps) {
-    super({type, placeholder, value, error, events: {input: onChange}});
+  constructor({onBlur, onInput, onFocus, ...props}: InputProps) {
+    super({...props, events: {input: onInput, focus: onFocus, blur: onBlur}});
   }
 
   protected render(): string {
     // language=hbs
     return `
-      <div class="input">
-        <input class="input__input" type="{{type}}" placeholder="{{placeholder}}" value="{{value}}">
-        <div class="input__error">{{#if error}}{{error}}{{/if}}</div>
-      </div>
+      <input class="input {{class}}" id="{{name}}" name="{{name}}" type="{{type}}" placeholder="{{placeholder}}">
     `
   }
 }

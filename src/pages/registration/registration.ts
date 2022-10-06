@@ -1,6 +1,34 @@
 import Block from 'core/Block';
+import {validateFormElement} from "../../helpers/validateForm";
 
 export class RegistrationPage extends Block {
+  constructor() {
+    super();
+
+    this.setProps({
+      onSubmit: (e: Event) => {
+        e.preventDefault();
+
+        let isValid = true;
+        Object.entries(this.refs).forEach(fieldRef => {
+          const element = fieldRef[1].element?.querySelector(`#${fieldRef[0]}`) as HTMLInputElement;
+          const errorMessage = validateFormElement(element);
+          this.refs[element.id].refs.errorRef.setProps({text: errorMessage});
+          if (errorMessage) {
+            isValid = false;
+          }
+        });
+        if (isValid) {
+          const form = this.element?.querySelector('form') as HTMLFormElement;
+          const formData = new FormData(form);
+          for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+          }
+        }
+      }
+    });
+  }
+
   render() {
     // language=hbs
     return `
@@ -8,38 +36,63 @@ export class RegistrationPage extends Block {
         <form class="form auth-form">
             <div class="auth-form__content">
                 <h1 class="auth-form__title">Registration</h1>
-                <div class="auth-field">
-                    <input class="auth-field__input" id="email" type="email" placeholder=" " required>
-                    <label class="auth-field__label" for="email">Почта</label>
-                </div>
-                <div class="auth-field">
-                    <input class="auth-field__input" id="login" type="text" placeholder=" " required>
-                    <label class="auth-field__label" for="login">Логин</label>
-                    <div class="auth-field__error">Неверный логин</div>
-                </div>
-                <div class="auth-field">
-                    <input class="auth-field__input" id="first_name" type="text" placeholder=" " required>
-                    <label class="auth-field__label" for="first_name">Имя</label>
-                </div>
-                <div class="auth-field">
-                    <input class="auth-field__input" id="second_name" type="text" placeholder=" " required>
-                    <label class="auth-field__label" for="second_name">Фамилия</label>
-                </div>
-                <div class="auth-field">
-                    <input class="auth-field__input" id="phone" type="tel" placeholder=" " required>
-                    <label class="auth-field__label" for="phone">Телефон</label>
-                </div>
-                <div class="auth-field">
-                    <input class="auth-field__input" id="password" type="password" placeholder=" " required>
-                    <label class="auth-field__label" for="password">Пароль</label>
-                </div>
-                <div class="auth-field">
-                    <input class="auth-field__input" id="confirmPassword" type="password" placeholder=" " required>
-                    <label class="auth-field__label" for="confirmPassword">Пароль (еще раз)</label>
-                </div>
+                {{{AuthField
+                        ref="email"
+                        onInput=onInput
+                        onFocus=onFocus
+                        type="email"
+                        name="email"
+                        label="Email"
+                        placeholder=" "
+                }}}
+                {{{AuthField
+                        ref="login"
+                        onInput=onInput
+                        onFocus=onFocus
+                        type="text"
+                        name="login"
+                        label="Login"
+                        placeholder=" "
+                }}}
+                {{{AuthField
+                        ref="first_name"
+                        onInput=onInput
+                        onFocus=onFocus
+                        type="text"
+                        name="first_name"
+                        label="First name"
+                        placeholder=" "
+                }}}
+                {{{AuthField
+                        ref="second_name"
+                        onInput=onInput
+                        onFocus=onFocus
+                        type="text"
+                        name="second_name"
+                        label="Second name"
+                        placeholder=" "
+                }}}
+                {{{AuthField
+                        ref="phone"
+                        onInput=onInput
+                        onFocus=onFocus
+                        type="text"
+                        name="phone"
+                        label="Phone"
+                        placeholder=" "
+                }}}
+                {{{AuthField
+                        ref="password"
+                        onInput=onInput
+                        onFocus=onFocus
+                        type="password"
+                        name="password"
+                        label="Password"
+                        placeholder=" "
+                }}}
             </div>
             <div class="auth-form__footer">
-                {{{Button text="Register" onClick=onButtonClick}}}
+                {{{Button text="Register" type="submit" onClick=onSubmit}}}
                 {{{Link class="auth-form__footer-link" text="Sign in" to="/"}}}
             </div>
         </form>

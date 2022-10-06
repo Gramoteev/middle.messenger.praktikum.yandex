@@ -5,7 +5,7 @@
   "alias": {
     "core": "./src/core",
     "components": "./src/components",
-    "halpers": "./src/halpers",
+    "helpers": "./src/helpers",
     "pages": "./src/pages",
     "styles": "./src/styles"
   },

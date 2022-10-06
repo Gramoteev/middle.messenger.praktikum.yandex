@@ -25,8 +25,7 @@ export default class Block<P = any> {
 
   eventBus: () => EventBus<Events>;
 
-  protected state: any = {};
-  protected refs: {[key: string]: HTMLElement} = {};
+  refs: {[key: string]: Block} = {};
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
@@ -35,10 +34,7 @@ export default class Block<P = any> {
       props,
     };
 
-    this.getStateFromProps(props)
-
     this.props = this._makePropsProxy(props || {} as P);
-    this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
 
@@ -56,10 +52,6 @@ export default class Block<P = any> {
 
   _createResources() {
     this._element = this._createDocumentElement('div');
-  }
-
-  protected getStateFromProps(props: any): void {
-    this.state = {};
   }
 
   init() {
@@ -92,14 +84,6 @@ export default class Block<P = any> {
     }
 
     Object.assign(this.props as Object, nextProps);
-  };
-
-  setState = (nextState: any) => {
-    if (!nextState) {
-      return;
-    }
-
-    Object.assign(this.state, nextState);
   };
 
   get element() {
@@ -195,7 +179,7 @@ export default class Block<P = any> {
      * Рендерим шаблон
      */
     const template = Handlebars.compile(this.render());
-    fragment.innerHTML = template({ ...this.state, ...this.props, children: this.children, refs: this.refs });
+    fragment.innerHTML = template({ ...this.props, children: this.children, refs: this.refs });
 
     /**
      * Заменяем заглушки на компоненты
