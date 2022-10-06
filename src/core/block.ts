@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars';
-import EventBus from './EventBus';
+import EventBus from './event-bus';
 import {nanoid} from 'nanoid';
 
 interface BlockMeta<P = any> {

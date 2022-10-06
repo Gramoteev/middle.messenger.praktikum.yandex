@@ -1,5 +1,5 @@
-import Block from 'core/Block';
-import {validateFormElement} from "../../helpers/validateForm";
+import Block from 'core/block';
+import {validateFormElement} from "../../helpers/validate-form";
 
 export class RegistrationPage extends Block {
   constructor() {

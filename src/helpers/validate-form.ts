@@ -1,5 +1,3 @@
-import {Block} from "../core";
-
 export enum ValidateName {
   Login = 'login',
   Password = 'password'
