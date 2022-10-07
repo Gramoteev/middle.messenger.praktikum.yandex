@@ -38,7 +38,7 @@ registerComponent(Dialog);
 registerComponent(Message);
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderDOM(new ChangePasswordPage());
+  renderDOM(new RegistrationPage());
 });
 
 const pagesMap = {
