@@ -1,7 +1,7 @@
 import Block from 'core/block';
 
 import './auth-field.pcss';
-import {validateFormElement} from "../../helpers/validate-form";
+import {validateFormElement} from "helpers/validate-form";
 
 interface AuthFieldProps {
   onInput?: () => void;

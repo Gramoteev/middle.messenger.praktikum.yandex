@@ -1,5 +1,26 @@
 .message {
-    &__title{
-          font-size: 20px;
-     }
+  max-width: 400px;
+  padding: 10px 15px 5px 15px;
+  margin: 10px 0;
+  &__title{
+        font-size: 20px;
+   }
+  &_incoming {
+    background: #F8F8F8;
+    border-radius: 0 10px 10px 10px;
+  }
+  &_own {
+    margin-left: auto;
+    background: #E4EDFD;
+    border-radius: 10px 10px 0 10px;
+  }
+  &__footer {
+    margin-top: 5px;
+    display: flex;
+    justify-content: right;
+  }
+  .message-date {
+    font-size: 9px;
+    color: var(--muted);
+  }
 }
