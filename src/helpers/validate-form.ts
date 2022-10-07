@@ -35,8 +35,10 @@ export function validateFormElement(element: HTMLInputElement): string {
   ) {
     if (!/^.{8,40}$/.test(value)) {
       errorMessage = 'Should contains from 8 to 40 characters';
-    } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$/.test(value)) {
-      errorMessage = 'Should contains one letter and one number';
+    } else if (!/[A-Z,А-Я]/.test(value)) {
+      errorMessage = 'Use at least one capital letter';
+    } else if (!/[0-9]/.test(value)) {
+      errorMessage = 'Use at least one digit';
     }
   }
 
