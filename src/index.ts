@@ -13,25 +13,39 @@ import Input from "components/input";
 import ProfilePage from "pages/profile";
 import AuthField from "components/auth-field";
 import ProfileField from "components/profile-field";
+import ChatInput from "components/chat-input";
+import {ChatPage} from "pages/chat/chat";
+import Textarea from "components/textarea";
+import ButtonIcon from "components/button-icon";
+import Dialog from "components/dialog";
+import Message from "components/message";
+import {ChangePasswordPage} from "pages/change-password/change-password";
 
 require("babel-core/register");
 
 registerComponent(Button);
+registerComponent(ButtonIcon);
 registerComponent(Link);
 registerComponent(AuthField);
 registerComponent(ProfileField);
+registerComponent(ChatInput);
 registerComponent(Layout);
 registerComponent(ErrorComponent);
 registerComponent(Label);
 registerComponent(Input);
+registerComponent(Textarea);
+registerComponent(Dialog);
+registerComponent(Message);
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderDOM(new ProfilePage());
+  renderDOM(new ChangePasswordPage());
 });
 
 const pagesMap = {
   registration: RegistrationPage,
   profile: ProfilePage,
+  changePassword: ChangePasswordPage,
+  chat: ChatPage,
   signIn: SignInPage
 }
 
