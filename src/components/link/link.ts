@@ -1,7 +1,5 @@
 import Block from 'core/block';
 
-import './link.css';
-
 type LinkProps = {
   text: string;
   to: string;
