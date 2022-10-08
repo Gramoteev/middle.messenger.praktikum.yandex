@@ -2,7 +2,7 @@ import Block from 'core/block';
 
 import './button.pcss';
 
-interface ButtonProps {
+type ButtonProps = {
   text: string;
   type: string;
   onClick: () => void;

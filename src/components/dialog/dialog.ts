@@ -3,7 +3,7 @@ import Block from 'core/block';
 import './dialog.pcss';
 import {validateFormElement} from "helpers/validate-form";
 
-interface DialogProps {
+type DialogProps = {
   title?: string;
   date?: string;
   text?: string;

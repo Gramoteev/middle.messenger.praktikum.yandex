@@ -3,7 +3,7 @@ import Block from 'core/block';
 import './auth-field.pcss';
 import {validateFormElement} from "helpers/validate-form";
 
-interface AuthFieldProps {
+type AuthFieldProps = {
   onInput?: () => void;
   onFocus?: () => void;
   type?: 'text' | 'password' | 'email';

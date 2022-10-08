@@ -2,7 +2,7 @@ import Block from 'core/block';
 
 import './button-icon.pcss';
 
-interface ButtonIconProps {
+type ButtonIconProps = {
   type: string;
   onClick: () => void;
 }

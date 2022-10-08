@@ -1,7 +1,7 @@
 import Block from './block';
 import Handlebars, { HelperOptions } from 'handlebars';
 
-interface BlockConstructable<Props = any> {
+type BlockConstructable<Props = any> = {
   new(props: Props): Block;
 }
 

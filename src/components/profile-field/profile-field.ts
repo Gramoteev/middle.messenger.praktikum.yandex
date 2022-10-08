@@ -4,7 +4,7 @@ import './profile-field.pcss';
 
 import {validateFormElement} from "../../helpers/validate-form";
 
-interface ProfileFieldProps {
+type ProfileFieldProps = {
   onInput?: () => void;
   onFocus?: () => void;
   type?: 'text' | 'password' | 'email';

@@ -2,7 +2,7 @@ import Block from 'core/block';
 
 import './message.pcss';
 
-interface MessageProps {
+type MessageProps = {
   title?: string;
   content?: string;
 }

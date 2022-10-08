@@ -2,7 +2,7 @@ import Block from 'core/block';
 
 import './layout.pcss';
 
-interface LayoutProps {}
+type LayoutProps = {};
 
 export class Layout extends Block<LayoutProps> {
   protected render(): string {

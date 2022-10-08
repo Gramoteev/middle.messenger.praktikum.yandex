@@ -2,7 +2,7 @@ import Block from 'core/block';
 
 import './error.pcss'
 
-interface ErrorProps {
+type ErrorProps = {
   text?: string;
   class?: string;
 }

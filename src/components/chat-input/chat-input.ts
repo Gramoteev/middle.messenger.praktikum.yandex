@@ -1,7 +1,7 @@
 import Block from 'core/block';
 import './chat-input.pcss';
 
-interface ChatInputProps {
+type ChatInputProps = {
   onSubmit?: () => void;
   onInput?: () => void;
   onFocus?: () => void;

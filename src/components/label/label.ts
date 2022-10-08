@@ -1,6 +1,6 @@
 import Block from 'core/block';
 
-interface LabelProps {
+type LabelProps = {
   label?: string;
   class?: string;
   name?: string;

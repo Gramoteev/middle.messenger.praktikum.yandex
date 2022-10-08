@@ -2,7 +2,7 @@ import Block from 'core/block';
 
 import './link.css';
 
-interface LinkProps {
+type LinkProps = {
   text: string;
   to: string;
 }

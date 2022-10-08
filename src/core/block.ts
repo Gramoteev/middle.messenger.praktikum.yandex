@@ -2,7 +2,7 @@ import Handlebars from 'handlebars';
 import EventBus from './event-bus';
 import {nanoid} from 'nanoid';
 
-interface BlockMeta<P = any> {
+type BlockMeta<P = any> = {
   props: P;
 }
 
