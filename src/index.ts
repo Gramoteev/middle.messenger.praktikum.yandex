@@ -18,9 +18,9 @@ import Message from "components/message";
 
 import ChatPage from "./pages/chat";
 import SignInPage from "pages/sign-in";
-import RegistrationPage from "pages/registration";
 import ProfilePage from "pages/profile";
-import ChangePasswordPage from "./pages/change-password";
+import RegistrationPage from "pages/registration";
+import ChangePasswordPage from "pages/change-password";
 
 
 registerComponent(Button);
