@@ -1,27 +1,27 @@
-import SignInPage from "pages/sign-in";
 import {registerComponent, renderDOM} from 'core';
 
 import 'styles/style.pcss';
 
-import Button from 'components/button';
 import Link from 'components/link';
-import Layout from 'components/layout';
-import RegistrationPage from "pages/registration";
-import ErrorComponent from "components/error";
 import Label from "components/label";
+import Button from 'components/button';
+import ButtonIcon from "components/button-icon";
+import Textarea from "components/textarea";
 import Input from "components/input";
-import ProfilePage from "pages/profile";
+import ChatInput from "components/chat-input";
+import Layout from 'components/layout';
+import ErrorComponent from "components/error";
 import AuthField from "components/auth-field";
 import ProfileField from "components/profile-field";
-import ChatInput from "components/chat-input";
-import {ChatPage} from "pages/chat/chat";
-import Textarea from "components/textarea";
-import ButtonIcon from "components/button-icon";
 import Dialog from "components/dialog";
 import Message from "components/message";
-import {ChangePasswordPage} from "pages/change-password/change-password";
 
-require("babel-core/register");
+import ChatPage from "./pages/chat";
+import SignInPage from "pages/sign-in";
+import RegistrationPage from "pages/registration";
+import ProfilePage from "pages/profile";
+import ChangePasswordPage from "./pages/change-password";
+
 
 registerComponent(Button);
 registerComponent(ButtonIcon);

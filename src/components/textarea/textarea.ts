@@ -10,6 +10,7 @@ type InputProps = {
 }
 
 export class Textarea extends Block {
+  static componentName = 'Textarea';
   constructor({onBlur, onInput, onFocus, ...props}: InputProps) {
     super({...props, events: {input: onInput, focus: onFocus, blur: onBlur}});
   }

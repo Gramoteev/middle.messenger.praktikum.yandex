@@ -10,6 +10,7 @@ type InputProps = {
 }
 
 export class Input extends Block {
+  static componentName = 'Input';
   constructor({onBlur, onInput, onFocus, ...props}: InputProps) {
     super({...props, events: {input: onInput, focus: onFocus, blur: onBlur}});
   }

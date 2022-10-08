@@ -65,5 +65,5 @@ class HTTPTransport {
         xhr.send(data);
       }
     });
-  };
+  }
 }

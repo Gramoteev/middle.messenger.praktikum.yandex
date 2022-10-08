@@ -8,6 +8,7 @@ type ChatInputProps = {
 }
 
 export class ChatInput extends Block {
+  static componentName = 'ChatInput';
   constructor(props: ChatInputProps) {
     super({...props,
       onInput: (e: InputEvent) => {
@@ -27,7 +28,7 @@ export class ChatInput extends Block {
         if (isValid) {
           const form = this.element as HTMLFormElement;
           const formData = new FormData(form);
-          for (let [key, value] of formData.entries()) {
+          for (const [key, value] of formData.entries()) {
             console.log(key, value);
           }
         }

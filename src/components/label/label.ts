@@ -7,6 +7,7 @@ type LabelProps = {
 }
 
 export class Label extends Block<LabelProps> {
+  static componentName = 'Label';
   protected render(): string {
     // language=hbs
     return `

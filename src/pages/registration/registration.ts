@@ -2,6 +2,7 @@ import Block from 'core/block';
 import {validateFormElement} from "../../helpers/validate-form";
 
 export class RegistrationPage extends Block {
+  static componentName = 'RegistrationPage';
   constructor() {
     super();
 
@@ -21,7 +22,7 @@ export class RegistrationPage extends Block {
         if (isValid) {
           const form = this.element?.querySelector('form') as HTMLFormElement;
           const formData = new FormData(form);
-          for (let [key, value] of formData.entries()) {
+          for (const [key, value] of formData.entries()) {
             console.log(key, value);
           }
         }

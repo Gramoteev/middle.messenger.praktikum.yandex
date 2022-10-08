@@ -15,6 +15,7 @@ type AuthFieldProps = {
 }
 
 export class AuthField extends Block {
+  static componentName = 'AuthField';
   constructor(props: AuthFieldProps) {
     super({...props,
       onInput: (e: InputEvent) => {

@@ -8,6 +8,7 @@ type ButtonIconProps = {
 }
 
 export class ButtonIcon extends Block {
+  static componentName = 'ButtonIcon';
   constructor({type, onClick}: ButtonIconProps) {
     super({type, events: {click: onClick}});
   }

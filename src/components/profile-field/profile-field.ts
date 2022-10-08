@@ -16,6 +16,7 @@ type ProfileFieldProps = {
 }
 
 export class ProfileField extends Block {
+  static componentName = 'ProfileField';
   constructor(props: ProfileFieldProps) {
     super({...props,
       onInput: (e: InputEvent) => {

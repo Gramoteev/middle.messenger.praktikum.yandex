@@ -9,6 +9,7 @@ type BlockMeta<P = any> = {
 type Events = Values<typeof Block.EVENTS>;
 
 export default class Block<P = any> {
+  static componentName: string;
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -104,7 +105,7 @@ export default class Block<P = any> {
 
   protected render(): string {
     return '';
-  };
+  }
 
   getContent(): HTMLElement {
     // Хак, чтобы вызвать CDM только после добавления в DOM

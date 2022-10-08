@@ -9,6 +9,7 @@ type ButtonProps = {
 }
 
 export class Button extends Block {
+  static componentName = 'Button';
   constructor({text, type, onClick}: ButtonProps) {
     super({text, type, events: {click: onClick}});
   }

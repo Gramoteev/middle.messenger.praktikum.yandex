@@ -1,37 +1,36 @@
 .auth-field {
-  position: relative;
-  margin-top: 25px;
-  text-align: left;
+  position:relative;
+  margin-top:25px;
+  text-align:left;
   &__label {
-    font-size: 13px;
-    font-weight: normal;
-    position: absolute;
-    pointer-events: none;
-    left: 0px;
-    top: 10px;
-    color: #999999;
-    transition: 300ms ease;
-    transition-property: font-size, top;
+    font-size:13px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:0;
+    top:10px;
+    color:#999;
+    transition:300ms ease;
+    transition-property:font-size, top;
   }
   &__input {
-    width: 100%;
-    padding: 10px 0;
-    font-size: 13px;
-    line-height: 13px;
-    border: none;
-    background: none;
-    border-bottom: 1px solid #3369F3;
+    width:100%;
+    padding:10px 0;
+    font-size:13px;
+    line-height:13px;
+    border:none;
+    background:none;
+    border-bottom:1px solid #3369f3;
     &:focus {
-      outline: none;
+      outline:none;
       & ~ .auth-field__label {
-        top: -4px;
-        font-size: 9px;
+        top:-4px;
+        font-size:9px;
       }
     }
     &:not(:placeholder-shown) ~ .auth-field__label {
-      top: -4px;
-      font-size: 9px;
+      top:-4px;
+      font-size:9px;
     }
-
   }
 }

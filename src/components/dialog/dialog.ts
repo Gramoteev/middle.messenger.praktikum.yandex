@@ -1,7 +1,6 @@
 import Block from 'core/block';
 
 import './dialog.pcss';
-import {validateFormElement} from "helpers/validate-form";
 
 type DialogProps = {
   title?: string;
@@ -11,6 +10,7 @@ type DialogProps = {
 }
 
 export class Dialog extends Block {
+  static componentName = 'Dialog';
   constructor(props: DialogProps) {
     super({...props,
     });

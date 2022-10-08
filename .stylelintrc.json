@@ -1,9 +1,18 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
-    "color-hex-case": "lower"
+    "selector-class-pattern": null,
+    "indentation": 2,
+    "string-quotes": "single",
+    "declaration-colon-space-before": "never",
+    "declaration-colon-space-after": "never",
+    "rule-empty-line-before": "never",
+    "media-feature-range-operator-space-before": "never",
+    "media-feature-range-operator-space-after": "never",
+    "media-feature-colon-space-before": "never",
+    "media-feature-colon-space-after": "never"
   },
   "ignoreFiles": [
-    "build/*"
+    "dist/*"
   ]
 }

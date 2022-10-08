@@ -2,6 +2,7 @@ import Block from 'core/block';
 import {validateFormElement} from "../../helpers/validate-form";
 
 export class ChangePasswordPage extends Block {
+  static componentName = 'ChangePasswordPage';
   constructor() {
     super();
 
@@ -21,7 +22,7 @@ export class ChangePasswordPage extends Block {
         if (isValid) {
           const form = this.element?.querySelector('form') as HTMLFormElement;
           const formData = new FormData(form);
-          for (let [key, value] of formData.entries()) {
+          for (const [key, value] of formData.entries()) {
             console.log(key, value);
           }
         }
@@ -36,7 +37,7 @@ export class ChangePasswordPage extends Block {
       <form class="profile">
         <div class="profile__header">
           <button class="edit-avatar" style='background-image: url("https://pickaface.net/gallery/avatar/20140911_184056_617_demo.png")'>
-            <span class="edit-avatar__text">Поменять<br>аватар</span>
+            <span class="edit-avatar__text">Change<br>avatar</span>
           </button>
         </div>
         <div class="profile__content">

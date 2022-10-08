@@ -6,6 +6,7 @@ import './chat.pcss';
 //   ];
 //
 export class ChatPage extends Block {
+  static componentName = 'ChatPage';
   constructor() {
     super();
 
@@ -55,7 +56,9 @@ export class ChatPage extends Block {
             <div class="chat__content">
                 <div class="chat__header">
                     <div class="chat-info">
-                        <img class="avatar chat-info__avatar" src="https://pickaface.net/gallery/avatar/20140911_184056_617_demo.png" alt="Avatar">
+                        <img class="avatar chat-info__avatar"
+                             src="https://pickaface.net/gallery/avatar/20140911_184056_617_demo.png"
+                             alt="Avatar">
                         <div class="chat-title">Vadim</div>
                     </div>
                     <button class="button button_icon chat-menu">
