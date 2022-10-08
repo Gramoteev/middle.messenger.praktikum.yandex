@@ -1,163 +1,72 @@
-@import "normalize.css";
+@import 'normalize.css';
+
 /* Variables */
-@import "variables.pcss";
+@import 'variables.pcss';
+
+/* Fonts */
+@import 'fonts.pcss';
 
 /* Pages */
-@import "../pages/chat/chat.pcss";
-@import "../pages/profile/profile.pcss";
-@import "../pages/error/error.pcss";
+@import '../pages/error/error.pcss';
 
-/* Layouts */
-@import "../layouts/auth/auth.pcss";
-@import "../layouts/account/account.pcss";
-
-/* Partials */
-@import '../partials/dialog/dialog.pcss';
-
-
+/* Components */
+@import 'auth/auth.pcss';
 html {
-    height: 100%;
-    font-size: 13px;
-    font-family: 'Inter';
-    font-weight: 500;
-    color: #1E1E1E;
+  height: 100%;
+  font-size: 13px;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  color: #1e1e1e;
 }
-body {
-    height: 100%;
+body,
+#app {
+  height: 100%;
 }
 a {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 button {
-    cursor: pointer;
-}
-
-.auth-form {
-    min-height: 380px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    &__content {
-        margin-bottom: 30px;
-    }
-    &__title {
-        font-size: 20px;
-        line-height: 20px;
-        text-align: center;
-        color: #1E1E1E;
-        margin: 18px 0 25px 0;
-    }
-    &__submit {
-        margin: 15px 0;
-        color: white;
-        padding: 10px 0;
-        background: var(--primary-color);
-        border-radius: 8px;
-        display: block;
-        border: 0;
-        width: 100%;
-    }
-    &__footer {
-        text-align: center;
-    }
-    &__footer-link {
-        font-size: 11px;
-    }
-}
-
-.auth-field {
-    position: relative;
-    margin-top: 20px;
-    &__label {
-        font-size: 13px;
-        font-weight: normal;
-        position: absolute;
-        pointer-events: none;
-        left: 0px;
-        top: 10px;
-        color: #999999;
-        transition: 300ms ease;
-        transition-property: font-size, top;
-    }
-    &__input {
-        width: 100%;
-        padding: 10px 0;
-        font-size: 13px;
-        line-height: 13px;
-        border: none;
-        background: none;
-        border-bottom: 1px solid #3369F3;
-        &:focus {
-            outline: none;
-            & ~ .auth-field__label {
-                top: -4px;
-                font-size: 9px;
-            }
-        }
-        &:not(:placeholder-shown) ~ .auth-field__label {
-            top: -4px;
-            font-size: 9px;
-        }
-
-    }
-    &__error {
-        display: none;
-    }
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
 }
 .avatar {
-    background: var(--gray-bg);
-    border-radius: 50%;
-    overflow: hidden;
+  background: var(--gray-bg);
+  border-radius: 50%;
+  overflow: hidden;
 }
-
 .text-circle {
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    font-size: 11px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    color: white;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 11px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
 }
 .text-muted {
-    color: var(--muted);
+  color: var(--muted);
 }
-
 .text-danger {
-    color: var(--error-color);
+  color: var(--error-color);
 }
-
-
 .clean-input {
-    background: none;
-    border: none;
-    &:focus {
-        outline: none;
-    }
+  background: none;
+  border: none;
+  &:focus {
+    outline: none;
+  }
 }
 .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &_circle {
-        border-radius: 50%;
-        width: 28px;
-        height: 28px;
-        background: var(--primary-color);
-    }
-}
-
-.group-list {
-    &__item {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        border-top: 1px solid var(--borders);
-        padding: 10px 0;
-        align-items: center;
-        &:first-child {
-            border-top: none;
-        }
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &_circle {
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    background: var(--primary-color);
+  }
 }

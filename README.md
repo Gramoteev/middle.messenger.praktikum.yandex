@@ -1,6 +1,8 @@
 ## Smiler - приложение для общения
 Демо: https://gentle-griffin-f3f916.netlify.app/
 
+Дизайн: https://www.figma.com/file/fVGyq5RMFrvnacVRDUIBZW/Smiler-Design-by-Yandex
+
 ### Описание
 - **Parcel** - сборка проекта
 - **Handlebars** шаблонизатор
