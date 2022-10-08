@@ -18,6 +18,6 @@
     "noUnusedParameters": true,
     "noImplicitThis": true,
     "strictBindCallApply": true,
-    "esModuleInterop": true,
+    "esModuleInterop": true
   }
 }
