@@ -16,14 +16,14 @@ html {
   font-size: 13px;
   font-family: Inter, sans-serif;
   font-weight: 500;
-  color: #1e1e1e;
+  color: var(--black);
 }
 body,
 #app {
   height: 100%;
 }
 a {
-  color: var(--primary-color);
+  color: var(--primary100);
 }
 button {
   cursor: pointer;
@@ -32,7 +32,7 @@ button {
   }
 }
 .avatar {
-  background: var(--gray-bg);
+  background: var(--gray70);
   border-radius: 50%;
   overflow: hidden;
 }
@@ -43,14 +43,14 @@ button {
   text-align: center;
   font-size: 11px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--primary100);
   color: white;
 }
 .text-muted {
-  color: var(--muted);
+  color: var(--gray100);
 }
 .text-danger {
-  color: var(--error-color);
+  color: var(--error);
 }
 .clean-input {
   background: none;
@@ -67,6 +67,6 @@ button {
     border-radius: 50%;
     width: 28px;
     height: 28px;
-    background: var(--primary-color);
+    background: var(--primary100);
   }
 }
