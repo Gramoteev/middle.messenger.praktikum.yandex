@@ -18,14 +18,12 @@ export default function registerComponent<Props extends any>(Component: BlockCon
 
     const { children, refs } = data.root;
 
-    /**
-     * Костыль для того, чтобы передавать переменные
-     * внутрь блоков вручную подменяя значение
-     */
     (Object.keys(hash) as any).forEach((key: keyof Props) => {
+      console.log(Component.componentName, hash[key]);
       if (this[key] && typeof this[key] === 'string') {
         // @ts-ignore
         hash[key] = hash[key].replace(new RegExp(`{{${key}}}`, 'i'), this[key]);
+        console.log('posle', hash[key]);
       }
     });
 

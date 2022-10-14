@@ -1,8 +1,7 @@
-import Block from 'core/block';
-
+import {Block} from 'core';
 import './profile-field.pcss';
 
-import {validateFormElement} from "../../helpers/validate-form";
+import validateFormElement from 'helpers/validate-form';
 
 type ProfileFieldProps = {
   onInput?: () => void;

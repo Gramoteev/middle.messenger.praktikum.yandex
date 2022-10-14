@@ -1,5 +1,4 @@
-import Block from 'core/block';
-
+import {Block} from 'core';
 import './button.pcss';
 
 type ButtonProps = {

@@ -1,5 +1,5 @@
-import Block from 'core/block';
-import validateFormElement from "helpers/validate-form";
+import {Block} from 'core';
+import validateFormElement from 'helpers/validate-form';
 
 import './profile.pcss';
 

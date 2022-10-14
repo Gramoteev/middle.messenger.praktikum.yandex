@@ -10,7 +10,7 @@ export enum ValidateName {
   Phone = 'phone',
 }
 
-export function validateFormElement(element: HTMLInputElement): string {
+export default function validateFormElement(element: HTMLInputElement): string {
   const name: string = element.name;
   const value: string = element.value;
   let errorMessage = '';

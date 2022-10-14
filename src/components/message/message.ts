@@ -1,4 +1,4 @@
-import Block from 'core/block';
+import {Block} from 'core';
 
 import './message.pcss';
 
@@ -21,7 +21,7 @@ export class Message extends Block {
             <div class="message__title">{{title}}</div>
             <div class="message__content">{{content}}</div>
             <div class="message__footer">
-                <div class="message-date">{{date}}</div>
+                <time class="message-date">{{date}}</time>
             </div>
         </li>
     `

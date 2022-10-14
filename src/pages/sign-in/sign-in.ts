@@ -1,6 +1,5 @@
-import Block from 'core/block';
-import {validateFormElement} from "helpers/validate-form";
-
+import {Block} from 'core';
+import {validateFormElement} from 'helpers';
 export class SignInPage extends Block {
   static componentName = 'SignInPage';
   constructor() {
@@ -11,15 +10,15 @@ export class SignInPage extends Block {
         e.preventDefault();
 
         let isValid = true;
-        Object.entries(this.refs).forEach(fieldRef => {
-          const element = fieldRef[1].element?.querySelector(`#${fieldRef[0]}`) as HTMLInputElement;
+        Object.entries(this.refs).forEach(([name, field]) => {
+          const element = field.element?.querySelector(`#${name}`) as HTMLInputElement;
           const errorMessage = validateFormElement(element);
           this.refs[element.id].refs.errorRef.setProps({text: errorMessage});
           if (errorMessage) {
             isValid = false;
           }
         });
-        if (isValid) {
+        if (isValid && this.element?.querySelector('#form')) {
           const form = this.element?.querySelector('#form') as HTMLFormElement;
           const formData = new FormData(form);
           for (const [key, value] of formData.entries()) {

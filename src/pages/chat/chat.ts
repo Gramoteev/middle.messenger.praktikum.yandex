@@ -1,4 +1,4 @@
-import Block from 'core/block';
+import {Block} from 'core';
 import './chat.pcss';
 // const messagesData = [
 //   { "id": 123, "user_id": 231, "chat_id": 312, "time": "2020-01-02T14:22:22.000Z", "content": "Hello!"},

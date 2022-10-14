@@ -1,5 +1,5 @@
-import Block from 'core/block';
-import {validateFormElement} from "../../helpers/validate-form";
+import {Block} from 'core';
+import validateFormElement from 'helpers/validate-form';
 
 export class ChangePasswordPage extends Block {
   static componentName = 'ChangePasswordPage';
@@ -11,8 +11,8 @@ export class ChangePasswordPage extends Block {
         e.preventDefault();
 
         let isValid = true;
-        Object.entries(this.refs).forEach(fieldRef => {
-          const element = fieldRef[1].element?.querySelector(`#${fieldRef[0]}`) as HTMLInputElement;
+        Object.entries(this.refs).forEach(([name, field]) => {
+          const element = field.element?.querySelector(`#${name}`) as HTMLInputElement;
           const errorMessage = validateFormElement(element);
           this.refs[element.id].refs.errorRef.setProps({text: errorMessage});
           if (errorMessage) {
