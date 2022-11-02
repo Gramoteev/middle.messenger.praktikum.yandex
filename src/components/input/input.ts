@@ -6,19 +6,25 @@ type InputProps = {
   onFocus?: () => void;
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
+  readonly?: string;
   name?: string;
+  value?: string;
+  events?: Indexed;
 }
 
-export class Input extends Block {
+export class Input extends Block<InputProps> {
   static componentName = 'Input';
-  constructor({onBlur, onInput, onFocus, ...props}: InputProps) {
-    super({...props, events: {input: onInput, focus: onFocus, blur: onBlur}});
+  constructor({onBlur, onInput, onFocus, value, ...props}: InputProps) {
+    if (value === '{{value}}') {
+      value = '';
+    }
+    super({...props, value, events: {input: onInput, focus: onFocus, blur: onBlur}});
   }
 
   protected render(): string {
     // language=hbs
     return `
-      <input class="input {{class}}" id="{{name}}" name="{{name}}" type="{{type}}" placeholder="{{placeholder}}">
+      <input class="input {{class}}"  {{#if readonly}}readonly{{/if}} value="{{value}}" id="{{name}}" name="{{name}}" type="{{type}}" placeholder="{{placeholder}}">
     `
   }
 }

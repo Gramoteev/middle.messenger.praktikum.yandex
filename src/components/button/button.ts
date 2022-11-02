@@ -4,13 +4,14 @@ import './button.pcss';
 type ButtonProps = {
   text: string;
   type: string;
-  onClick: () => void;
+  onClick?: () => void;
+  events: Indexed;
 }
 
-export class Button extends Block {
+export class Button extends Block<ButtonProps> {
   static componentName = 'Button';
-  constructor({text, type, onClick}: ButtonProps) {
-    super({text, type, events: {click: onClick}});
+  constructor({onClick, ...props}: ButtonProps) {
+    super({...props, events: {click: onClick}});
   }
 
   protected render(): string {

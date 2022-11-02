@@ -1,27 +1,29 @@
-import {Block} from 'core';
+import {Block, Router, Store} from 'core';
 
 import './layout.pcss';
+import {withIsLoading, withRouter} from 'helpers';
 
-type LayoutProps = {};
+type LayoutProps = {
+  user: User | null;
+  router: Router;
+  store: Store<AppState>;
+  isLoading: boolean;
+};
 
-export class Layout extends Block<LayoutProps> {
+class Layout extends Block<LayoutProps> {
   static componentName = 'Layout';
+    constructor(props: LayoutProps) {
+    super(props);
+  }
   protected render(): string {
     // language=hbs
     return `
-        <div class="layout-{{type}}">
+        <div class="layout-{{type}} ">
+          <div class="{{#if isLoading}}layout_loading{{/if}}"></div>
           <div class="layout-{{type}}__content" data-slot=1></div>
-          {{#if back-btn}}
-          <button class="layout-back">
-            <div class="icon icon_circle">
-              <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="13" y="6.80005" width="11" height="1.6" transform="rotate(-180 13 6.80005)" fill="white"/>
-                <path d="M6 11L2 6L6 1" stroke="white" stroke-width="1.6"/>
-              </svg>
-            </div>
-          </button>
-          {{/if}}
         </div>
     `
   }
 }
+export default withRouter(withIsLoading(Layout));
+

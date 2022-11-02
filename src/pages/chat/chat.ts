@@ -1,28 +1,52 @@
-import {Block} from 'core';
+import {Block, Router, Store} from 'core';
 import './chat.pcss';
-// const messagesData = [
-//   { "id": 123, "user_id": 231, "chat_id": 312, "time": "2020-01-02T14:22:22.000Z", "content": "Hello!"},
-//   { "id": 123, "user_id": 231, "chat_id": 312, "time": "2020-01-02T14:22:22.000Z", "content": ""},
-//   ];
-//
-export class ChatPage extends Block {
+import {Paths, withIsLoading, withRouter, withStore, withUser} from 'helpers';
+import {DialogDTO} from '../../api/types';
+import {getDialogs} from '../../controllers/chat';
+
+type ChatPageProps = {
+  user: User | null;
+  router: Router;
+  store: Store<AppState>;
+  isLoading: boolean;
+  formError?: () => string | null;
+  onNavigateNext?: (e: Event) => void;
+  onSubmit?: (e: Event) => void;
+  dialogDTOs: DialogDTO[] | null;
+};
+class ChatPage extends Block<ChatPageProps> {
   static componentName = 'ChatPage';
-  constructor() {
-    super();
+  constructor(props: ChatPageProps) {
+    super(props);
+    this.props.store.dispatch(getDialogs)
 
     this.setProps({
+      onNavigateNext: (e: Event) => {
+        e.preventDefault();
+        this.props.router.go(Paths.Profile);
+      },
     });
   }
 
   render() {
+    const dialogs = window.store.getState().dialogDTOs;
+    if (!dialogs) {
+      // language=hbs
+      return `
+          {{#Layout type="main" }}
+              <div>hihi</div>
+          {{/Layout}}
+      `;
+
+    }
     // language=hbs
     return `
     {{#Layout type="main" }}
         <main class="chat">
             <div class="chat__aside aside">
                 <div class="aside-header">
-                    <h2 class="text-muted aside-header__link">
-                        Profile
+                    <h2 class="aside-header__link">
+                        {{{Link class="text-muted " text="Profile" to="${Paths.Profile}" onClick=onNavigateNext}}}
                         <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 9L5 5L1 1" stroke="#999999"/>
                         </svg>
@@ -134,3 +158,4 @@ export class ChatPage extends Block {
     `;
   }
 }
+export default withRouter(withStore(withIsLoading(withUser(ChatPage))));

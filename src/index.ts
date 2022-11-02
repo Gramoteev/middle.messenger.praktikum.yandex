@@ -1,61 +1,51 @@
-import {registerComponent, renderDOM} from 'core';
+import {defaultState} from './store';
+
+require('babel-core/register');
+
+import {registerComponent, renderDOM, Router, Store, StoreEvents} from 'core';
 
 import 'styles/style.pcss';
-
-import Link from 'components/link';
-import Label from 'components/label';
-import Button from 'components/button';
-import ButtonIcon from 'components/button-icon';
-import Textarea from 'components/textarea';
-import Input from 'components/input';
-import ChatInput from 'components/chat-input';
-import Layout from 'components/layout';
-import ErrorComponent from 'components/error';
-import AuthField from 'components/auth-field';
-import ProfileField from 'components/profile-field';
-import Dialog from 'components/dialog';
-import Message from 'components/message';
-
-import ChatPage from './pages/chat';
-import SignInPage from 'pages/sign-in';
-import ProfilePage from 'pages/profile';
-import RegistrationPage from 'pages/registration';
-import ChangePasswordPage from './pages/change-password';
+import * as components from'components';
+import SplashPage from './pages/splash';
+import {initRouter} from './router';
+import {initApp} from './controllers/init-app';
+import {getDialogs} from './controllers/chat';
 
 
-registerComponent(Button);
-registerComponent(ButtonIcon);
-registerComponent(Link);
-registerComponent(AuthField);
-registerComponent(ProfileField);
-registerComponent(ChatInput);
-registerComponent(Layout);
-registerComponent(ErrorComponent);
-registerComponent(Label);
-registerComponent(Input);
-registerComponent(Textarea);
-registerComponent(Dialog);
-registerComponent(Message);
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderDOM(new RegistrationPage());
+Object.values(components).forEach((Component: any) => {
+  registerComponent(Component);
 });
 
-const pagesMap = {
-  registration: RegistrationPage,
-  profile: ProfilePage,
-  changePassword: ChangePasswordPage,
-  chat: ChatPage,
-  signIn: SignInPage
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const store = new Store<AppState>(defaultState);
+  const router = new Router();
 
-document.addEventListener('click', (e) => {
-  const target = e.target as HTMLButtonElement;
-  if (target.className === 'mfd-menu__button') {
-    // @ts-ignore
-    renderDOM(new pagesMap[target.value]);
-  }
-})
+  /**
+   * Помещаем роутер и стор в глобальную область для доступа в хоках with*
+   * @warning Не использовать такой способ на реальный проектах
+   */
+  window.router = router;
+  window.store = store;
 
+  renderDOM(new SplashPage({}));
 
+  store.on(StoreEvents.Updated, (prevState, nextState) => {
+    if (process.env.DEBUG) {
+      console.log(
+        '%cstore updated',
+        'background: #222; color: #bada55',
+        nextState,
+      );
+    }
+  });
 
+  /**
+   * Инициализируем роутер
+   */
+  initRouter(router, store);
+
+  /**
+   * Загружаем данные для приложения
+   */
+  store.dispatch(initApp);
+});

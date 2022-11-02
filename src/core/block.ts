@@ -1,54 +1,58 @@
 import Handlebars from 'handlebars';
-import EventBus from './event-bus';
 import {nanoid} from 'nanoid';
-
-type BlockMeta<P = any> = {
-  props: P;
-}
+import {EventBus} from 'core';
+import mergeDeep from 'helpers/merge-deep';
 
 type Events = Values<typeof Block.EVENTS>;
+export type BlockRefs = {
+  [key: string]: Block<{}>
+}
 
-export default class Block<P = any> {
+export interface BlockClass<P> extends Function {
+  new (props: P): Block<{}>;
+  componentName?: string;
+}
+
+export default class Block<P extends Indexed> {
   static componentName: string;
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CWU: 'flow:component-will-unmount',
     FLOW_RENDER: 'flow:render',
   } as const;
 
   public id = nanoid(6);
-  private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
   protected readonly props: P;
-  protected children: {[id: string]: Block} = {};
+  protected children: {[id: string]: Block<{}>} = {};
 
   eventBus: EventBus<Events>;
 
-  refs: {[key: string]: Block} = {};
+  refs: BlockRefs = {};
 
   public constructor(props?: P) {
     this.eventBus = new EventBus<Events>();
-
-    this._meta = {
-      props,
-    };
 
     this.props = this._makePropsProxy(props || {} as P);
 
 
     this._registerEvents(this.eventBus);
 
-    this.eventBus.emit(Block.EVENTS.INIT, this.props);
+    this.eventBus.emit(Block.EVENTS.INIT);
   }
 
   private _registerEvents(eventBus: EventBus<Events>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
+
+
 
   private _createResources() {
     this._element = this._createDocumentElement('div');
@@ -56,19 +60,36 @@ export default class Block<P = any> {
 
   init() {
     this._createResources();
-    this.eventBus.emit(Block.EVENTS.FLOW_RENDER, this.props);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   private _componentDidMount(props: P) {
+    this._checkInDom();
     this.componentDidMount(props);
   }
 
-  componentDidMount(props: P) {
+  componentDidMount(props: P) {}
+  componentWillUnmount() {}
+
+  _checkInDom() {
+    const elementInDOM = document.body.contains(this._element);
+
+    if (elementInDOM) {
+      setTimeout(() => this._checkInDom(), 1000);
+      return;
+    }
+    this.eventBus.emit(Block.EVENTS.FLOW_CWU, this.props);
   }
 
+  private _componentWillUnmount() {
+    this.eventBus.destroy();
+    this.componentWillUnmount();
+  }
+
+
   private _componentDidUpdate(oldProps: P, newProps: P) {
-    const response = this.componentDidUpdate(oldProps, newProps);
-    if (!response) {
+    const propsDidUpdate = this.componentDidUpdate(oldProps, newProps);
+    if (!propsDidUpdate) {
       return;
     }
     this._render();
@@ -78,12 +99,12 @@ export default class Block<P = any> {
     return true;
   }
 
-  setProps = (nextProps: P) => {
+  setProps = (nextProps: Partial<P>) => {
     if (!nextProps) {
       return;
     }
 
-    Object.assign(this.props as Object, nextProps);
+    mergeDeep(this.props as Object, nextProps);
   };
 
   get element() {
@@ -127,7 +148,7 @@ export default class Block<P = any> {
       set: (target: Record<string, unknown>, prop: string, value: unknown) => {
         target[prop] = value;
 
-        this.eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU, mergeDeep({}, target), target);
         return true;
       },
       deleteProperty: () => {
@@ -154,7 +175,7 @@ export default class Block<P = any> {
   }
 
   private _addEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const events: Record<string, () => void> = this.props.events;
 
     if (!events) {
       return;

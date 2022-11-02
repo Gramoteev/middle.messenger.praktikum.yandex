@@ -4,6 +4,7 @@
   "description": "Smiler - веб мессенджер",
   "alias": {
     "core": "./src/core",
+    "api": "./src/api",
     "components": "./src/components",
     "helpers": "./src/helpers",
     "pages": "./src/pages",

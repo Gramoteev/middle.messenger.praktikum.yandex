@@ -1,49 +1,75 @@
-import {Block} from 'core';
-import validateFormElement from 'helpers/validate-form';
+import {Block, Router, Store} from 'core';
 
 import './profile.pcss';
+import {getFormData, isValidFormData, Paths, withIsLoading, withRouter, withStore, withUser} from 'helpers';
+import {logout} from '../../controllers/auth';
+import {changeProfile} from '../../controllers/user';
 
-export class ProfilePage extends Block {
+type ProfilePageProps = {
+  user: User | null;
+  router: Router;
+  store: Store<AppState>;
+  isLoading: boolean;
+  formError?: () => string | null;
+  onNavigateNext?: (e: Event) => void;
+  onSubmitProfile?: (e: Event) => void;
+  onSubmitPassword?: (e: Event) => void;
+  onChangeData?: (e: Event) => void;
+  onChangePassword?: (e: Event) => void;
+  onBack?: (e: Event) => void;
+  onLogout?: (e: Event) => void;
+  isReadonlyData?: boolean;
+  isChangingPassword?: boolean;
+};
+
+class ProfilePage extends Block<ProfilePageProps> {
   static componentName = 'ProfilePage';
-  constructor() {
-    super();
+  constructor(props: ProfilePageProps) {
+    super(props);
 
     this.setProps({
-      onSubmit: (e: Event) => {
+      isReadonlyData: true,
+      isChangingPassword: false,
+      formError: () => this.props.store.getState().changeProfileFormError,
+      onBack: (e: Event) => {
         e.preventDefault();
-
-        let isValid = true;
-        Object.entries(this.refs).forEach(([name, field]) => {
-          const element = field.element?.querySelector(`#${name}`) as HTMLInputElement;
-          const errorMessage = validateFormElement(element);
-          this.refs[element.id].refs.errorRef.setProps({text: errorMessage});
-          if (errorMessage) {
-            isValid = false;
-          }
-        });
-        if (isValid) {
-          const form = this.element?.querySelector('form') as HTMLFormElement;
-          const formData = new FormData(form);
-          for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-          }
+        return this.props.router.go(Paths.Chat)
+      },
+      onChangeData: (e: Event) => {
+        e.preventDefault();
+        this.props.isReadonlyData = false;
+      },
+      onChangePassword: (e: Event) => {
+        e.preventDefault();
+        this.props.isChangingPassword = true;
+      },
+      onLogout: (e: Event) => {
+        e.preventDefault();
+        return this.props.store.dispatch(logout)
+      },
+      onSubmitProfile: (e: Event) => {
+        const formIsValid = isValidFormData(e, this.refs);
+        if (formIsValid) {
+          this.props.store.dispatch(changeProfile, getFormData(this.element!.querySelector('.profile__data')));
+          this.props.isReadonlyData = true;
         }
-      }
+      },
     });
   }
 
   render() {
     // language=hbs
     return `
-    {{#Layout type="profile" back-btn="enabled"}}
-      <form class="profile">
+    {{#Layout type="profile"}}
+      <div class="profile">
         <div class="profile__header">
-          <button class="edit-avatar" style='background-image: url("https://pickaface.net/gallery/avatar/20140911_184056_617_demo.png")'>
-            <span class="edit-avatar__text">Change<br>avatar</span>
-          </button>
+            {{{EditAvatar }}}
         </div>
-        <div class="profile__content">
-          <div class="profile__data">
+        <div class="profile__password" style="display: ${this.props.isChangingPassword ? 'block' : 'none'}">
+            {{{ChangePassword }}}
+        </div>
+        <div class="profile__data" style=" display: ${this.props.isChangingPassword ? 'none' : 'block'}">
+          <form>
             {{{ProfileField
                     ref="email"
                     onInput=onInput
@@ -52,6 +78,8 @@ export class ProfilePage extends Block {
                     name="email"
                     label="Email"
                     placeholder=" "
+                    value=user.email
+                    readonly=isReadonlyData
             }}}
             {{{ProfileField
                     ref="login"
@@ -61,6 +89,8 @@ export class ProfilePage extends Block {
                     name="login"
                     label="Login"
                     placeholder=" "
+                    value=user.login
+                    readonly=isReadonlyData
             }}}
             {{{ProfileField
                     ref="first_name"
@@ -70,6 +100,8 @@ export class ProfilePage extends Block {
                     name="first_name"
                     label="First name"
                     placeholder=" "
+                    value=user.firstName
+                    readonly=isReadonlyData
             }}}
             {{{ProfileField
                     ref="second_name"
@@ -78,16 +110,20 @@ export class ProfilePage extends Block {
                     type="text"
                     name="second_name"
                     label="Second name"
-                    placeholder=" "
+                    placehlder=" "
+                    value=user.secondName
+                    readonly=isReadonlyData
             }}}
               {{{ProfileField
-                      ref="nickname"
+                      ref="display_name"
                       onInput=onInput
                       onFocus=onFocus
                       type="text"
-                      name="nickname"
-                      label="Nickname"
+                      name="display_name"
+                      label="Display name"
                       placeholder=" "
+                      value=user.displayName
+                      readonly=isReadonlyData
               }}}
             {{{ProfileField
                     ref="phone"
@@ -97,27 +133,39 @@ export class ProfilePage extends Block {
                     name="phone"
                     label="Phone"
                     placeholder=" "
+                    value=user.phone
+                    readonly=isReadonlyData
             }}}
-          </div>
-          <div class="profile__footer">
-            <div style="display: none" " class="profile__menu">
-                <div class="profile__menu-link">
-                    {{{Link text="Change data" to="/"}}}
-                </div>
-                <div class="profile__menu-link">
-                  {{{Link text="Change password" to="/"}}}
-                </div>
-                <div class="profile__menu-link">
-                  {{{Link class="text-danger" text="Logout" to="/"}}}
-                </div>
+            <div class="profile__errors">
+                {{{Error class="error_common" text=formError }}}
             </div>
-            <div class="profile__save">
-                {{{Button  text="Save" type="submit" onClick=onSubmit}}}
+            <div class="profile__save" style="display: ${this.props.isReadonlyData ? 'none' : 'flex'}">
+                {{{Button  text="Save" type="submit" onClick=onSubmitProfile}}}
             </div>
-          </div>
+          </form>
         </div>
-      </form>
+        <div class="profile__footer">
+            <div class="profile__menu" style="display: ${this.props.isReadonlyData && !this.props.isChangingPassword ? 'block': 'none'}">
+                <div class="profile__menu-link">
+                    {{{Link text="Change data" to="/" onClick=onChangeData}}}
+                </div>
+                <div class="profile__menu-link">
+                    {{{Link text="Change password" to="/" onClick=onChangePassword}}}
+                </div>
+                <div class="profile__menu-link">
+                    {{{Link class="text-danger" text="Logout" to="/"  onClick=onLogout}}}
+                </div>
+            </div>
+        </div>
+      </div>
+      {{#ButtonIcon style="layout-back" type="button" onClick=onBack }}
+          <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="13" y="6.80005" width="11" height="1.6" transform="rotate(-180 13 6.80005)" fill="white"/>
+              <path d="M6 11L2 6L6 1" stroke="white" stroke-width="1.6"/>
+          </svg>
+      {{/ButtonIcon}}
   {{/Layout}}
     `;
   }
 }
+export default withRouter(withStore(withUser(withIsLoading(ProfilePage))));
