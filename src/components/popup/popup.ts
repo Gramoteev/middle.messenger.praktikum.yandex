@@ -1,7 +1,8 @@
 import {Block, Router, Store} from 'core';
-import {withIsLoading, withPopup, withRouter, withStore, withUser} from 'helpers';
+import {withPopup, withRouter, withStore, withUser} from 'helpers';
 
 import './popup.pcss';
+
 type PopupProps = {
   user: User | null;
   router: Router;
@@ -40,4 +41,4 @@ class Popup extends Block<PopupProps> {
     `
   }
 }
-export default withRouter(withStore(withUser(withIsLoading(withPopup(Popup)))));
+export default withRouter(withStore(withUser(withPopup(Popup))));

@@ -48,4 +48,5 @@ document.addEventListener('DOMContentLoaded', () => {
    * Загружаем данные для приложения
    */
   store.dispatch(initApp);
+  store.dispatch(getDialogs);
 });

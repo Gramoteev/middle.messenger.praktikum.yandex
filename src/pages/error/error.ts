@@ -1,4 +1,4 @@
-import {Paths, withIsLoading, withRouter, withStore, withUser} from 'helpers';
+import {Paths, withRouter, withStore, withUser} from 'helpers';
 import {Block, Router, Store} from 'core';
 
 import './error.pcss';
@@ -44,4 +44,4 @@ class ErrorPage extends Block<ErrorPageProps> {
     `;
   }
 }
-export default withRouter(withStore(withUser(withIsLoading(ErrorPage))));
+export default withRouter(withStore(withUser(ErrorPage)));

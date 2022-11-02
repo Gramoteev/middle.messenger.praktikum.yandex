@@ -1,7 +1,7 @@
 import {Block, Router, Store} from 'core';
 
 import './profile.pcss';
-import {getFormData, isValidFormData, Paths, withIsLoading, withRouter, withStore, withUser} from 'helpers';
+import {getFormData, isValidFormData, Paths, withRouter, withStore, withUser} from 'helpers';
 import {logout} from '../../controllers/auth';
 import {changeProfile} from '../../controllers/user';
 
@@ -168,4 +168,4 @@ class ProfilePage extends Block<ProfilePageProps> {
     `;
   }
 }
-export default withRouter(withStore(withUser(withIsLoading(ProfilePage))));
+export default withRouter(withStore(withUser(ProfilePage)));

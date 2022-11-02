@@ -1,5 +1,5 @@
 import {Block, Router, Store} from 'core';
-import {getFormData, isValidFormData, Paths, withIsLoading, withRouter, withStore, withUser} from 'helpers';
+import {getFormData, isValidFormData, Paths, withRouter, withStore, withUser} from 'helpers';
 import {signIn} from '../../controllers/auth';
 
 type SignInPageProps = {
@@ -78,4 +78,4 @@ export class SignInPage extends Block<SignInPageProps> {
     `;
   }
 }
-export default withRouter(withStore(withIsLoading(withUser(SignInPage))));
+export default withRouter(withStore(withUser(SignInPage)));

@@ -1,7 +1,7 @@
 import {Block, Router, Store} from 'core';
 
 import './layout.pcss';
-import {withIsLoading, withRouter} from 'helpers';
+import {withIsLoading, withRouter, withStore} from 'helpers';
 
 type LayoutProps = {
   user: User | null;
@@ -25,5 +25,5 @@ class Layout extends Block<LayoutProps> {
     `
   }
 }
-export default withRouter(withIsLoading(Layout));
+export default withRouter(withStore(withIsLoading(Layout)));
 

@@ -1,8 +1,7 @@
 import {Block, Router, Store} from 'core';
 import './chat.pcss';
-import {Paths, withIsLoading, withRouter, withStore, withUser} from 'helpers';
+import {Paths, withDialogs, withRouter, withStore, withUser} from 'helpers';
 import {DialogDTO} from '../../api/types';
-import {getDialogs} from '../../controllers/chat';
 
 type ChatPageProps = {
   user: User | null;
@@ -12,13 +11,12 @@ type ChatPageProps = {
   formError?: () => string | null;
   onNavigateNext?: (e: Event) => void;
   onSubmit?: (e: Event) => void;
-  dialogDTOs: DialogDTO[] | null;
+  dialogDTOs: DialogDTO[];
 };
 class ChatPage extends Block<ChatPageProps> {
   static componentName = 'ChatPage';
   constructor(props: ChatPageProps) {
     super(props);
-    this.props.store.dispatch(getDialogs)
 
     this.setProps({
       onNavigateNext: (e: Event) => {
@@ -29,16 +27,6 @@ class ChatPage extends Block<ChatPageProps> {
   }
 
   render() {
-    const dialogs = window.store.getState().dialogDTOs;
-    if (!dialogs) {
-      // language=hbs
-      return `
-          {{#Layout type="main" }}
-              <div>hihi</div>
-          {{/Layout}}
-      `;
-
-    }
     // language=hbs
     return `
     {{#Layout type="main" }}
@@ -158,4 +146,4 @@ class ChatPage extends Block<ChatPageProps> {
     `;
   }
 }
-export default withRouter(withStore(withIsLoading(withUser(ChatPage))));
+export default withRouter(withStore(withDialogs(withUser(ChatPage))));
