@@ -12,10 +12,6 @@ export function withStore<P extends WithStateProps>(WrappedBlock: BlockClass<P>)
     }
 
     __onChangeStoreCallback = () => {
-      /**
-       * и прокидывать не целый стор, а необходимые поля
-       * с помощью метода mapStateToProps
-       */
       // @ts-expect-error this is not typed
       this.setProps({ ...this.props, store: window.store });
     }

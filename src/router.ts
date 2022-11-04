@@ -1,6 +1,5 @@
 import {getScreenComponent, Paths, Screens} from 'helpers';
 import {renderDOM, Router, Store, StoreEvents} from 'core';
-import {getDialogs} from './controllers/chat';
 
 const routes = [
   {
@@ -47,10 +46,6 @@ export function initRouter(router: Router, store: Store<AppState>) {
     });
   });
 
-  /**
-   * Глобальный слушатель изменений в сторе
-   * для переключения активного экрана
-   */
   store.on(StoreEvents.Updated, (prevState, nextState) => {
     if (!prevState.appIsInited && nextState.appIsInited) {
       router.start();

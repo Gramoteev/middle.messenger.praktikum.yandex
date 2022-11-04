@@ -94,7 +94,6 @@ export const getDialogs = async (dispatch: Dispatch<AppState>, state: AppState, 
 };
 
 export const sendMessage = async (dispatch: Dispatch<AppState>, state: AppState, message: string) => {
-  console.log(message)
   messagesController.sendMessage(message);
 };
 export const getCurrentDialog = async (dispatch: Dispatch<AppState>, state: AppState, chatId: number) => {

@@ -24,6 +24,6 @@ export default class Layout extends Block<LayoutProps> {
     `
   }
 }
-// TODO: BUG with HOCs other components break
+// TODO: BUG with HOCs - it break other components
 // export default withRouter(withStore(withIsLoading(Layout)));
 
