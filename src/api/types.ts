@@ -13,8 +13,19 @@ export type UserDTO = {
   email: string;
 };
 
+export type MessageDTO = {
+  chat_id: number;
+  content: string;
+  file: null | File;
+  id: number;
+  is_read: boolean;
+  time: string;
+  type: string;
+  user_id: number;
+}
+
 export type DialogDTO = {
-    id: number;
+  id: number;
     title: string;
     avatar: string;
     unread_count: number;

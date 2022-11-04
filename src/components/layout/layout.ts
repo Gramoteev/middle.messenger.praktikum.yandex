@@ -1,7 +1,6 @@
 import {Block, Router, Store} from 'core';
 
 import './layout.pcss';
-import {withIsLoading, withRouter, withStore} from 'helpers';
 
 type LayoutProps = {
   user: User | null;
@@ -10,7 +9,7 @@ type LayoutProps = {
   isLoading: boolean;
 };
 
-class Layout extends Block<LayoutProps> {
+export default class Layout extends Block<LayoutProps> {
   static componentName = 'Layout';
     constructor(props: LayoutProps) {
     super(props);
@@ -25,5 +24,6 @@ class Layout extends Block<LayoutProps> {
     `
   }
 }
-export default withRouter(withStore(withIsLoading(Layout)));
+// TODO: BUG with HOCs other components break
+// export default withRouter(withStore(withIsLoading(Layout)));
 

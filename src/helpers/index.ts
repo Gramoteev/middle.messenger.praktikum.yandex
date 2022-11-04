@@ -9,6 +9,8 @@ export { withPopup } from './with-popup';
 export { withStore } from './with-store';
 export { withUser } from './with-user';
 export { withDialogs } from './with-dialogs';
+export { withCurrentChatId } from './with-current-chat-id';
+export { withMessages } from './with-messages';
 export { withRouter } from './with-router';
 export { withIsLoading } from './with-is-loading';
 export { Screens, getScreenComponent } from './screen-list';

@@ -7,6 +7,7 @@ export function isValidFormData(e: Event, refs: BlockRefs) {
 
   Object.entries(refs).forEach(([name, field]) => {
     const element = field.element?.querySelector(`#${name}`) as HTMLInputElement;
+    console.log(name, field)
     const errorMessage = validateFormElement(element);
     refs[element.id].refs.errorRef.setProps({text: errorMessage});
     if (errorMessage) {

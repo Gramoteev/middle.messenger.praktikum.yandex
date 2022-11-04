@@ -1,5 +1,6 @@
 import {getScreenComponent, Paths, Screens} from 'helpers';
 import {renderDOM, Router, Store, StoreEvents} from 'core';
+import {getDialogs} from './controllers/chat';
 
 const routes = [
   {

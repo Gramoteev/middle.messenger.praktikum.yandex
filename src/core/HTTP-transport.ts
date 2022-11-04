@@ -28,7 +28,7 @@ export default class HTTPTransport {
     return this.request(url, { method: Methods.GET });
   }
 
-  post(url:string, data?: Record<string, any>): Promise<XMLHttpRequest> {
+  post(url:string, data?: Record<string, any> | number): Promise<XMLHttpRequest> {
     return this.request(url, { data: data, method: Methods.POST });
   }
 

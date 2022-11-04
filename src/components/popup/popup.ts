@@ -1,5 +1,4 @@
 import {Block, Router, Store} from 'core';
-import {withPopup, withRouter, withStore, withUser} from 'helpers';
 
 import './popup.pcss';
 
@@ -21,11 +20,11 @@ class Popup extends Block<PopupProps> {
     super(props);
 
     this.setProps({
+      isPopupOpen: false,
       events: {
         click: (e: Event) => {
           if (e.target.classList[0] === 'popup') {
-            this.props.store.dispatch({isPopupOpen: false});
-            return;
+            this.props.isPopupOpen = false;
           }
         }
       }
@@ -35,10 +34,11 @@ class Popup extends Block<PopupProps> {
   protected render(): string {
     // language=hbs
     return `
-      <div class="popup">
-          <div class="popup__content" data-slot=1></div>
-      </div>
+
+            <div class="popup {{#if isPopupOpen}}popup_hidden{{/if}}">
+              <div class="popup__content" data-slot=1></div>
+            </div>
     `
   }
 }
-export default withRouter(withStore(withUser(withPopup(Popup))));
+export default Popup;

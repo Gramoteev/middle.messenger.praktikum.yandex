@@ -17,9 +17,9 @@ type SignUpRequestData = {
   phone: string;
 };
 
-type SignInResponseData = {} | APIError;
+type SignInResponseData = Record<string, never> | APIError;
 
-type SignUpResponseData = {} | APIError;
+type SignUpResponseData = Record<string, never> | APIError;
 
 class AuthAPI extends BaseAPI {
   authAPIInstance = new HTTPTransport('/auth');
@@ -47,5 +47,5 @@ class AuthAPI extends BaseAPI {
   logout() {
     return this.authAPIInstance.post('/logout');
   }
-};
+}
 export default new AuthAPI();

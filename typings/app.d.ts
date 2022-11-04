@@ -1,6 +1,6 @@
 import {Screens} from 'helpers';
 import {Store, Router} from 'core';
-import {DialogDTO} from '../src/api/types';
+import {DialogDTO, MessageDTO} from '../src/api/types';
 
 declare global {
   export type Nullable<T> = T | null;
@@ -23,9 +23,14 @@ declare global {
     signUpFormError: string | null;
     changeProfileFormError: string | null;
     changePasswordFormError: string | null;
+    deleteChatUserFormError: string | null;
     changeAvatarFormError: string | null;
+    addChatUserFormError: string | null;
+    addChatFormError: string | null;
     user: User | null;
-    dialogDTOs: DialogDTO[] | null;
+    messages: MessageDTO[] | null
+    dialogs: DialogDTO[] | null;
+    currentChatId: number | null;
   };
 
   export type Dialog = {

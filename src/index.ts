@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.router = router;
   window.store = store;
 
-  renderDOM(new SplashPage({}));
-
   store.on(StoreEvents.Updated, (prevState, nextState) => {
     if (process.env.DEBUG) {
       console.log(
@@ -48,5 +46,4 @@ document.addEventListener('DOMContentLoaded', () => {
    * Загружаем данные для приложения
    */
   store.dispatch(initApp);
-  store.dispatch(getDialogs);
 });

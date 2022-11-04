@@ -41,7 +41,7 @@ export default class Block<P extends Indexed> {
 
     this._registerEvents(this.eventBus);
 
-    this.eventBus.emit(Block.EVENTS.INIT);
+    this.eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
   private _registerEvents(eventBus: EventBus<Events>) {
@@ -60,7 +60,7 @@ export default class Block<P extends Indexed> {
 
   init() {
     this._createResources();
-    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
   private _componentDidMount(props: P) {
@@ -131,11 +131,10 @@ export default class Block<P extends Indexed> {
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
         if (this.element?.parentNode?.nodeType !==  Node.DOCUMENT_FRAGMENT_NODE ) {
-          this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+          this.eventBus.emit(Block.EVENTS.FLOW_CDM, this.props);
         }
       }, 100)
     }
-
     return this.element!;
   }
 
@@ -148,7 +147,7 @@ export default class Block<P extends Indexed> {
       set: (target: Record<string, unknown>, prop: string, value: unknown) => {
         target[prop] = value;
 
-        this.eventBus.emit(Block.EVENTS.FLOW_CDU, mergeDeep({}, target), target);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
         return true;
       },
       deleteProperty: () => {
@@ -190,7 +189,12 @@ export default class Block<P extends Indexed> {
     const fragment = document.createElement('template');
 
     const template = Handlebars.compile(this.render());
-    fragment.innerHTML = template({ ...this.props, children: this.children, refs: this.refs });
+    fragment.innerHTML = template({
+      ...this.props,
+      children: this.children,
+      refs:
+      this.refs
+    });
 
     Object.entries(this.children).forEach(([id, component]) => {
       const stub = fragment.content.querySelector(`[data-id="${id}"]`);

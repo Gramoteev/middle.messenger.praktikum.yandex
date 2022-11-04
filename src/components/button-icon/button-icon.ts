@@ -6,7 +6,7 @@ type ButtonIconProps = {
   type: string;
   style: string;
   onClick?: () => void;
-  events: {};
+  events: object;
 }
 
 export class ButtonIcon extends Block<ButtonIconProps> {
@@ -18,8 +18,8 @@ export class ButtonIcon extends Block<ButtonIconProps> {
   protected render(): string {
     // language=hbs
     return `
-        <button class="button {{#if style}}{{style}}{{else}}button_icon{{/if}} type="{{type}}">
-            <div class="icon icon_circle" data-slot=1></div>
+        <button class="button {{#if style}}{{style}}{{else}}button-icon{{/if}} type="{{type}}">
+            <div class="icon {{#if circle}}icon_circle{{/if}} " data-slot=1></div>
         </button>
     `;
   }

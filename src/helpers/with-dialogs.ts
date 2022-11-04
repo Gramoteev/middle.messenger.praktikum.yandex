@@ -2,7 +2,7 @@ import {BlockClass, StoreEvents} from 'core';
 import {isEqual} from './index';
 import {DialogDTO} from '../api/types';
 
-type WithDialogsProps = { dialogDTOs: DialogDTO[] | null };
+type WithDialogsProps = { dialogs: DialogDTO[] | null };
 
 export function withDialogs<P extends WithDialogsProps>(WrappedBlock: BlockClass<P>) {
   // @ts-expect-error No base constructor has the specified
@@ -10,13 +10,13 @@ export function withDialogs<P extends WithDialogsProps>(WrappedBlock: BlockClass
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
 
     constructor(props: P) {
-      super({ ...props, dialogDTOs: window.store.getState().dialogDTOs });
+      super({ ...props, dialogs: window.store.getState().dialogs });
     }
 
     __onChangeDialogsCallback = (prevState: AppState, nextState: AppState) => {
-      if (!isEqual(prevState.dialogDTOs, nextState.dialogDTOs)) {
+      if (!isEqual(prevState.dialogs, nextState.dialogs)) {
         // @ts-expect-error this is not typed
-        this.setProps({ ...this.props, dialogDTOs: nextState.dialogDTOs });
+        this.setProps({ ...this.props, dialogs: nextState.dialogs });
       }
     }
 
@@ -30,5 +30,5 @@ export function withDialogs<P extends WithDialogsProps>(WrappedBlock: BlockClass
       window.store.off(StoreEvents.Updated, this.__onChangeDialogsCallback);
     }
 
-  } as BlockClass<Omit<P, 'dialogDTOs'>>;
+  } as BlockClass<Omit<P, 'dialogs'>>;
 }

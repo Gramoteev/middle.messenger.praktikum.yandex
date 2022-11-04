@@ -2,6 +2,7 @@ import type { Dispatch } from 'core';
 import {apiHasError, Paths, transformUser} from 'helpers';
 import {UserDTO} from 'api/types';
 import {authAPI} from 'api';
+import {getDialogs} from './chat';
 
 type SignInPayload = {
   login: string;
@@ -62,7 +63,7 @@ export const signIn = async (dispatch: Dispatch<AppState>, state: AppState, acti
 
   dispatch({ user: transformUser(responseUser as UserDTO) });
 
-  window.router.go(Paths.Chat);
+  window.store.dispatch(getDialogs);
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {

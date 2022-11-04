@@ -8,6 +8,12 @@ export const defaultState: AppState = {
   changeProfileFormError: null,
   changePasswordFormError: null,
   changeAvatarFormError: null,
+  deleteChatUserFormError: null,
+  addChatFormError: null,
   user: null,
-  dialogDTOs: null
+  dialogs: null,
+  messages: null,
+  currentChatId: null,
+  addChatUserFormError: null
+
 };

@@ -17,7 +17,7 @@ type ChangeProfileRequestData = {
   phone: string;
 };
 
-type ChangePasswordResponseData = {} | APIError;
+type ChangePasswordResponseData = Record<string, never> | APIError;
 
 type ChangeAvatarResponseData = {
   id: number;
@@ -61,10 +61,13 @@ class UserAPI extends BaseAPI {
     }
     return JSON.parse(response);
   }
+  async searchUser(login: string): Promise<UserDTO[] | APIError>  {
+    return JSON.parse((await this.profileAPIInstance.post('/search', {login: login})).response);
+  }
 
   async getUser(id: number): Promise<UserDTO | APIError>  {
     return JSON.parse((await this.profileAPIInstance.get(`/${id}`)).response);
   }
 
-};
+}
 export default new UserAPI();
