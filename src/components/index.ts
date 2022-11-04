@@ -14,4 +14,3 @@ export {default as ChangePassword} from 'components/change-password';
 export {default as EditAvatar} from 'components/edit-avatar';
 export {default as Dialog} from 'components/dialog';
 export {default as Message} from 'components/message';
-export {default as Logo} from 'components/logo';
