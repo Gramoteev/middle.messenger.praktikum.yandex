@@ -15,10 +15,11 @@ type InputProps = {
 export class Input extends Block<InputProps> {
   static componentName = 'Input';
   constructor({onBlur, onInput, onFocus, value, ...props}: InputProps) {
-    if (value === '{{value}}') {
-      value = '';
-    }
-    super({...props, value, events: {input: onInput, focus: onFocus, blur: onBlur}});
+    super(props);
+    this.setProps({
+      value: value === '{{value}}' ? '' : value,
+      events: {input: onInput, focus: onFocus, blur: onBlur}
+    });
   }
 
   protected render(): string {

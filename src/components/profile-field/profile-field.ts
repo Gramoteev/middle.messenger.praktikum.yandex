@@ -18,8 +18,9 @@ type ProfileFieldProps = {
 
 export class ProfileField extends Block<ProfileFieldProps> {
   static componentName = 'ProfileField';
-  constructor({...props}: ProfileFieldProps) {
-    super({...props,
+  constructor(props: ProfileFieldProps) {
+    super(props);
+    this.setProps({
       onInput: (e: InputEvent) => {
         const element = e.target as HTMLInputElement;
         const errorMessage = validateFormElement(element);

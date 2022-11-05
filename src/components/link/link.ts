@@ -3,13 +3,17 @@ import {Block} from 'core';
 type LinkProps = {
   text: string;
   to: string;
-  onClick: () => void;
+  onClick?: () => void;
+  events: Indexed;
 }
 
-export class Link extends Block {
+export class Link extends Block<LinkProps> {
   static componentName = 'Link';
   constructor({onClick, ...props}: LinkProps) {
-    super({...props, events: { click: onClick }});
+    super(props);
+    this.setProps({
+      events: {click: onClick}
+    });
   }
 
   render() {

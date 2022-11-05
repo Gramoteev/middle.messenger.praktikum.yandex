@@ -12,7 +12,10 @@ type ButtonIconProps = {
 export class ButtonIcon extends Block<ButtonIconProps> {
   static componentName = 'ButtonIcon';
   constructor({onClick, ...props}: ButtonIconProps) {
-    super({...props, events: {click: onClick}});
+    super(props);
+    this.setProps({
+      events: {click: onClick}
+    });
   }
 
   protected render(): string {
