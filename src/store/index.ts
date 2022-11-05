@@ -15,6 +15,8 @@ export const defaultState: AppState = {
   dialogs: null,
   messages: null,
   currentChatId: null,
-  addChatUserFormError: null
+  addChatUserFormError: null,
+  isAddChatUserOpen: false,
+  isDeleteChatUserOpen: false
 
 };

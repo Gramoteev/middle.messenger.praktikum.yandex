@@ -63,7 +63,7 @@ export const signIn = async (dispatch: Dispatch<AppState>, state: AppState, acti
 
   dispatch({ user: transformUser(responseUser as UserDTO) });
 
-  window.store.dispatch(getDialogs);
+  window.router.go(Paths.Chat);
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {

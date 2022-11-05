@@ -27,7 +27,9 @@ declare global {
     changeAvatarFormError: string | null;
     addChatUserFormError: string | null;
     addChatFormError: string | null;
-    isChangingPassword: boolean
+    isChangingPassword: boolean;
+    isAddChatUserOpen: boolean;
+    isDeleteChatUserOpen: boolean;
     user: User | null;
     messages: MessageDTO[] | null
     dialogs: DialogDTO[] | null;

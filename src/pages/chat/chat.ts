@@ -38,8 +38,8 @@ class ChatPage extends Block<ChatPageProps> {
 
     this.setProps({
       user: this.props.store.getState().user,
-      isAddChatUserOpen: window.store.getState().isPopupOpen,
-      isDeleteChatUserOpen: window.store.getState().isPopupOpen,
+      isAddChatUserOpen: window.store.getState().isAddChatUserOpen,
+      isDeleteChatUserOpen: window.store.getState().isDeleteChatUserOpen,
       addChatFormError: () => this.props.store.getState().addChatFormError,
       addChatUserFormError: () => this.props.store.getState().addChatUserFormError,
       deleteChatUserFormError: () => this.props.store.getState().deleteChatUserFormError,
@@ -49,16 +49,15 @@ class ChatPage extends Block<ChatPageProps> {
       },
       onAddChatUser: (e: Event) => {
         e.preventDefault();
-        this.props.store.dispatch(addChatUser, getFormData(this.element!.querySelector('.popup')).login);
+        this.props.store.dispatch(addChatUser, getFormData(this.element!.querySelector('.popup-add-user')).login);
       },
       onDeleteChatUser: (e: Event) => {
         e.preventDefault();
-        this.props.store.dispatch(deleteChatUser, getFormData(this.element!.querySelector('.popup')).login);
+        this.props.store.dispatch(deleteChatUser, getFormData(this.element!.querySelector('.popup-delete-user')).login);
       },
       onAddChat: (e: Event) => {
         e.preventDefault();
         addChat(window.store.dispatch.bind(this.props.store),
-          this.props.store.getState(),
           getFormData(this.element!.querySelector('.popup'))).then(value => {
           this.setProps({dialogs: value});
         });
@@ -66,14 +65,17 @@ class ChatPage extends Block<ChatPageProps> {
       onAddChatPopup: (e: Event) => {
         e.preventDefault();
         this.props.isPopupOpen = true;
+        window.store.dispatch({isPopupOpen: true})
       },
       onAddChatUserPopup: (e: Event) => {
         e.preventDefault();
         this.props.isAddChatUserOpen = true;
+        window.store.dispatch({isAddChatUserOpen: true})
       },
       onDeleteChatUserPopup: (e: Event) => {
         e.preventDefault();
         this.props.isDeleteChatUserOpen = true;
+        window.store.dispatch({isDeleteChatUserOpen: true})
       },
       events: {
         click: closePopup(this.props, 'isPopupOpen','isDeleteChatUserOpen', 'isAddChatUserOpen' )
@@ -199,7 +201,7 @@ class ChatPage extends Block<ChatPageProps> {
             </div>
         {{/if}}
         {{#if isDeleteChatUserOpen}}
-            <div class="popup">
+            <div class="popup-delete-user">
                 <div class="popup__content">
                     <form class="delete-chat-user" name="form-delete-chat-user">
                         <h2>Delete user</h2>
@@ -219,7 +221,7 @@ class ChatPage extends Block<ChatPageProps> {
             </div>
         {{/if}}
         {{#if isAddChatUserOpen}}
-            <div class="popup">
+            <div class="popup-add-user">
                 <div class="popup__content">
                     <form class="add-chat-user" name="form-add-chat-user">
                         <h2>Add user</h2>

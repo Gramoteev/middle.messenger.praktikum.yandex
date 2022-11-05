@@ -36,7 +36,7 @@ export const deleteChatUser = async (dispatch: Dispatch<AppState>, state: AppSta
     return;
   }
   dispatch({ isLoading: false });
-  dispatch({isPopupOpen: false});
+  dispatch({isDeleteChatUserOpen: false});
 };
 
 export const addChatUser = async (dispatch: Dispatch<AppState>, state: AppState, action: string) => {
@@ -59,11 +59,11 @@ export const addChatUser = async (dispatch: Dispatch<AppState>, state: AppState,
     dispatch({ isLoading: false, addChatUserFormError: response.reason });
     return;
   }
-  dispatch({isPopupOpen: false, isLoading: false});
+  dispatch({isAddChatUserOpen: false, isLoading: false});
 };
 
 
-export const addChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddChatPayload): Promise<DialogDTO[]> => {
+export const addChat = async (dispatch: Dispatch<AppState>, action: AddChatPayload): Promise<DialogDTO[]> => {
   dispatch({ isLoading: true });
 
   const response = await chatAPI.create(action);
