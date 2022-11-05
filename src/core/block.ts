@@ -71,7 +71,7 @@ export default class Block<P extends Indexed> {
   componentDidMount(props: P) {}
   componentWillUnmount() {}
 
-  _checkInDom() {
+  private _checkInDom() {
     const elementInDOM = document.body.contains(this._element);
 
     if (elementInDOM) {
