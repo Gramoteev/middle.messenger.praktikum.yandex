@@ -1,10 +1,11 @@
 import {Block, Router, Store} from 'core';
 
 import './dialog.pcss';
-import {getAvatar, withRouter, withStore} from 'helpers';
+import {getAvatar} from 'helpers';
 import {getCurrentDialog} from '../../controllers/chat';
 
 type DialogProps = {
+  id: number;
   router: Router;
   store: Store<AppState>;
   title?: string;
@@ -12,6 +13,7 @@ type DialogProps = {
   text?: string;
   unread?: string;
   events?: Indexed;
+  currentChatId?: number | null
 }
 
 class Dialog extends Block<DialogProps> {
@@ -31,7 +33,7 @@ class Dialog extends Block<DialogProps> {
   protected render(): string {
     // language=hbs
     return `
-        <li id="{{id}}" class="dialog">
+        <li id="{{id}}" class="dialog${this.props.currentChatId === this.props.id ? ' dialog_current':''}">
             <img class="avatar dialog__avatar-img" src=${getAvatar(null)} alt="Avatar">
             <div class="dialog__inner">
                 <div class="dialog__top">
@@ -53,4 +55,4 @@ class Dialog extends Block<DialogProps> {
     `
   }
 }
-export default withRouter(withStore(Dialog));
+export default Dialog;

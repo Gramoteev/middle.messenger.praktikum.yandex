@@ -44,4 +44,4 @@ class ErrorPage extends Block<ErrorPageProps> {
     `;
   }
 }
-export default withRouter(withStore(withUser(ErrorPage)));
+export default withRouter(withStore(ErrorPage));

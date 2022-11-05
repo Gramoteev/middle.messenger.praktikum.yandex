@@ -38,7 +38,7 @@ export const changePassword = async (dispatch: Dispatch<AppState>, state: AppSta
     dispatch({ isLoading: false, changePasswordFormError: response.reason });
     return;
   }
-  dispatch({ isLoading: false, changePasswordFormError: null });
+  dispatch({ isLoading: false, changePasswordFormError: null, isChangingPassword: false });
   window.router.go(Paths.Profile);
 };
 

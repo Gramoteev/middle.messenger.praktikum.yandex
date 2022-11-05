@@ -24,10 +24,10 @@ export class ChatInput extends Block<ChatInputProps> {
           isValid = false;
         }
         if (isValid) {
-          this.props.store.dispatch(sendMessage, element.value);
+          window.store.dispatch(sendMessage, element.value);
         }
         element.value = '';
-        this.props.store.on(StoreEvents.Updated, () => {
+        window.store.on(StoreEvents.Updated, () => {
           const chat = document.querySelector(`.chat__messages`);
           if (chat) {
             chat.scrollTop = chat.scrollHeight;
@@ -75,4 +75,4 @@ export class ChatInput extends Block<ChatInputProps> {
   }
 
 }
-export default withStore(ChatInput);
+export default ChatInput;

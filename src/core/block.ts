@@ -96,6 +96,7 @@ export default class Block<P extends Indexed> {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
+    this.children = {};
     return true;
   }
 
@@ -104,7 +105,7 @@ export default class Block<P extends Indexed> {
       return;
     }
 
-    mergeDeep(this.props as Object, nextProps);
+    Object.assign(this.props, nextProps);
   };
 
   get element() {
@@ -212,7 +213,6 @@ export default class Block<P extends Indexed> {
 
       if (slotContent && stubChildren.length) {
         slotContent.append(...stubChildren);
-        delete slotContent.dataset.slot;
       }
     });
 

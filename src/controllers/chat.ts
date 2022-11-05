@@ -1,8 +1,9 @@
 import type {Dispatch} from 'core';
-import {apiHasError, Paths} from 'helpers';
+import {apiHasError} from 'helpers';
 import {chatAPI, userAPI} from 'api'
 import messagesController from './messages';
 import {UpdateChatUsersRequest} from '../api/chat-api';
+import {DialogDTO} from '../api/types';
 
 type GetChatPayload = {
   offset?: string;
@@ -25,7 +26,7 @@ export const deleteChatUser = async (dispatch: Dispatch<AppState>, state: AppSta
     return;
   }
 
-  const certainFindUser = findUser.length > 1 ? findUser.filter(user => user.login === action) : {...findUser}
+  const certainFindUser = findUser.length > 1 ? findUser.filter(user => user.login === action) : [...findUser]
 
   const req: UpdateChatUsersRequest = {users: certainFindUser.map(user => user.id), chatId: state.currentChatId!};
   const response = await chatAPI.deleteUsers(req);
@@ -50,8 +51,7 @@ export const addChatUser = async (dispatch: Dispatch<AppState>, state: AppState,
     dispatch({ isLoading: false, addChatUserFormError: 'Please use correct login' });
     return;
   }
-  const certainFindUser = findUser.length > 1 ? findUser.filter(user => user.login === action) : {...findUser}
-
+  const certainFindUser = findUser.length > 1 ? findUser.filter(user => user.login === action) : [...findUser]
   const req: UpdateChatUsersRequest = {users: certainFindUser.map(user => user.id), chatId: state.currentChatId!};
   const response = await chatAPI.addUsers(req);
 
@@ -59,12 +59,11 @@ export const addChatUser = async (dispatch: Dispatch<AppState>, state: AppState,
     dispatch({ isLoading: false, addChatUserFormError: response.reason });
     return;
   }
-  dispatch({ isLoading: false });
-  dispatch({isPopupOpen: false});
+  dispatch({isPopupOpen: false, isLoading: false});
 };
 
 
-export const addChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddChatPayload) => {
+export const addChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddChatPayload): Promise<DialogDTO[]> => {
   dispatch({ isLoading: true });
 
   const response = await chatAPI.create(action);
@@ -73,11 +72,11 @@ export const addChat = async (dispatch: Dispatch<AppState>, state: AppState, act
     dispatch({ isLoading: false });
     return;
   }
-  dispatch(getDialogs);
+  return getDialogs(dispatch);
 };
 
 
-export const getDialogs = async (dispatch: Dispatch<AppState>, state: AppState, action: GetChatPayload) => {
+export const getDialogs = async (dispatch: Dispatch<AppState>, state?: AppState, action?: GetChatPayload): Promise<DialogDTO[]> => {
   dispatch({ isLoading: true });
 
   const response = await chatAPI.request(action);
@@ -86,15 +85,15 @@ export const getDialogs = async (dispatch: Dispatch<AppState>, state: AppState, 
     dispatch({ isLoading: false });
     return;
   }
-  dispatch({isLoading: false, dialogs: response });
+  dispatch({isLoading: false });
+  return response;
 };
 
 export const sendMessage = async (dispatch: Dispatch<AppState>, state: AppState, message: string) => {
   messagesController.sendMessage(message);
 };
 export const getCurrentDialog = async (dispatch: Dispatch<AppState>, state: AppState, chatId: number) => {
-  dispatch({ isLoading: true });
-  dispatch({currentChatId: chatId});
+  dispatch({currentChatId: chatId, isLoading: true, messages: null});
 
   const response = await chatAPI.getToken(chatId);
 
@@ -111,4 +110,5 @@ export const getCurrentDialog = async (dispatch: Dispatch<AppState>, state: AppS
   const token = response.token;
 
   messagesController.connect(userId, chatId, token);
+  dispatch({ isLoading: false });
 };

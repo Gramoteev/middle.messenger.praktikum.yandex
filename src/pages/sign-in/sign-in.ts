@@ -1,5 +1,5 @@
 import {Block, Router, Store} from 'core';
-import {getFormData, isValidFormData, Paths, withRouter, withStore, withUser} from 'helpers';
+import {getFormData, isValidFormData, Paths, withRouter, withStore} from 'helpers';
 import {signIn} from '../../controllers/auth';
 
 type SignInPageProps = {
@@ -18,6 +18,7 @@ export class SignInPage extends Block<SignInPageProps> {
     super(props);
 
     this.setProps({
+      user: this.props.store.getState().user,
       formError: () => this.props.store.getState().signInFormError,
       onNavigateNext: (e: Event) => this.onNavigateNext(e),
       onSubmit: (e: Event) => {
@@ -50,6 +51,7 @@ export class SignInPage extends Block<SignInPageProps> {
     // language=hbs
     return `
     {{#Layout type="auth" }}
+        <div class="{{#if isLoading}}layout_loading{{else}}''{{/if}}"></div>
         <form id="form" class="form auth-form">
             <div class="auth-form__content">
                 <h1 class="auth-form__title">Sign in</h1>
@@ -78,4 +80,4 @@ export class SignInPage extends Block<SignInPageProps> {
     `;
   }
 }
-export default withRouter(withStore(withUser(SignInPage)));
+export default withRouter(withStore(SignInPage));

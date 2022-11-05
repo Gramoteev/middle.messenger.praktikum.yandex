@@ -28,6 +28,7 @@ class ProfilePage extends Block<ProfilePageProps> {
     super(props);
 
     this.setProps({
+      user: this.props.store.getState().user,
       isReadonlyData: true,
       isChangingPassword: false,
       formError: () => this.props.store.getState().changeProfileFormError,
@@ -41,7 +42,7 @@ class ProfilePage extends Block<ProfilePageProps> {
       },
       onChangePassword: (e: Event) => {
         e.preventDefault();
-        this.props.isChangingPassword = true;
+        this.props.store.dispatch({isChangingPassword: true})
       },
       onLogout: (e: Event) => {
         e.preventDefault();
@@ -61,89 +62,93 @@ class ProfilePage extends Block<ProfilePageProps> {
     // language=hbs
     return `
     {{#Layout type="profile"}}
+        <div class="{{#if isLoading}}layout_loading{{else}}''{{/if}}"></div>
       <div class="profile">
         <div class="profile__header">
-            {{{EditAvatar }}}
+            {{{EditAvatar user=user }}}
         </div>
-        <div class="profile__password" style="display: ${this.props.isChangingPassword ? 'block' : 'none'}">
-            {{{ChangePassword }}}
-        </div>
-        <div class="profile__data" style=" display: ${this.props.isChangingPassword ? 'none' : 'block'}">
-          <form>
-            {{{ProfileField
-                    ref="email"
-                    onInput=onInput
-                    onFocus=onFocus
-                    type="email"
-                    name="email"
-                    label="Email"
-                    placeholder=" "
-                    value=user.email
-                    readonly=isReadonlyData
-            }}}
-            {{{ProfileField
-                    ref="login"
-                    onInput=onInput
-                    onFocus=onFocus
-                    type="text"
-                    name="login"
-                    label="Login"
-                    placeholder=" "
-                    value=user.login
-                    readonly=isReadonlyData
-            }}}
-            {{{ProfileField
-                    ref="first_name"
-                    onInput=onInput
-                    onFocus=onFocus
-                    type="text"
-                    name="first_name"
-                    label="First name"
-                    placeholder=" "
-                    value=user.firstName
-                    readonly=isReadonlyData
-            }}}
-            {{{ProfileField
-                    ref="second_name"
-                    onInput=onInput
-                    onFocus=onFocus
-                    type="text"
-                    name="second_name"
-                    label="Second name"
-                    placehlder=" "
-                    value=user.secondName
-                    readonly=isReadonlyData
-            }}}
-              {{{ProfileField
-                      ref="display_name"
-                      onInput=onInput
-                      onFocus=onFocus
-                      type="text"
-                      name="display_name"
-                      label="Display name"
-                      placeholder=" "
-                      value=user.displayName
-                      readonly=isReadonlyData
-              }}}
-            {{{ProfileField
-                    ref="phone"
-                    onInput=onInput
-                    onFocus=onFocus
-                    type="text"
-                    name="phone"
-                    label="Phone"
-                    placeholder=" "
-                    value=user.phone
-                    readonly=isReadonlyData
-            }}}
-            <div class="profile__errors">
-                {{{Error class="error_common" text=formError }}}
-            </div>
-            <div class="profile__save" style="display: ${this.props.isReadonlyData ? 'none' : 'flex'}">
-                {{{Button  text="Save" type="submit" onClick=onSubmitProfile}}}
-            </div>
-          </form>
-        </div>
+      {{#if isChangingPassword}}
+          <div class="profile__password">
+              {{{ChangePassword }}}
+          </div>
+      {{else}}
+          <div class="profile__data">
+              <form>
+                  {{{ProfileField
+                          ref="email"
+                          onInput=onInput
+                          onFocus=onFocus
+                          type="email"
+                          name="email"
+                          label="Email"
+                          placeholder=" "
+                          value=user.email
+                          readonly=isReadonlyData
+                  }}}
+                  {{{ProfileField
+                          ref="login"
+                          onInput=onInput
+                          onFocus=onFocus
+                          type="text"
+                          name="login"
+                          label="Login"
+                          placeholder=" "
+                          value=user.login
+                          readonly=isReadonlyData
+                  }}}
+                  {{{ProfileField
+                          ref="first_name"
+                          onInput=onInput
+                          onFocus=onFocus
+                          type="text"
+                          name="first_name"
+                          label="First name"
+                          placeholder=" "
+                          value=user.firstName
+                          readonly=isReadonlyData
+                  }}}
+                  {{{ProfileField
+                          ref="second_name"
+                          onInput=onInput
+                          onFocus=onFocus
+                          type="text"
+                          name="second_name"
+                          label="Second name"
+                          placehlder=" "
+                          value=user.secondName
+                          readonly=isReadonlyData
+                  }}}
+                  {{{ProfileField
+                          ref="display_name"
+                          onInput=onInput
+                          onFocus=onFocus
+                          type="text"
+                          name="display_name"
+                          label="Display name"
+                          placeholder=" "
+                          value=user.displayName
+                          readonly=isReadonlyData
+                  }}}
+                  {{{ProfileField
+                          ref="phone"
+                          onInput=onInput
+                          onFocus=onFocus
+                          type="text"
+                          name="phone"
+                          label="Phone"
+                          placeholder=" "
+                          value=user.phone
+                          readonly=isReadonlyData
+                  }}}
+                  <div class="profile__errors">
+                      {{{Error class="error_common" text=formError }}}
+                  </div>
+                  <div class="profile__save" style="display: ${this.props.isReadonlyData ? 'none' : 'flex'}">
+                      {{{Button  text="Save" type="button" onClick=onSubmitProfile}}}
+                  </div>
+              </form>
+          </div>
+      {{/if}}
         <div class="profile__footer">
             <div class="profile__menu" style="display: ${this.props.isReadonlyData && !this.props.isChangingPassword ? 'block': 'none'}">
                 <div class="profile__menu-link">
@@ -168,4 +173,4 @@ class ProfilePage extends Block<ProfilePageProps> {
     `;
   }
 }
-export default withRouter(withStore(withUser(ProfilePage)));
+export default withRouter(withStore(ProfilePage));

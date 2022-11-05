@@ -1,15 +1,12 @@
 import {defaultState} from './store';
-
-require('babel-core/register');
-
-import {registerComponent, renderDOM, Router, Store, StoreEvents} from 'core';
+import {registerComponent, Router, Store, StoreEvents} from 'core';
 
 import 'styles/style.pcss';
-import * as components from'components';
-import SplashPage from './pages/splash';
+import * as components from 'components';
 import {initRouter} from './router';
 import {initApp} from './controllers/init-app';
-import {getDialogs} from './controllers/chat';
+
+require('babel-core/register');
 
 
 Object.values(components).forEach((Component: any) => {

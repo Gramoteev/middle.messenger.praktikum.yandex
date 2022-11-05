@@ -1,5 +1,5 @@
 import {Block, Router, Store} from 'core';
-import {getFormData, isValidFormData, withRouter, withStore, withUser} from 'helpers';
+import {getFormData, isValidFormData, withRouter} from 'helpers';
 import {changePassword} from '../../controllers/user';
 
 type ChangePasswordProps = {
@@ -9,7 +9,6 @@ type ChangePasswordProps = {
   isLoading: boolean;
   formError?: () => string | null;
   onSubmitPassword?: (e: InputEvent) => void;
-  isChangingPassword?: boolean;
 }
 
 class ChangePassword extends Block<ChangePasswordProps> {
@@ -18,12 +17,12 @@ class ChangePassword extends Block<ChangePasswordProps> {
     super(props);
 
     this.setProps({
-      formError: () => props.store.getState().changePasswordFormError,
+      formError: () => window.store.getState().changePasswordFormError,
       onSubmitPassword: (e: Event) => {
         const formIsValid = isValidFormData(e, this.refs);
         if (formIsValid) {
-          this.props.store.dispatch(changePassword, getFormData(this.element));
-          this.props.isChangingPassword = false;
+          let test = getFormData(this.element)
+          window.store.dispatch(changePassword, test);
         }
       }
     })
@@ -63,4 +62,4 @@ class ChangePassword extends Block<ChangePasswordProps> {
     `;
   }
 }
-export default withRouter(withStore(withUser(ChangePassword)));
+export default withRouter(ChangePassword);

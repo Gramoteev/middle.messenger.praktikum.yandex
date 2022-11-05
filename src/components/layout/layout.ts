@@ -18,12 +18,8 @@ export default class Layout extends Block<LayoutProps> {
     // language=hbs
     return `
         <div class="layout-{{type}} ">
-          <div class="{{#if isLoading}}layout_loading{{/if}}"></div>
           <div class="layout-{{type}}__content" data-slot=1></div>
         </div>
     `
   }
 }
-// TODO: BUG with HOCs - it break other components
-// export default withRouter(withStore(withIsLoading(Layout)));
-

@@ -13,8 +13,18 @@ export function withStore<P extends WithStateProps>(WrappedBlock: BlockClass<P>)
 
     __onChangeStoreCallback = () => {
       // @ts-expect-error this is not typed
-      this.setProps({ store: window.store, ...this.props  });
-      console.log('change store HOC', this.props);
+      this.setProps({
+        ...this.props,
+        store: window.store,
+        messages: window.store.getState().messages,
+        currentChatId: window.store.getState().currentChatId,
+        isPopupOpen: window.store.getState().isPopupOpen,
+        isAddChatUserOpen: window.store.getState().isPopupOpen,
+        isDeleteChatUserOpen: window.store.getState().isPopupOpen,
+        isChangingPassword: window.store.getState().isChangingPassword,
+        isLoading: window.store.getState().isLoading
+
+      });
     }
 
     componentDidMount(props: P) {

@@ -1,4 +1,4 @@
-import {getFormData, isValidFormData, Paths, withRouter, withStore, withUser} from 'helpers';
+import {getFormData, isValidFormData, Paths, withRouter, withStore} from 'helpers';
 import {Block, Router, Store} from 'core';
 import {signUp} from '../../controllers/auth';
 
@@ -119,4 +119,4 @@ export class SignUpPage extends Block<SignUpPageProps> {
   }
 }
 
-export default withRouter(withStore(withUser(SignUpPage)));
+export default withRouter(withStore(SignUpPage));

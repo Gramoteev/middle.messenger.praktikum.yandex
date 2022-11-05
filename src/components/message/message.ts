@@ -1,8 +1,7 @@
 import {Block, Store} from 'core';
 
 import './message.pcss';
-import {withStore, withUser} from '../../helpers';
-import {getDate} from '../../helpers/get-date';
+import {getDate} from 'helpers/get-date';
 
 type MessageProps = {
   content: string;
@@ -10,6 +9,7 @@ type MessageProps = {
   userId: number,
   user: User | null;
   store: Store<AppState>;
+  currentUserId: number | null;
 }
 
 class Message extends Block<MessageProps> {
@@ -17,8 +17,9 @@ class Message extends Block<MessageProps> {
   constructor(props: MessageProps) {
     super(props);
   }
+
   author(userId: number) {
-    return userId === this.props.user?.id ? 'own' : 'incoming';
+    return userId === this.props.currentUserId ? 'own' : 'incoming';
   }
 
   protected render(): string {
@@ -35,4 +36,4 @@ class Message extends Block<MessageProps> {
   }
 }
 
-export default withStore(withUser(Message));
+export default Message;

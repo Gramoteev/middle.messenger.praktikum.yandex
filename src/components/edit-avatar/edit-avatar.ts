@@ -1,8 +1,8 @@
 import {Block, Router, Store} from 'core';
 import './edit-avatar.pcss';
-import {getAvatar, getFormData, withRouter, withStore, withUser} from 'helpers';
+import {getAvatar, getFormData, withStore} from 'helpers';
 import {uploadAvatar} from '../../controllers/user';
-import closePopup from '../../helpers/close-popup';
+import closePopup from 'helpers/close-popup';
 
 
 type EditAvatarProps = {
@@ -65,4 +65,4 @@ class EditAvatar extends Block<EditAvatarProps> {
     `;
   }
 }
-export default withRouter(withStore(withUser(EditAvatar)));
+export default withStore(EditAvatar);

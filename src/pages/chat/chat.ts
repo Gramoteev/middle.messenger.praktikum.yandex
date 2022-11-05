@@ -1,6 +1,6 @@
 import {Block, Router, Store} from 'core';
 import './chat.pcss';
-import {getFormData, Paths, withStore} from 'helpers';
+import {getFormData, Paths, withRouter, withStore} from 'helpers';
 import {DialogDTO, MessageDTO} from '../../api/types';
 import {addChat, addChatUser, deleteChatUser, getDialogs} from '../../controllers/chat';
 import closePopup from 'helpers/close-popup';
@@ -35,13 +35,11 @@ class ChatPage extends Block<ChatPageProps> {
   constructor(props: ChatPageProps) {
     super(props);
 
-    this.props.store.dispatch(getDialogs);
 
     this.setProps({
-      dialogs: this.props.store.getState().dialogs,
-      isPopupOpen: false,
-      isAddChatUserOpen: false,
-      isDeleteChatUserOpen: false,
+      user: this.props.store.getState().user,
+      isAddChatUserOpen: window.store.getState().isPopupOpen,
+      isDeleteChatUserOpen: window.store.getState().isPopupOpen,
       addChatFormError: () => this.props.store.getState().addChatFormError,
       addChatUserFormError: () => this.props.store.getState().addChatUserFormError,
       deleteChatUserFormError: () => this.props.store.getState().deleteChatUserFormError,
@@ -59,7 +57,11 @@ class ChatPage extends Block<ChatPageProps> {
       },
       onAddChat: (e: Event) => {
         e.preventDefault();
-        this.props.store.dispatch(addChat, getFormData(this.element!.querySelector('.popup')));
+        addChat(window.store.dispatch.bind(this.props.store),
+          this.props.store.getState(),
+          getFormData(this.element!.querySelector('.popup'))).then(value => {
+          this.setProps({dialogs: value});
+        });
       },
       onAddChatPopup: (e: Event) => {
         e.preventDefault();
@@ -77,22 +79,15 @@ class ChatPage extends Block<ChatPageProps> {
         click: closePopup(this.props, 'isPopupOpen','isDeleteChatUserOpen', 'isAddChatUserOpen' )
       }
     });
+    getDialogs(window.store.dispatch.bind(this.props.store)).then(value => {
+      this.setProps({dialogs: value});
+    })
   }
-
-  getContent(): HTMLElement {
-    console.log('content', this.props)
-    // this.setProps({
-    //   isPopupOpen: false,
-    //   isAddChatUserOpen: false,
-    //   isDeleteChatUserOpen: false,
-    // });
-    return super.getContent();
-  }
-
   render() {
     // language=hbs
     return `
     {{#Layout type="main" }}
+        <div class="{{#if isLoading}}layout_loading{{else}}''{{/if}}"></div>
         <main class="chat">
             <div class="chat__aside aside">
                 <div class="aside-header">
@@ -132,6 +127,7 @@ class ChatPage extends Block<ChatPageProps> {
                                 time=time
                                 content=content
                                 unreadCount=unread_count
+                                currentChatId=${this.props.currentChatId}
                         }}}
                     {{/each}}
                 </ul>
@@ -164,6 +160,7 @@ class ChatPage extends Block<ChatPageProps> {
                 <div class="chat__messages list custom-scroll">
                     {{#each messages}}
                         {{{Message
+                                currentUserId=${this.props.user?.id}
                                 userId=user_id
                                 time=time
                                 content=content}}}
@@ -245,4 +242,4 @@ class ChatPage extends Block<ChatPageProps> {
     `;
   }
 }
-export default withStore(ChatPage);
+export default withRouter(withStore(ChatPage));

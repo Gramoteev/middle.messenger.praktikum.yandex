@@ -46,7 +46,7 @@ class ChatAPI {
     return JSON.parse(response);
   }
 
-  async request(data: GetChatsRequest):Promise<GetChatsResponseData> {
+  async request(data?: GetChatsRequest):Promise<GetChatsResponseData> {
     const response = (await this.chatAPIInstance.get('/', data)).response;
     return JSON.parse(response);
   }

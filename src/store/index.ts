@@ -9,6 +9,7 @@ export const defaultState: AppState = {
   changePasswordFormError: null,
   changeAvatarFormError: null,
   deleteChatUserFormError: null,
+  isChangingPassword: false,
   addChatFormError: null,
   user: null,
   dialogs: null,
