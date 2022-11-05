@@ -1,7 +1,5 @@
-import {BaseAPI} from './base-api';
-
 import { APIError, UserDTO } from './types';
-import HTTPTransport from '../core/HTTP-transport';
+import HTTPTransport from 'core/HTTP-transport';
 
 type SignInRequestData = {
   login: string;
@@ -21,7 +19,7 @@ type SignInResponseData = Record<string, never> | APIError;
 
 type SignUpResponseData = Record<string, never> | APIError;
 
-class AuthAPI extends BaseAPI {
+class AuthAPI {
   authAPIInstance = new HTTPTransport('/auth');
 
   async signUp(data: SignUpRequestData): Promise<SignUpResponseData> {

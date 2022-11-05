@@ -1,7 +1,5 @@
-import {BaseAPI} from './base-api';
-
-import { APIError, UserDTO } from './types';
-import HTTPTransport from '../core/HTTP-transport';
+import {APIError, UserDTO} from './types';
+import HTTPTransport from 'core/HTTP-transport';
 
 type ChangePasswordRequestData = {
   oldPassword: string;
@@ -42,7 +40,7 @@ type ChangeProfileResponseData = {
 
 } | APIError;
 
-class UserAPI extends BaseAPI {
+class UserAPI {
   profileAPIInstance = new HTTPTransport('/user');
 
   async changeProfile(data: ChangeProfileRequestData): Promise<ChangeProfileResponseData> {

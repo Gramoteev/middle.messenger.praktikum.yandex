@@ -1,4 +1,3 @@
-import {BaseAPI} from './base-api';
 import HTTPTransport from '../core/HTTP-transport';
 import {APIError, DialogDTO} from './types';
 
@@ -20,7 +19,7 @@ type AddChatsResponseData = Record<string, never> | APIError;
 type UpdateChatUsersResponseData = Record<string, never> | APIError;
 type GetTokenResponseData = Indexed | APIError;
 
-class ChatAPI extends BaseAPI {
+class ChatAPI {
   chatAPIInstance = new HTTPTransport('/chats');
 
   async create(title?: AddChatsRequest):Promise<AddChatsResponseData>{
