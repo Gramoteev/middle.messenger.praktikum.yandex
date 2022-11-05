@@ -44,27 +44,54 @@ class UserAPI {
   profileAPIInstance = new HTTPTransport('/user');
 
   async changeProfile(data: ChangeProfileRequestData): Promise<ChangeProfileResponseData> {
-    const response = (await this.profileAPIInstance.put('/profile', data)).response;
-    return JSON.parse(response);
+   try {
+     const response = (await this.profileAPIInstance.put('/profile', data)).response;
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
+    }
   }
   async avatar(data: FormData): Promise<ChangeAvatarResponseData> {
-    const response = (await this.profileAPIInstance.put('/profile/avatar', data, {})).response;
-    return JSON.parse(response);
+   try {
+     const response = (await this.profileAPIInstance.put('/profile/avatar', data, {})).response;
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async changePassword(data: ChangePasswordRequestData): Promise<ChangePasswordResponseData> {
+    try {
     const response = (await this.profileAPIInstance.put('/password', data)).response;
     if (response === 'OK') {
       return {};
     }
-    return JSON.parse(response);
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
+    }
   }
   async searchUser(login: string): Promise<UserDTO[] | APIError>  {
-    return JSON.parse((await this.profileAPIInstance.post('/search', {login: login})).response);
+    try {
+    const response = (await this.profileAPIInstance.post('/search', {login: login})).response;
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async getUser(id: number): Promise<UserDTO | APIError>  {
-    return JSON.parse((await this.profileAPIInstance.get(`/${id}`)).response);
+    try {
+    const response = (await this.profileAPIInstance.get(`/${id}`)).response;
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
+    }
   }
 
 }

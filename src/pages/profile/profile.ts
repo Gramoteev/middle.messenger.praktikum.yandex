@@ -34,7 +34,7 @@ class ProfilePage extends Block<ProfilePageProps> {
       formError: () => this.props.store.getState().changeProfileFormError,
       onBack: (e: Event) => {
         e.preventDefault();
-        return this.props.router.go(Paths.Chat)
+        this.props.router.go(Paths.Chat)
       },
       onChangeData: (e: Event) => {
         e.preventDefault();

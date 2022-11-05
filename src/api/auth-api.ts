@@ -23,23 +23,39 @@ class AuthAPI {
   authAPIInstance = new HTTPTransport('/auth');
 
   async signUp(data: SignUpRequestData): Promise<SignUpResponseData> {
-    const response = (await this.authAPIInstance.post('/signup', data)).response;
-    if (response === 'OK') {
-      return {};
+   try {
+     const response = (await this.authAPIInstance.post('/signup', data)).response;
+      if (response === 'OK') {
+        return {};
+      }
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
     }
-    return JSON.parse(response);
   }
 
   async signIn(data: SignInRequestData): Promise<SignInResponseData> {
-    const response = (await this.authAPIInstance.post('/signin', data)).response;
-    if (response === 'OK') {
-      return {};
+   try {
+     const response = (await this.authAPIInstance.post('/signin', data)).response;
+      if (response === 'OK') {
+        return {};
+      }
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
     }
-    return JSON.parse(response);
   }
 
   async me(): Promise<UserDTO | APIError>  {
-    return JSON.parse((await this.authAPIInstance.get('/user')).response);
+    try {
+      const response = (await this.authAPIInstance.get('/user')).response;
+      JSON.parse(response);
+      return response;
+    } catch (e) {
+      throw e;
+    }
   }
 
   logout() {

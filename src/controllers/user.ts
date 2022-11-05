@@ -18,6 +18,7 @@ type ChangeProfilePayload = {
 };
 
 export const changeProfile = async (dispatch: Dispatch<AppState>, state: AppState, action: ChangeProfilePayload) => {
+  try{
   dispatch({ isLoading: true });
 
   const response = await userAPI.changeProfile(action);
@@ -27,9 +28,13 @@ export const changeProfile = async (dispatch: Dispatch<AppState>, state: AppStat
     return;
   }
   dispatch({isLoading: false, changeProfileFormError: null, user: transformUser(response as UserDTO) });
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const changePassword = async (dispatch: Dispatch<AppState>, state: AppState, action: ChangePasswordPayload) => {
+  try{
   dispatch({ isLoading: true });
 
   const response = await userAPI.changePassword(action);
@@ -40,9 +45,13 @@ export const changePassword = async (dispatch: Dispatch<AppState>, state: AppSta
   }
   dispatch({ isLoading: false, changePasswordFormError: null, isChangingPassword: false });
   window.router.go(Paths.Profile);
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const uploadAvatar = async (dispatch: Dispatch<AppState>, state: AppState, data: FormData) => {
+  try{
   dispatch({ isLoading: true });
 
   const response = await userAPI.avatar(data);
@@ -53,5 +62,7 @@ export const uploadAvatar = async (dispatch: Dispatch<AppState>, state: AppState
   }
 
   dispatch({ user: transformUser(response as UserDTO), isLoading: false, isPopupOpen: false, changeAvatarFormError: null });
-
+  } catch (e) {
+    console.error(e);
+  }
 };

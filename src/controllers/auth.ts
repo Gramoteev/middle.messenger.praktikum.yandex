@@ -1,8 +1,7 @@
-import type { Dispatch } from 'core';
+import type {Dispatch} from 'core';
 import {apiHasError, Paths, transformUser} from 'helpers';
 import {UserDTO} from 'api/types';
 import {authAPI} from 'api';
-import {getDialogs} from './chat';
 
 type SignInPayload = {
   login: string;
@@ -19,6 +18,7 @@ type SignUpPayload = {
 };
 
 export const signUp = async (dispatch: Dispatch<AppState>, state: AppState, action: SignUpPayload) => {
+  try {
   dispatch({ isLoading: true });
 
   const response = await authAPI.signUp(action);
@@ -40,9 +40,13 @@ export const signUp = async (dispatch: Dispatch<AppState>, state: AppState, acti
   dispatch({ user: transformUser(responseUser as UserDTO) });
 
   window.router.go(Paths.Chat);
+  }catch (e){
+    console.error(e)
+  }
 };
 
 export const signIn = async (dispatch: Dispatch<AppState>, state: AppState, action: SignInPayload) => {
+  try {
   dispatch({ isLoading: true });
 
   const response = await authAPI.signIn(action);
@@ -64,9 +68,13 @@ export const signIn = async (dispatch: Dispatch<AppState>, state: AppState, acti
   dispatch({ user: transformUser(responseUser as UserDTO) });
 
   window.router.go(Paths.Chat);
+  }catch (e){
+    console.error(e)
+  }
 };
 
 export const logout = async (dispatch: Dispatch<AppState>) => {
+  try {
   dispatch({ isLoading: true });
 
   await authAPI.logout();
@@ -74,4 +82,7 @@ export const logout = async (dispatch: Dispatch<AppState>) => {
   dispatch({ isLoading: false, user: null });
 
   window.router.go(Paths.SignIn);
+  }catch (e){
+    console.error(e)
+  }
 };

@@ -21,7 +21,7 @@ class ChangePassword extends Block<ChangePasswordProps> {
       onSubmitPassword: (e: Event) => {
         const formIsValid = isValidFormData(e, this.refs);
         if (formIsValid) {
-          let test = getFormData(this.element)
+          const test = getFormData(this.element)
           window.store.dispatch(changePassword, test);
         }
       }
