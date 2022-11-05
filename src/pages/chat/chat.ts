@@ -143,10 +143,6 @@ class ChatPage extends Block<ChatPageProps> {
             {{#if currentChatId}}
                 <div class="chat__header">
                     <div class="chat-info">
-<!--                        <img class="avatar chat-info__avatar"-->
-<!--                             src="https://pickaface.net/gallery/avatar/20140911_184056_617_demo.png"-->
-<!--                             alt="Avatar">-->
-<!--                        <div class="chat-title">Vadim</div>-->
                     </div>
                     <label class="dropdown">
                         <div class="dd-button">

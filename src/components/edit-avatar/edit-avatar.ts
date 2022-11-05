@@ -49,9 +49,6 @@ class EditAvatar extends Block<EditAvatarProps> {
                 <div class="popup__content">
                 <form class="edit-avatar" name="form-edit-avatar">
                     <h2>Upload your avatar</h2>
-                    <!--                    <label for="avatar" class="edit-avatar__upload">-->
-                    <!--                        <i class="fa fa-cloud-upload"></i> Select file<br> from computer-->
-                    <!--                    </label>-->
                     <input id="avatar" class="edit-avatar__input" type="file" name="avatar" accept="image/*">
                     <div class="profile__errors">
                         {{{Error class="error_common" text=formError }}}
