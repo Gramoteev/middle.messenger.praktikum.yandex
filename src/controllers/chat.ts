@@ -87,9 +87,6 @@ export const getDialogs = async (dispatch: Dispatch<AppState>, state: AppState, 
     return;
   }
   dispatch({isLoading: false, dialogs: response });
-// TODO: Find normal way to get list of chats on the /messenger page
-  window.router.go(Paths.SignIn);
-  window.router.go(Paths.Chat);
 };
 
 export const sendMessage = async (dispatch: Dispatch<AppState>, state: AppState, message: string) => {

@@ -13,7 +13,8 @@ export function withStore<P extends WithStateProps>(WrappedBlock: BlockClass<P>)
 
     __onChangeStoreCallback = () => {
       // @ts-expect-error this is not typed
-      this.setProps({ ...this.props, store: window.store });
+      this.setProps({ store: window.store, ...this.props  });
+      console.log('change store HOC', this.props);
     }
 
     componentDidMount(props: P) {

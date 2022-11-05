@@ -1,6 +1,6 @@
-import {Block, Router, Store, StoreEvents} from 'core';
+import {Block, Router, Store} from 'core';
 import './chat.pcss';
-import {getFormData, Paths, withCurrentChatId, withDialogs, withMessages, withRouter, withStore, withUser} from 'helpers';
+import {getFormData, Paths, withStore} from 'helpers';
 import {DialogDTO, MessageDTO} from '../../api/types';
 import {addChat, addChatUser, deleteChatUser, getDialogs} from '../../controllers/chat';
 import closePopup from 'helpers/close-popup';
@@ -25,7 +25,7 @@ type ChatPageProps = {
   onAddChatPopup?: (e: InputEvent) => void;
   onAddChatUserPopup?: (e: InputEvent) => void;
   onDeleteChatUserPopup?: (e: InputEvent) => void;
-  dialogs: DialogDTO[];
+  dialogs: DialogDTO[] | null;
   messages: MessageDTO[] | null;
   events: Indexed;
   currentChatId: number | null;
@@ -34,21 +34,21 @@ class ChatPage extends Block<ChatPageProps> {
   static componentName = 'ChatPage';
   constructor(props: ChatPageProps) {
     super(props);
-    if(!this.props.dialogs) {
-      this.props.store.dispatch(getDialogs);
-    }
+
+    this.props.store.dispatch(getDialogs);
 
     this.setProps({
+      dialogs: this.props.store.getState().dialogs,
       isPopupOpen: false,
       isAddChatUserOpen: false,
       isDeleteChatUserOpen: false,
+      addChatFormError: () => this.props.store.getState().addChatFormError,
+      addChatUserFormError: () => this.props.store.getState().addChatUserFormError,
+      deleteChatUserFormError: () => this.props.store.getState().deleteChatUserFormError,
       onNavigateProfile: (e: Event) => {
         e.preventDefault();
         this.props.router.go(Paths.Profile);
       },
-      addChatFormError: () => this.props.store.getState().addChatFormError,
-      addChatUserFormError: () => this.props.store.getState().addChatUserFormError,
-      deleteChatUserFormError: () => this.props.store.getState().deleteChatUserFormError,
       onAddChatUser: (e: Event) => {
         e.preventDefault();
         this.props.store.dispatch(addChatUser, getFormData(this.element!.querySelector('.popup')).login);
@@ -78,18 +78,15 @@ class ChatPage extends Block<ChatPageProps> {
       }
     });
   }
-  componentDidMount(props: ChatPageProps) {
-    super.componentDidMount(props);
-    window.store.on(StoreEvents.Updated, (prevState: AppState, nextState: AppState) => {
-      if (!nextState.isPopupOpen) {
-        this.setProps({
-          ...props,
-          isPopupOpen: false,
-          isAddChatUserOpen: false,
-          isDeleteChatUserOpen: false,
-        });
-      }
-    });
+
+  getContent(): HTMLElement {
+    console.log('content', this.props)
+    // this.setProps({
+    //   isPopupOpen: false,
+    //   isAddChatUserOpen: false,
+    //   isDeleteChatUserOpen: false,
+    // });
+    return super.getContent();
   }
 
   render() {
@@ -248,4 +245,4 @@ class ChatPage extends Block<ChatPageProps> {
     `;
   }
 }
-export default withRouter(withStore(withDialogs(withUser(withCurrentChatId(withMessages(ChatPage))))));
+export default withStore(ChatPage);
