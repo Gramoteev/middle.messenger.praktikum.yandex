@@ -2,28 +2,28 @@ import {BaseAPI} from './base-api';
 import HTTPTransport from '../core/HTTP-transport';
 import {APIError, DialogDTO} from './types';
 
-type addChatsRequest = {
+type AddChatsRequest = {
   title?: string;
 };
-export type updateChatUsersRequest = {
+export type UpdateChatUsersRequest = {
   users: number[];
   chatId: number;
 };
-type getChatsRequest = {
+type GetChatsRequest = {
   offset?: string;
   limit?: string;
   title?: string;
 };
 
-type getChatsResponseData = DialogDTO[] | APIError;
-type addChatsResponseData = Record<string, never> | APIError;
-type updateChatUsersResponseData = Record<string, never> | APIError;
-type getTokenResponseData = Indexed | APIError;
+type GetChatsResponseData = DialogDTO[] | APIError;
+type AddChatsResponseData = Record<string, never> | APIError;
+type UpdateChatUsersResponseData = Record<string, never> | APIError;
+type GetTokenResponseData = Indexed | APIError;
 
 class ChatAPI extends BaseAPI {
   chatAPIInstance = new HTTPTransport('/chats');
 
-  async create(title?: addChatsRequest):Promise<addChatsResponseData>{
+  async create(title?: AddChatsRequest):Promise<AddChatsResponseData>{
     const response = (await this.chatAPIInstance.post('/', title)).response;
     if (response === 'OK') {
       return {};
@@ -31,7 +31,7 @@ class ChatAPI extends BaseAPI {
     return JSON.parse(response);
   }
 
-  async deleteUsers(data: updateChatUsersRequest):Promise<updateChatUsersResponseData> {
+  async deleteUsers(data: UpdateChatUsersRequest):Promise<UpdateChatUsersResponseData> {
     const response = (await this.chatAPIInstance.delete('/users', data)).response;
     if (response === 'OK') {
       return {};
@@ -39,7 +39,7 @@ class ChatAPI extends BaseAPI {
     return JSON.parse(response);
   }
 
-  async addUsers(data: updateChatUsersRequest):Promise<updateChatUsersResponseData> {
+  async addUsers(data: UpdateChatUsersRequest):Promise<UpdateChatUsersResponseData> {
     const response = (await this.chatAPIInstance.put('/users', data)).response;
     if (response === 'OK') {
       return {};
@@ -47,11 +47,11 @@ class ChatAPI extends BaseAPI {
     return JSON.parse(response);
   }
 
-  async request(data: getChatsRequest):Promise<getChatsResponseData> {
+  async request(data: GetChatsRequest):Promise<GetChatsResponseData> {
     const response = (await this.chatAPIInstance.get('/', data)).response;
     return JSON.parse(response);
   }
-  async getToken(id: number):Promise<getTokenResponseData> {
+  async getToken(id: number):Promise<GetTokenResponseData> {
     const response = (await this.chatAPIInstance.post(`/token/${id}`)).response;
     return JSON.parse(response);
   }
