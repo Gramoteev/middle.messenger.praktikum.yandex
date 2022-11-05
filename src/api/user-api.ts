@@ -46,8 +46,7 @@ class UserAPI {
   async changeProfile(data: ChangeProfileRequestData): Promise<ChangeProfileResponseData> {
    try {
      const response = (await this.profileAPIInstance.put('/profile', data)).response;
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -55,8 +54,7 @@ class UserAPI {
   async avatar(data: FormData): Promise<ChangeAvatarResponseData> {
    try {
      const response = (await this.profileAPIInstance.put('/profile/avatar', data, {})).response;
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -68,8 +66,7 @@ class UserAPI {
     if (response === 'OK') {
       return {};
     }
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -77,8 +74,7 @@ class UserAPI {
   async searchUser(login: string): Promise<UserDTO[] | APIError>  {
     try {
     const response = (await this.profileAPIInstance.post('/search', {login: login})).response;
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -87,8 +83,7 @@ class UserAPI {
   async getUser(id: number): Promise<UserDTO | APIError>  {
     try {
     const response = (await this.profileAPIInstance.get(`/${id}`)).response;
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }

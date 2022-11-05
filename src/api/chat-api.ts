@@ -28,8 +28,7 @@ class ChatAPI {
       if (response === 'OK') {
         return {};
       }
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -41,8 +40,7 @@ class ChatAPI {
       if (response === 'OK') {
         return {};
       }
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -54,8 +52,7 @@ class ChatAPI {
       if (response === 'OK') {
         return {};
       }
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -64,8 +61,7 @@ class ChatAPI {
   async request(data?: GetChatsRequest):Promise<GetChatsResponseData> {
      try {
      const response = (await this.chatAPIInstance.get('/', data)).response;
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }
@@ -73,8 +69,7 @@ class ChatAPI {
   async getToken(id: number):Promise<GetTokenResponseData> {
      try {
      const response = (await this.chatAPIInstance.post(`/token/${id}`)).response;
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
     } catch (e) {
       throw e;
     }

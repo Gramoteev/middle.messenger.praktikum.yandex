@@ -28,8 +28,8 @@ class AuthAPI {
       if (response === 'OK') {
         return {};
       }
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
+
     } catch (e) {
       throw e;
     }
@@ -41,18 +41,19 @@ class AuthAPI {
       if (response === 'OK') {
         return {};
       }
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
+
     } catch (e) {
       throw e;
     }
   }
 
   async me(): Promise<UserDTO | APIError>  {
+    return JSON.parse((await this.authAPIInstance.get('/user')).response);
     try {
       const response = (await this.authAPIInstance.get('/user')).response;
-      JSON.parse(response);
-      return response;
+      return JSON.parse(response);
+
     } catch (e) {
       throw e;
     }
