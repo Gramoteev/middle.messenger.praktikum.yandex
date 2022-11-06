@@ -3,8 +3,8 @@
 
 Дизайн: https://www.figma.com/file/fVGyq5RMFrvnacVRDUIBZW/Smiler-Design-by-Yandex
 
-## Была ошибка n+1 - исправил
-## но пока не смог понять почему медленно работает переход по profile-chat
+## UPD
+пытаюсь разобраться как исправить многотысячный запуск функции registerComponent при переходах
 
 ### Описание
 - **Parcel** - сборка проекта
