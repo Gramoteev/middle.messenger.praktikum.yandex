@@ -1,24 +1,26 @@
-import Block from 'core/block';
-
+import {Block} from 'core';
 import './profile-field.pcss';
 
-import {validateFormElement} from "../../helpers/validate-form";
+import validateFormElement from 'helpers/validate-form';
 
 type ProfileFieldProps = {
-  onInput?: () => void;
-  onFocus?: () => void;
+  onInput?: (e: InputEvent) => void;
+  onFocus?: (e: FocusEvent) => void;
+  onBlur?: (e: FocusEvent) => void;
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
+  readonly?: any;
   value?: string;
   name?: string;
   label?: string;
   error?: string;
 }
 
-export class ProfileField extends Block {
+export class ProfileField extends Block<ProfileFieldProps> {
   static componentName = 'ProfileField';
   constructor(props: ProfileFieldProps) {
-    super({...props,
+    super(props);
+    this.setProps({
       onInput: (e: InputEvent) => {
         const element = e.target as HTMLInputElement;
         const errorMessage = validateFormElement(element);
@@ -56,6 +58,8 @@ export class ProfileField extends Block {
                       name="{{name}}"
                       type="{{type}}"
                       placeholder="{{placeholder}}"
+                      value="{{value}}"
+                      readonly=readonly
                       onFocus=onFocus
                       onInput=onInput
                       onBlur=onBlur

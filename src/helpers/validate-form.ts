@@ -1,6 +1,7 @@
 export enum ValidateName {
   Login = 'login',
   Email = 'email',
+  Message = 'message',
   Password = 'password',
   OldPassword = 'oldPassword',
   NewPassword = 'newPassword',
@@ -10,10 +11,16 @@ export enum ValidateName {
   Phone = 'phone',
 }
 
-export function validateFormElement(element: HTMLInputElement): string {
+export default function validateFormElement(element: HTMLInputElement): string {
   const name: string = element.name;
   const value: string = element.value;
   let errorMessage = '';
+
+  if(name === ValidateName.Message) {
+    if (value.length == 0) {
+      errorMessage = "Can't be empty";
+    }
+  }
 
   if(name === ValidateName.Email) {
     if (!/^[\w+-]+(\.[\w+-]+)*@[\w-]+(\.[\w-]+)+$/.test(value)) {

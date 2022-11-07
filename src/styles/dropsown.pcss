@@ -1,0 +1,48 @@
+/* Dropdown */
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+.dd-button {
+  display: inline-block;
+  cursor: pointer;
+  padding: 5 10px;
+}
+.dd-input {
+  display: none;
+}
+.dd-menu {
+  position: absolute;
+  top: 100%;
+  border: 1px solid var(--gray70);
+  border-radius: 4px;
+  padding: 0;
+  margin: 2px 0 0;
+  box-shadow: 0 0 6px 0 rgb(0 0 0 / 10%);
+  background-color: #fff;
+  list-style-type: none;
+  right: 0;
+}
+.dd-input + .dd-menu {
+  display: none;
+}
+.dd-input:checked + .dd-menu {
+  display: block;
+}
+.dd-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dd-menu li:hover {
+  background-color: var(--gray70);
+}
+.dd-menu li a {
+  display: block;
+  margin: -10px -20px;
+  padding: 10px 20px;
+}
+.dd-menu li.divider {
+  padding: 0;
+  border-bottom: 1px solid var(--gray80);
+}

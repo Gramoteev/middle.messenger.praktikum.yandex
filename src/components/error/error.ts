@@ -1,5 +1,4 @@
-import Block from 'core/block';
-
+import {Block} from 'core';
 import './error.pcss'
 
 type ErrorProps = {
@@ -12,7 +11,7 @@ export class Error extends Block<ErrorProps> {
   protected render(): string {
     // language=hbs
     return `
-        <div class="error {{class}}">{{#if text}}{{text}}{{/if}}</div>
+        <div class='error {{class}}'>{{#if text}}{{text}}{{/if}}</div>
     `
   }
 }

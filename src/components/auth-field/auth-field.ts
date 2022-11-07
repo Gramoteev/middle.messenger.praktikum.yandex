@@ -1,11 +1,12 @@
-import Block from 'core/block';
+import {Block} from 'core';
 
 import './auth-field.pcss';
-import {validateFormElement} from "helpers/validate-form";
+import validateFormElement from 'helpers/validate-form';
 
 type AuthFieldProps = {
-  onInput?: () => void;
-  onFocus?: () => void;
+  onInput?: (e: InputEvent) => void;
+  onFocus?: (e: FocusEvent) => void;
+  onBlur?: (e: FocusEvent) => void;
   type?: 'text' | 'password' | 'email';
   placeholder?: string;
   value?: string;
@@ -14,10 +15,11 @@ type AuthFieldProps = {
   error?: string;
 }
 
-export class AuthField extends Block {
+export class AuthField extends Block<AuthFieldProps> {
   static componentName = 'AuthField';
   constructor(props: AuthFieldProps) {
-    super({...props,
+    super(props);
+    this.setProps({
       onInput: (e: InputEvent) => {
         const element = e.target as HTMLInputElement;
         const errorMessage = validateFormElement(element);

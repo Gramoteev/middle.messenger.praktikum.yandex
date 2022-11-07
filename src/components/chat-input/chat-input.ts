@@ -1,47 +1,48 @@
-import Block from 'core/block';
+import {Block, Store, StoreEvents} from 'core';
 import './chat-input.pcss';
+import {withStore} from 'helpers';
+import {sendMessage} from '../../controllers/chat';
 
 type ChatInputProps = {
-  onSubmit?: () => void;
+  onSubmit?: (e: Event) => void;
   onInput?: () => void;
   onFocus?: () => void;
+  store: Store<AppState>;
 }
 
-export class ChatInput extends Block {
+export class ChatInput extends Block<ChatInputProps> {
   static componentName = 'ChatInput';
   constructor(props: ChatInputProps) {
-    super({...props,
-      onInput: (e: InputEvent) => {
-      },
-      onFocus: (e: FocusEvent) => {
-      },
-      onBlur: (e: FocusEvent) => {
-      },
+    super(props);
+
+    this.setProps({
       onSubmit: (e: Event) => {
         e.preventDefault();
-
         let isValid = true;
         const element = this.refs.message.element as HTMLTextAreaElement;
         if (element.value.length === 0) {
           isValid = false;
         }
         if (isValid) {
-          const form = this.element as HTMLFormElement;
-          const formData = new FormData(form);
-          for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-          }
+          window.store.dispatch(sendMessage, element.value);
         }
+        element.value = '';
+        window.store.on(StoreEvents.Updated, () => {
+          const chat = document.querySelector(`.chat__messages`);
+          if (chat) {
+            chat.scrollTop = chat.scrollHeight;
+          }
+        });
       }
-
     });
   }
 
   protected render(): string {
     // language=hbs
     return `
+        <div>
         <form class="{{class}} chat-input">
-            <button class="button button_icon chat-input__attach" type="button">
+            {{#ButtonIcon type="button" onClick=onChatSettings class="chat-input__attach" }}
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M7.18662 13.5L14.7628 5.92389L15.7056 6.8667L8.12943 14.4428L7.18662 13.5Z" fill="#999999"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70067 16.0141L17.2768 8.43793L18.2196 9.38074L10.6435 16.9569L9.70067 16.0141Z" fill="#999999"/>
@@ -51,7 +52,7 @@ export class ChatInput extends Block {
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M22.6195 13.7806L23.5623 14.7234C26.003 12.2826 26.0118 8.3341 23.5819 5.90417C21.152 3.47424 17.2035 3.48303 14.7627 5.92381L15.7055 6.86662C17.6233 4.94887 20.7257 4.94196 22.6349 6.85119C24.5441 8.76042 24.5372 11.8628 22.6195 13.7806Z" fill="#999999"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70092 16.0144C7.95751 17.7578 7.95123 20.5782 9.68689 22.3138C11.4226 24.0495 14.2429 24.0432 15.9863 22.2998L15.0435 21.357C13.8231 22.5774 11.8489 22.5818 10.6339 21.3668C9.41894 20.1518 9.42334 18.1776 10.6437 16.9572L9.70092 16.0144Z" fill="#999999"/>
                 </svg>
-            </button>
+            {{/ButtonIcon}}
             {{{Textarea
                     class="chat-input__text"
                     name="message"
@@ -62,13 +63,16 @@ export class ChatInput extends Block {
                     onInput=onInput
                     onBlur=onBlur
             }}}
-            {{#ButtonIcon type="submit" onClick=onSubmit }}
+            {{#ButtonIcon type="submit" circle=true onClick=onSubmit }}
                 <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect y="5.19995" width="11" height="1.6" fill="white"/>
                     <path d="M7 1L11 6L7 11" stroke="white" stroke-width="1.6"/>
                 </svg>
             {{/ButtonIcon}}
         </form>
+        </div>
     `
   }
+
 }
+export default ChatInput;

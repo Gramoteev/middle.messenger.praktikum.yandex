@@ -4,8 +4,8 @@
   &__aside {
     min-width: 311px;
     width: 311px;
-    background: #fbfbfb;
-    border-right: 1px solid var(--borders);
+    background: var(--gray60);
+    border-right: 1px solid var(--gray80);
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -15,12 +15,17 @@
     justify-content: space-between;
     width: 100%;
   }
+  &__hello {
+    position: relative;
+    top: 50%;
+    align-self: center;
+  }
   &__header {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
     margin: 0 20px;
-    border-bottom: 1px solid var(--borders);
+    border-bottom: 1px solid var(--gray80);
   }
   &__messages {
     list-style: none;
@@ -31,7 +36,7 @@
   &__footer {
     padding: 10px 0;
     margin: 0 20px;
-    border-top: 1px solid var(--borders);
+    border-top: 1px solid var(--gray80);
   }
 }
 .chat-title {
@@ -48,22 +53,27 @@
 }
 .aside-header {
   line-height: 0;
-  margin: 0 10px 14px;
+  margin: 17px 10px;
   overflow: hidden;
   text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   &__link {
     display: inline-block;
     text-decoration: none;
     font-size: 13px;
-    margin: 17px 0;
-    padding: 5px 0;
+    a {
+      text-decoration: none;
+    }
   }
 }
 .aside-search {
   position: relative;
-  background: var(--gray-bg);
+  background: var(--gray70);
   border-radius: 5px;
   box-sizing: border-box;
+  margin: 0 10px 17px;
   &__input {
     box-sizing: border-box;
     width: 100%;
@@ -75,7 +85,7 @@
     padding: 0 10px;
     &:not(:placeholder-shown),
     &:focus {
-      background: var(--gray-bg);
+      background: var(--gray70);
     }
   }
   &__label {
@@ -93,13 +103,13 @@
   overflow-y: scroll;
   height: calc(100% - 100px);
   box-sizing: border-box;
-  padding: 0 10px;
+  padding: 0;
   margin: 0;
 }
 .custom-scroll {
   transition: scrollbar-color 0.3s ease;
   pointer-events: auto;
-  scrollbar-color: none var(--gray-bg);
+  scrollbar-color: none var(--gray70);
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar {
@@ -109,6 +119,6 @@
     box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
   }
   &::-webkit-scrollbar-track {
-    background: var(--gray-bg);
+    background: var(--gray70);
   }
 }

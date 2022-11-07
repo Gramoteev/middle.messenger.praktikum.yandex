@@ -4,6 +4,7 @@
   "description": "Smiler - веб мессенджер",
   "alias": {
     "core": "./src/core",
+    "api": "./src/api",
     "components": "./src/components",
     "helpers": "./src/helpers",
     "pages": "./src/pages",
@@ -34,7 +35,9 @@
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
     "babel-core": "6.26.3",
+    "chai": "4.3.6",
     "eslint": "8.24.0",
+    "mocha": "10.1.0",
     "parcel": "2.7.0",
     "parcel-plugin-handlebars-precompile": "1.0.2",
     "postcss": "8.4.16",

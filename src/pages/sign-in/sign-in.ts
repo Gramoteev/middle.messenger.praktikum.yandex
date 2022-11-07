@@ -1,39 +1,57 @@
-import Block from 'core/block';
-import {validateFormElement} from "helpers/validate-form";
+import {Block, Router, Store} from 'core';
+import {getFormData, isValidFormData, Paths, withRouter, withStore} from 'helpers';
+import {signIn} from '../../controllers/auth';
 
-export class SignInPage extends Block {
+type SignInPageProps = {
+  user: User | null;
+  router: Router;
+  store: Store<AppState>;
+  isLoading: boolean;
+  formError?: () => string | null;
+  onNavigateNext?: (e: Event) => void;
+  onSubmit?: (e: Event) => void;
+};
+
+export class SignInPage extends Block<SignInPageProps> {
   static componentName = 'SignInPage';
-  constructor() {
-    super();
+  constructor(props: SignInPageProps) {
+    super(props);
 
     this.setProps({
+      user: this.props.store.getState().user,
+      formError: () => this.props.store.getState().signInFormError,
+      onNavigateNext: (e: Event) => this.onNavigateNext(e),
       onSubmit: (e: Event) => {
-        e.preventDefault();
-
-        let isValid = true;
-        Object.entries(this.refs).forEach(fieldRef => {
-          const element = fieldRef[1].element?.querySelector(`#${fieldRef[0]}`) as HTMLInputElement;
-          const errorMessage = validateFormElement(element);
-          this.refs[element.id].refs.errorRef.setProps({text: errorMessage});
-          if (errorMessage) {
-            isValid = false;
-          }
-        });
-        if (isValid) {
-          const form = this.element?.querySelector('#form') as HTMLFormElement;
-          const formData = new FormData(form);
-          for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-          }
+        const formIsValid = isValidFormData(e, this.refs);
+        if (formIsValid) {
+          this.props.store.dispatch(signIn, getFormData(this.element));
         }
       }
     });
   }
+  onNavigateNext(e: Event) {
+    e.preventDefault();
+    if (this.props.store.getState().user?.id) {
+      this.props.router.go(Paths.Chat);
+    } else {
+      this.props.router.go(Paths.SignUp);
+    }
+  }
 
   render() {
+    if (this.props.user?.id) {
+      // language=hbs
+      return `
+        {{#Layout type="auth" }}
+          <h2 class="text-center">You are already logged in</h2>
+        {{{Button text="Go in app" type="submit" onClick=onNavigateNext}}}
+        {{/Layout}}
+      `
+    }
     // language=hbs
     return `
     {{#Layout type="auth" }}
+        <div class="{{#if isLoading}}layout_loading{{else}}''{{/if}}"></div>
         <form id="form" class="form auth-form">
             <div class="auth-form__content">
                 <h1 class="auth-form__title">Sign in</h1>
@@ -53,11 +71,13 @@ export class SignInPage extends Block {
                 }}}
             </div>
             <div class="auth-form__footer">
+                {{{Error class="error_common" text=formError }}}
                 {{{Button text="Sign in" type="submit" onClick=onSubmit}}}
-                {{{Link class="auth-form__footer-link" text="Registration" to="/"}}}
+                {{{Link class="auth-form__footer-link" text="Sign Up" to="${Paths.SignUp}" onClick=onNavigateNext}}}
             </div>
         </form>
     {{/Layout}}
     `;
   }
 }
+export default withRouter(withStore(SignInPage));

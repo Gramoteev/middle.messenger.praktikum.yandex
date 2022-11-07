@@ -3,6 +3,9 @@
 
 Дизайн: https://www.figma.com/file/fVGyq5RMFrvnacVRDUIBZW/Smiler-Design-by-Yandex
 
+## UPD
+пытаюсь разобраться как исправить многотысячный запуск функции registerComponent при переходах
+
 ### Описание
 - **Parcel** - сборка проекта
 - **Handlebars** шаблонизатор
