@@ -1,11 +1,10 @@
-import {Block, Router, Store} from 'core';
+import {Block} from 'core';
 
 import './popup.pcss';
+import {withPopups} from 'helpers';
+import closePopup from '../../helpers/close-popup';
 
 type PopupProps = {
-  user: User | null;
-  router: Router;
-  store: Store<AppState>;
   isLoading: boolean;
   isPopupOpen: boolean;
   formError?: () => string | null;
@@ -20,13 +19,8 @@ class Popup extends Block<PopupProps> {
     super(props);
 
     this.setProps({
-      isPopupOpen: false,
       events: {
-        click: (e: Event) => {
-          if (e.target.classList[0] === 'popup') {
-            this.props.isPopupOpen = false;
-          }
-        }
+        click: closePopup('isPopupOpen' )
       }
     })
   }
@@ -34,11 +28,10 @@ class Popup extends Block<PopupProps> {
   protected render(): string {
     // language=hbs
     return `
-
-            <div class="popup {{#if isPopupOpen}}popup_hidden{{/if}}">
+            <div class="popup {{#if isPopupOpen}}{{else}}popup_hidden{{/if}}">
               <div class="popup__content" data-slot=1></div>
             </div>
     `
   }
 }
-export default Popup;
+export default withPopups(Popup);

@@ -1,7 +1,6 @@
 import {Block, Store, StoreEvents} from 'core';
 import './chat-input.pcss';
-import {withStore} from 'helpers';
-import {sendMessage} from '../../controllers/chat';
+import {sendMessage} from 'controllers/chat';
 
 type ChatInputProps = {
   onSubmit?: (e: Event) => void;

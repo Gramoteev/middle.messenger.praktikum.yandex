@@ -6,6 +6,7 @@
     "core": "./src/core",
     "api": "./src/api",
     "components": "./src/components",
+    "controllers": "./src/controllers",
     "helpers": "./src/helpers",
     "pages": "./src/pages",
     "styles": "./src/styles"

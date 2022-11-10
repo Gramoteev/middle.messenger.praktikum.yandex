@@ -1,6 +1,6 @@
 import {Block, Router, Store} from 'core';
 import {getFormData, isValidFormData, withRouter} from 'helpers';
-import {changePassword} from '../../controllers/user';
+import {changePassword} from 'controllers/user';
 
 type ChangePasswordProps = {
   user: User | null;

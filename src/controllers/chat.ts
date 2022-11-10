@@ -3,7 +3,6 @@ import {apiHasError} from 'helpers';
 import {chatAPI, userAPI} from 'api'
 import messagesController from './messages';
 import {UpdateChatUsersRequest} from '../api/chat-api';
-import {DialogDTO} from '../api/types';
 
 type GetChatPayload = {
   offset?: string;
@@ -71,25 +70,25 @@ export const addChatUser = async (dispatch: Dispatch<AppState>, state: AppState,
 };
 
 
-export const addChat = async (dispatch: Dispatch<AppState>, action: AddChatPayload): Promise<DialogDTO[]> => {
+export const addChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddChatPayload) => {
   try {
   dispatch({ isLoading: true });
 
   const response = await chatAPI.create(action);
 
   if (apiHasError(response)) {
-    dispatch({ isLoading: false });
+    dispatch({ isLoading: false, addChatFormError: response.reason });
     return;
   }
-  dispatch({isPopupOpen: false, isLoading: false});
-  return getDialogs(dispatch);
+  dispatch({isPopupOpen: false});
+  dispatch(getDialogs);
   }catch (e){
     console.error(e)
   }
 };
 
 
-export const getDialogs = async (dispatch: Dispatch<AppState>, state?: AppState, action?: GetChatPayload): Promise<DialogDTO[]> => {
+export const getDialogs = async (dispatch: Dispatch<AppState>, state?: AppState, action?: GetChatPayload) => {
   try {
   dispatch({ isLoading: true });
 
@@ -99,8 +98,7 @@ export const getDialogs = async (dispatch: Dispatch<AppState>, state?: AppState,
     dispatch({ isLoading: false });
     return;
   }
-  dispatch({isLoading: false });
-  return response;
+  dispatch({isLoading: false, dialogs: response });
   }catch (e){
     throw e;
   }

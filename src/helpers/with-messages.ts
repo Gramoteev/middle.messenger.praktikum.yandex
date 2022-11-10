@@ -1,10 +1,9 @@
 import {BlockClass, StoreEvents} from 'core';
 import {MessageDTO} from '../api/types';
-import {isEqual} from './index';
 
-type WithMessages = { messages: MessageDTO[] | null };
+type WithMessagesProps = { messages: MessageDTO[] | null };
 
-export function withMessages<P extends WithMessages>(WrappedBlock: BlockClass<P>) {
+export function withMessages<P extends WithMessagesProps>(WrappedBlock: BlockClass<P>) {
   // @ts-expect-error No base constructor has the specified
   return class extends WrappedBlock<P> {
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
@@ -14,10 +13,8 @@ export function withMessages<P extends WithMessages>(WrappedBlock: BlockClass<P>
     }
 
     __onChangeMessagesCallback = (prevState: AppState, nextState: AppState) => {
-      if (!isEqual(prevState.messages, nextState.messages)) {
         // @ts-expect-error this is not typed
         this.setProps({ ...this.props, messages: nextState.messages });
-      }
     }
 
     componentDidMount(props: P) {

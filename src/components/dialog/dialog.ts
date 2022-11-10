@@ -2,7 +2,7 @@ import {Block, Router, Store} from 'core';
 
 import './dialog.pcss';
 import {getAvatar} from 'helpers';
-import {getCurrentDialog} from '../../controllers/chat';
+import {getCurrentDialog} from 'controllers/chat';
 
 type DialogProps = {
   id: number;

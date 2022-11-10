@@ -1,6 +1,6 @@
 import {Block, Router, Store} from 'core';
-import {getFormData, isValidFormData, Paths, withRouter, withStore} from 'helpers';
-import {signIn} from '../../controllers/auth';
+import {getFormData, isValidFormData, Paths, Screens, withIsLoading, withRouter, withUser} from 'helpers';
+import {signIn} from 'controllers/auth';
 
 type SignInPageProps = {
   user: User | null;
@@ -18,26 +18,28 @@ export class SignInPage extends Block<SignInPageProps> {
     super(props);
 
     this.setProps({
-      user: this.props.store.getState().user,
-      formError: () => this.props.store.getState().signInFormError,
+      formError: () => window.store.getState().signInFormError,
       onNavigateNext: (e: Event) => this.onNavigateNext(e),
       onSubmit: (e: Event) => {
         const formIsValid = isValidFormData(e, this.refs);
         if (formIsValid) {
-          this.props.store.dispatch(signIn, getFormData(this.element));
+          window.store.dispatch(signIn, getFormData(this.element));
         }
       }
     });
   }
   onNavigateNext(e: Event) {
     e.preventDefault();
-    if (this.props.store.getState().user?.id) {
+    if (window.store.getState().user?.id) {
       this.props.router.go(Paths.Chat);
     } else {
       this.props.router.go(Paths.SignUp);
     }
   }
 
+  componentDidUpdate() {
+    return window.store.getState().screen === Screens.SignIn;
+  }
   render() {
     if (this.props.user?.id) {
       // language=hbs
@@ -80,4 +82,4 @@ export class SignInPage extends Block<SignInPageProps> {
     `;
   }
 }
-export default withRouter(withStore(SignInPage));
+export default withRouter(withUser(withIsLoading(SignInPage)));

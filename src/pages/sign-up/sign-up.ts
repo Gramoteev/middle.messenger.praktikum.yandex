@@ -1,6 +1,6 @@
-import {getFormData, isValidFormData, Paths, withRouter, withStore} from 'helpers';
+import {getFormData, isValidFormData, Paths, Screens, withIsLoading, withRouter, withUser} from 'helpers';
 import {Block, Router, Store} from 'core';
-import {signUp} from '../../controllers/auth';
+import {signUp} from 'controllers/auth';
 
 type SignUpPageProps = {
   user: User | null;
@@ -18,23 +18,26 @@ export class SignUpPage extends Block<SignUpPageProps> {
     super(props);
 
     this.setProps({
-      formError: () => this.props.store.getState().signUpFormError,
+      formError: () => window.store.getState().signUpFormError,
       onNavigateNext: (e: Event) => this.onNavigateNext(e),
       onSubmit: (e: Event) => {
         const formIsValid = isValidFormData(e, this.refs);
         if (formIsValid) {
-          this.props.store.dispatch(signUp, getFormData(this.element));
+          window.store.dispatch(signUp, getFormData(this.element));
         }
       }
     });
   }
   onNavigateNext(e: Event) {
     e.preventDefault();
-    if (this.props.store.getState().user?.id) {
+    if (window.store.getState().user?.id) {
       this.props.router.go(Paths.Chat);
     } else {
       this.props.router.go(Paths.SignIn);
     }
+  }
+  componentDidUpdate() {
+    return window.store.getState().screen === Screens.SignUp;
   }
 
   render() {
@@ -50,6 +53,7 @@ export class SignUpPage extends Block<SignUpPageProps> {
     // language=hbs
     return `
     {{#Layout type="auth" }}
+        <div class="{{#if isLoading}}layout_loading{{else}}''{{/if}}"></div>
         <form class="form auth-form">
             <div class="auth-form__content">
                 <h1 class="auth-form__title">Sign Up</h1>
@@ -119,4 +123,4 @@ export class SignUpPage extends Block<SignUpPageProps> {
   }
 }
 
-export default withRouter(withStore(SignUpPage));
+export default withRouter(withUser(withIsLoading(SignUpPage)));
