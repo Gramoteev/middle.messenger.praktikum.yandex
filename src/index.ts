@@ -6,8 +6,6 @@ import * as components from 'components';
 import {initRouter} from './router';
 import {initApp} from './controllers/init-app';
 
-require('babel-core/register');
-
 
 Object.values(components).forEach((Component: any) => {
   registerComponent(Component);
