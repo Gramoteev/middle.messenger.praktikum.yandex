@@ -1,7 +1,6 @@
 import Handlebars from 'handlebars';
 import {nanoid} from 'nanoid';
 import {EventBus} from 'core';
-import mergeDeep from 'helpers/merge-deep';
 
 type Events = Values<typeof Block.EVENTS>;
 export type BlockRefs = {
@@ -26,7 +25,7 @@ export default class Block<P extends Indexed> {
   public id = nanoid(6);
 
   protected _element: Nullable<HTMLElement> = null;
-  protected readonly props: P;
+  protected props: P;
   protected children: {[id: string]: Block<{}>} = {};
 
   eventBus: EventBus<Events>;
@@ -36,7 +35,7 @@ export default class Block<P extends Indexed> {
   public constructor(props?: P) {
     this.eventBus = new EventBus<Events>();
 
-    this.props = this._makePropsProxy(props || {} as P);
+    this.props = props || ({} as P);
 
 
     this._registerEvents(this.eventBus);
@@ -100,12 +99,16 @@ export default class Block<P extends Indexed> {
     return true;
   }
 
-  setProps = (nextProps: Partial<P>) => {
-    if (!nextProps) {
+  setProps = (nextPartialProps: Partial<P>) => {
+    if (!nextPartialProps) {
       return;
     }
+    const prevProps = this.props
+    const nextProps = { ...prevProps, ...nextPartialProps }
 
-    Object.assign(this.props, nextProps);
+    this.props = nextProps
+
+    this.eventBus.emit(Block.EVENTS.FLOW_CDU, prevProps, nextProps);
   };
 
   get element() {
@@ -137,24 +140,6 @@ export default class Block<P extends Indexed> {
       }, 100)
     }
     return this.element!;
-  }
-
-  private _makePropsProxy(props: any): any {
-    return new Proxy(props as unknown as object, {
-      get: (target: Record<string, unknown>, prop: string) => {
-        const value = target[prop];
-        return typeof value === 'function' ? value.bind(target) : value;
-      },
-      set: (target: Record<string, unknown>, prop: string, value: unknown) => {
-        target[prop] = value;
-
-        this.eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
-        return true;
-      },
-      deleteProperty: () => {
-        throw new Error('Нет доступа');
-      },
-    }) as unknown as P;
   }
 
   private _createDocumentElement(tagName: string) {
@@ -213,6 +198,7 @@ export default class Block<P extends Indexed> {
 
       if (slotContent && stubChildren.length) {
         slotContent.append(...stubChildren);
+        delete slotContent.dataset.slot;
       }
     });
 
