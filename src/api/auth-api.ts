@@ -15,8 +15,8 @@ type SignUpRequestData = {
   phone: string;
 };
 
+// Эти две функции возвращают пустой объект поэтому я указываю Record<string, never>
 type SignInResponseData = Record<string, never> | APIError;
-
 type SignUpResponseData = Record<string, never> | APIError;
 
 class AuthAPI {
