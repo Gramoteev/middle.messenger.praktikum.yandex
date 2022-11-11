@@ -19,6 +19,11 @@
     "eslint": "eslint **/*.ts --fix",
     "stylelint": "stylelint **/*.pcss --fix"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "echo \"[Husky] pre-commit\""
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Gramoteev/middle.messenger.praktikum.yandex.git"
@@ -64,10 +69,5 @@
     "express": "4.18.1",
     "nanoid": "4.0.0",
     "normalize.css": "8.0.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run eslint && npm run stylelint"
-    }
   }
 }
