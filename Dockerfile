@@ -4,9 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i
-RUN npm run build
 
 EXPOSE 3000
 
+RUN npm i
 CMD npm run start
