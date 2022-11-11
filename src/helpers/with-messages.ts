@@ -12,13 +12,14 @@ export function withMessages<P extends WithMessagesProps>(WrappedBlock: BlockCla
       super({ ...props, messages: window.store.getState().messages });
     }
 
+    // @ts-expect-error prevState is not typed
     __onChangeMessagesCallback = (prevState: AppState, nextState: AppState) => {
         // @ts-expect-error this is not typed
         this.setProps({ ...this.props, messages: nextState.messages });
     }
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
+    componentDidMount() {
+      super.componentDidMount();
       window.store.on(StoreEvents.Updated, this.__onChangeMessagesCallback);
     }
 

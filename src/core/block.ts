@@ -62,12 +62,12 @@ export default class Block<P extends Indexed> {
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  private _componentDidMount(props: P) {
+  private _componentDidMount() {
     this._checkInDom();
-    this.componentDidMount(props);
+    this.componentDidMount();
   }
 
-  componentDidMount(props: P) {}
+  componentDidMount() {}
   componentWillUnmount() {}
 
   private _checkInDom() {
@@ -86,15 +86,15 @@ export default class Block<P extends Indexed> {
   }
 
 
-  private _componentDidUpdate(oldProps: P, newProps: P) {
-    const propsDidUpdate = this.componentDidUpdate(oldProps, newProps);
+  private _componentDidUpdate() {
+    const propsDidUpdate = this.componentDidUpdate();
     if (!propsDidUpdate) {
       return;
     }
     this._render();
   }
 
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate() {
     this.children = {};
     return true;
   }

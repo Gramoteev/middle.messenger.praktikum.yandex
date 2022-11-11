@@ -20,8 +20,8 @@ export function withIsChangingPassword<P extends WithIsChangingPassword>(Wrapped
       }
     }
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
+    componentDidMount() {
+      super.componentDidMount();
       window.store.on(StoreEvents.Updated, this.__onChangeIsChangingPasswordCallback);
     }
 

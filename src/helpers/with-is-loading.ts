@@ -20,8 +20,8 @@ export function withIsLoading<P extends WithIsLoading>(WrappedBlock: BlockClass<
       }
     }
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
+    componentDidMount() {
+      super.componentDidMount();
       window.store.on(StoreEvents.Updated, this.__onChangeIsLoadingCallback);
     }
 

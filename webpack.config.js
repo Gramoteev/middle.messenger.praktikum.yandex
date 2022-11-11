@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.ts',
+  entry: { main: './src/index.ts' },
   devServer: {
     static: path.join(__dirname, 'dist'),
     compress: true,
@@ -23,6 +23,7 @@ module.exports = {
       fs: false,
     },
     alias: {
+      handlebars: 'handlebars/dist/cjs/handlebars.runtime',
       core: path.resolve(__dirname, 'src/core'),
       api: path.resolve(__dirname, 'src/Api'),
       pages: path.resolve(__dirname, 'src/pages'),

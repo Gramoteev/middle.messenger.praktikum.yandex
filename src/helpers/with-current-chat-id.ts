@@ -18,8 +18,8 @@ export function withCurrentChatId<P extends WithCurrentChatIdProps>(WrappedBlock
       }
     }
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
+    componentDidMount() {
+      super.componentDidMount();
       window.store.on(StoreEvents.Updated, this.__onChangeCurrentChatIdCallback);
     }
 

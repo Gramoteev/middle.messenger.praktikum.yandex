@@ -34,8 +34,8 @@ export function withPopups<P extends WithPopups>(WrappedBlock: BlockClass<P>) {
       }
     }
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
+    componentDidMount() {
+      super.componentDidMount();
       window.store.on(StoreEvents.Updated, this.__onChangePopupCallback);
     }
 
