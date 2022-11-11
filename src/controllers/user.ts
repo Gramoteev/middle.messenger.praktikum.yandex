@@ -1,7 +1,7 @@
-import type { Dispatch } from 'core';
 import {apiHasError, Paths, transformUser} from 'helpers';
 import {UserDTO} from 'api/types';
 import {userAPI} from 'api';
+import {DispatchArgs} from '../core/store';
 
 type ChangePasswordPayload = {
   oldPassword: string;
@@ -17,8 +17,9 @@ type ChangeProfilePayload = {
   phone: string;
 };
 
-export const changeProfile = async (dispatch: Dispatch<AppState>, state: AppState, action: ChangeProfilePayload) => {
+export const changeProfile = async (args: DispatchArgs<AppState, ChangeProfilePayload>) => {
   try{
+  const {dispatch, action} = args;
   dispatch({ isLoading: true });
 
   const response = await userAPI.changeProfile(action);
@@ -33,8 +34,9 @@ export const changeProfile = async (dispatch: Dispatch<AppState>, state: AppStat
   }
 };
 
-export const changePassword = async (dispatch: Dispatch<AppState>, state: AppState, action: ChangePasswordPayload) => {
+export const changePassword = async (args: DispatchArgs<AppState, ChangePasswordPayload>) => {
   try{
+  const {dispatch, action} = args;
   dispatch({ isLoading: true });
 
   const response = await userAPI.changePassword(action);
@@ -50,11 +52,12 @@ export const changePassword = async (dispatch: Dispatch<AppState>, state: AppSta
   }
 };
 
-export const uploadAvatar = async (dispatch: Dispatch<AppState>, state: AppState, data: FormData) => {
+export const uploadAvatar = async (args: DispatchArgs<AppState, FormData>) => {
   try{
+  const {dispatch, action} = args;
   dispatch({ isLoading: true });
 
-  const response = await userAPI.avatar(data);
+  const response = await userAPI.avatar(action);
 
   if (apiHasError(response)) {
     dispatch({ isLoading: false, changeAvatarFormError: response.reason });

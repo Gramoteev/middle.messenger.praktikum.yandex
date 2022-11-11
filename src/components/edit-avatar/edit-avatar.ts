@@ -3,6 +3,7 @@ import './edit-avatar.pcss';
 import {getAvatar, getFormData, withPopups, withUser} from 'helpers';
 import {uploadAvatar} from 'controllers/user';
 import closePopup from 'helpers/close-popup';
+import {PopupNames} from '../../helpers/with-popups';
 
 
 type EditAvatarProps = {
@@ -31,7 +32,7 @@ class EditAvatar extends Block<EditAvatarProps> {
         this.render();
       },
       events: {
-        click: closePopup('isPopupOpen' )
+        click: closePopup(PopupNames.isPopupOpen)
       }
     });
   }

@@ -24,7 +24,8 @@ class Dialog extends Block<DialogProps> {
     this.setProps({
       events: {
         click: (e: Event) => {
-          window.store.dispatch(getCurrentDialog, e.currentTarget?.id);
+          const currentTarget = e.currentTarget as Element;
+          window.store.dispatch(getCurrentDialog, currentTarget?.id);
         }
       }
     })

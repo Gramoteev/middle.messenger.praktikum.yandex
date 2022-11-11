@@ -1,8 +1,8 @@
-import type {Dispatch} from 'core';
 import {apiHasError} from 'helpers';
 import {chatAPI, userAPI} from 'api'
 import messagesController from './messages';
 import {UpdateChatUsersRequest} from '../api/chat-api';
+import {DispatchArgs} from '../core/store';
 
 type GetChatPayload = {
   offset?: string;
@@ -12,7 +12,10 @@ type GetChatPayload = {
 type AddChatPayload = {
   title?: string;
 };
-export const deleteChatUser = async (dispatch: Dispatch<AppState>, state: AppState, action: string) => {
+
+export const deleteChatUser = async (args: DispatchArgs<AppState, string>) => {
+  const {dispatch, state, action} = args;
+
   try {
   dispatch({ isLoading: true });
 
@@ -42,7 +45,8 @@ export const deleteChatUser = async (dispatch: Dispatch<AppState>, state: AppSta
   }
 };
 
-export const addChatUser = async (dispatch: Dispatch<AppState>, state: AppState, action: string) => {
+export const addChatUser = async (args: DispatchArgs<AppState, string>) => {
+  const {dispatch, state, action} = args;
   try {
   dispatch({ isLoading: true });
 
@@ -70,7 +74,8 @@ export const addChatUser = async (dispatch: Dispatch<AppState>, state: AppState,
 };
 
 
-export const addChat = async (dispatch: Dispatch<AppState>, state: AppState, action: AddChatPayload) => {
+export const addChat = async (args: DispatchArgs<AppState, AddChatPayload>) => {
+  const {dispatch, action} = args;
   try {
   dispatch({ isLoading: true });
 
@@ -88,7 +93,8 @@ export const addChat = async (dispatch: Dispatch<AppState>, state: AppState, act
 };
 
 
-export const getDialogs = async (dispatch: Dispatch<AppState>, state?: AppState, action?: GetChatPayload) => {
+export const getDialogs = async (args: DispatchArgs<AppState, GetChatPayload>) => {
+  const {dispatch, action} = args;
   try {
   dispatch({ isLoading: true });
 
@@ -104,14 +110,17 @@ export const getDialogs = async (dispatch: Dispatch<AppState>, state?: AppState,
   }
 };
 
-export const sendMessage = async (dispatch: Dispatch<AppState>, state: AppState, message: string) => {
-  messagesController.sendMessage(message);
+export const sendMessage = async (args: DispatchArgs<AppState, string>) => {
+  const {action} = args;
+  messagesController.sendMessage(action);
 };
-export const getCurrentDialog = async (dispatch: Dispatch<AppState>, state: AppState, chatId: number) => {
-  try {
-  dispatch({currentChatId: chatId, isLoading: true, messages: null});
 
-  const response = await chatAPI.getToken(chatId);
+export const getCurrentDialog = async (args: DispatchArgs<AppState, number>) => {
+  const {dispatch, state, action} = args;
+  try {
+  dispatch({currentChatId: action, isLoading: true, messages: null});
+
+  const response = await chatAPI.getToken(action);
 
 
   if (apiHasError(response)) {
@@ -125,7 +134,7 @@ export const getCurrentDialog = async (dispatch: Dispatch<AppState>, state: AppS
   const userId = state.user.id;
   const token = response.token;
 
-  messagesController.connect(userId, chatId, token);
+  messagesController.connect(userId, action, token);
   dispatch({ isLoading: false });
   }catch (e){
     console.error(e)

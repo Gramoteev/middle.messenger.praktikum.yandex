@@ -1,5 +1,12 @@
 import {BlockClass, StoreEvents} from 'core';
 
+export enum PopupNames {
+  isPopupOpen = 'isPopupOpen',
+  isAddChatUserOpen = 'isAddChatUserOpen',
+  isDeleteChatUserOpen = 'isDeleteChatUserOpen'
+}
+export type PopupName = PopupNames.isPopupOpen | PopupNames.isAddChatUserOpen | PopupNames.isDeleteChatUserOpen;
+
 type WithPopups = {
     isPopupOpen: boolean;
     isAddChatUserOpen?: boolean;
@@ -43,5 +50,5 @@ export function withPopups<P extends WithPopups>(WrappedBlock: BlockClass<P>) {
       super.componentWillUnmount();
       window.store.off(StoreEvents.Updated, this.__onChangePopupCallback);
     }
-  } as BlockClass<Omit<P, 'isPopupOpen | isAddChatUserOpen | isDeleteChatUserOpen '>>;
+  } as BlockClass<Omit<P, PopupName>>;
 }

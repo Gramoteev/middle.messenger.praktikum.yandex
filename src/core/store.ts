@@ -7,10 +7,10 @@ export type Dispatch<State> = (
 
 export type DispatchAction<State> = ( args: DispatchArgs<State>) => void;
 
-export type DispatchArgs<State> = {
+export type DispatchArgs<State, Action = any> = {
   dispatch: Dispatch<State>,
   state: State,
-  action: any,
+  action: Action,
 }
 
 export enum StoreEvents {

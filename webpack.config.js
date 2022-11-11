@@ -1,16 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',
   entry: { main: './src/index.ts' },
   devServer: {
-    static: path.join(__dirname, 'dist'),
+    static: path.join(__dirname, './dist'),
     compress: true,
     port: 4000,
     open: true,
-    hot: true
   },
   devtool: 'source-map',
   output: {
@@ -23,7 +23,7 @@ module.exports = {
       fs: false,
     },
     alias: {
-      handlebars: 'handlebars/dist/cjs/handlebars.runtime',
+      handlebars: 'handlebars/dist/cjs/handlebars.js',
       core: path.resolve(__dirname, 'src/core'),
       api: path.resolve(__dirname, 'src/Api'),
       pages: path.resolve(__dirname, 'src/pages'),
@@ -53,11 +53,11 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
-        type: 'asset/inline',
+        test: /\.(woff(2)?|eot|ttf|otf|svg|png|jpg)$/,
+        type: 'asset/resource',
       },
       {
-        test: /\.css$/,
+        test: /\.css|pcss$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -73,7 +73,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    // new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
+    new Dotenv()
   ],
+
 };

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.router = router;
   window.store = store;
 
-  store.on(StoreEvents.Updated, (prevState, nextState) => {
+  store.on(StoreEvents.Updated, (nextState) => {
     if (process.env.DEBUG) {
       console.log(
         '%cstore updated',

@@ -3,6 +3,7 @@ import {Block} from 'core';
 import './popup.pcss';
 import {withPopups} from 'helpers';
 import closePopup from '../../helpers/close-popup';
+import {PopupNames} from '../../helpers/with-popups';
 
 type PopupProps = {
   isLoading: boolean;
@@ -20,7 +21,7 @@ class Popup extends Block<PopupProps> {
 
     this.setProps({
       events: {
-        click: closePopup('isPopupOpen' )
+        click: closePopup( PopupNames.isPopupOpen )
       }
     })
   }

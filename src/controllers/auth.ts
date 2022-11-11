@@ -1,7 +1,7 @@
-import type {Dispatch} from 'core';
 import {apiHasError, Paths, transformUser} from 'helpers';
 import {UserDTO} from 'api/types';
 import {authAPI} from 'api';
+import {DispatchArgs} from '../core/store';
 
 type SignInPayload = {
   login: string;
@@ -17,7 +17,8 @@ type SignUpPayload = {
   phone: string;
 };
 
-export const signUp = async (dispatch: Dispatch<AppState>, state: AppState, action: SignUpPayload) => {
+export const signUp = async (args: DispatchArgs<AppState, SignUpPayload>) => {
+  const {dispatch, action} = args;
   try {
   dispatch({ isLoading: true });
 
@@ -45,7 +46,8 @@ export const signUp = async (dispatch: Dispatch<AppState>, state: AppState, acti
   }
 };
 
-export const signIn = async (dispatch: Dispatch<AppState>, state: AppState, action: SignInPayload) => {
+export const signIn = async (args: DispatchArgs<AppState, SignInPayload>) => {
+  const {dispatch, action} = args;
   try {
   dispatch({ isLoading: true });
 
@@ -73,7 +75,8 @@ export const signIn = async (dispatch: Dispatch<AppState>, state: AppState, acti
   }
 };
 
-export const logout = async (dispatch: Dispatch<AppState>) => {
+export const logout = async (args: DispatchArgs<AppState>) => {
+  const {dispatch} = args;
   try {
   dispatch({ isLoading: true });
 

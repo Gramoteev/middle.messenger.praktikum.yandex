@@ -8,6 +8,7 @@ export default class Router {
       this.isStarted = true;
 
       window.onpopstate = (event: PopStateEvent) => {
+        console.log(event)
         this.onRouteChange.call(this);
       };
 

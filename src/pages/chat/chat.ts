@@ -15,6 +15,7 @@ import {
 import {DialogDTO, MessageDTO} from 'api/types';
 import {addChat, addChatUser, deleteChatUser, getDialogs} from 'controllers/chat';
 import closePopup from 'helpers/close-popup';
+import {PopupNames} from '../../helpers/with-popups';
 
 type ChatPageProps = {
   user: User | null;
@@ -81,7 +82,7 @@ class ChatPage extends Block<ChatPageProps> {
         window.store.dispatch({isDeleteChatUserOpen: true});
       },
       events: {
-        click: closePopup('isPopupOpen','isDeleteChatUserOpen', 'isAddChatUserOpen' )
+        click: closePopup(PopupNames.isPopupOpen, PopupNames.isAddChatUserOpen, PopupNames.isDeleteChatUserOpen )
       }
     });
   }
