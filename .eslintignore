@@ -1,3 +1,9 @@
 /node_modules
 /dist
-/.parcel-cache
+**/*.min.js
+/node_modules
+/.github
+/api
+server.js
+babel.config.js
+webpack.config.js

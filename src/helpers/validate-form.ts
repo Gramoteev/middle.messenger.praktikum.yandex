@@ -50,7 +50,7 @@ export default function validateFormElement(element: HTMLInputElement): string {
   }
 
   if(name === ValidateName.First_name || name === ValidateName.Second_name) {
-    if (!/^[a-zA-Zа-яА-Я\-]*$/.test(value)) {
+    if (!/^[a-zA-Zа-яА-Я]*$/.test(value)) {
       errorMessage = 'Use only Latin or Cyrillic letters';
     } else if (!/^[A-ZА-ЯЁ]{1}/.test(value)) {
       errorMessage = 'Capitalize first letter';

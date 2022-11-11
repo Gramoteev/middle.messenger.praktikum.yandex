@@ -7,8 +7,8 @@ module.exports = {
   mode: 'development',
   entry: { main: './src/index.ts' },
   devServer: {
-    publicPath: "/assets/",
     static: path.join(__dirname, './dist'),
+    historyApiFallback: true,
     compress: true,
     port: 4000,
     open: true,

@@ -4,11 +4,11 @@ import {EventBus} from 'core';
 
 type Events = Values<typeof Block.EVENTS>;
 export type BlockRefs = {
-  [key: string]: Block<{}>
+  [key: string]: Block<Record<string, any>>
 }
 
 export interface BlockClass<P> extends Function {
-  new (props: P): Block<{}>;
+  new (props: P): Block<Record<string, any>>;
   componentName?: string;
 }
 
@@ -26,7 +26,7 @@ export default class Block<P extends Indexed> {
 
   protected _element: Nullable<HTMLElement> = null;
   protected props: P;
-  protected children: {[id: string]: Block<{}>} = {};
+  protected children: {[id: string]: Block<Record<string, any>>} = {};
 
   eventBus: EventBus<Events>;
 

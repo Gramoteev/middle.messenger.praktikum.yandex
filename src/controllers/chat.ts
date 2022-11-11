@@ -106,7 +106,7 @@ export const getDialogs = async (args: DispatchArgs<AppState, GetChatPayload>) =
   }
   dispatch({isLoading: false, dialogs: response });
   }catch (e){
-    throw e;
+    console.error(e)
   }
 };
 

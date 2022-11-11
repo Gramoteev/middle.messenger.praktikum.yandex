@@ -64,7 +64,6 @@ export default class HTTPTransport {
       }
 
       xhr.onload = function() {
-        // @ts-ignore
         resolve(xhr);
       };
 
