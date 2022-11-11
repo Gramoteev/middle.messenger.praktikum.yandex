@@ -1,7 +1,7 @@
 {
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
-  "description": "Smiler - веб мессенджер",
+  "description": "Smiler - web messenger",
   "alias": {
     "core": "./src/core",
     "api": "./src/api",
@@ -17,7 +17,8 @@
     "start": "npm run build && node ./server.js",
     "build": "webpack --mode production",
     "eslint": "eslint **/*.ts --fix",
-    "stylelint": "stylelint **/*.pcss --fix"
+    "stylelint": "stylelint **/*.pcss --fix",
+    "docker": "docker build -t smiler ."
   },
   "husky": {
     "hooks": {

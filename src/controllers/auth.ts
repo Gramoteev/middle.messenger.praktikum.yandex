@@ -1,7 +1,7 @@
 import {apiHasError, Paths, transformUser} from 'helpers';
 import {UserDTO} from 'api/types';
 import {authAPI} from 'api';
-import {DispatchArgs} from '../core/store';
+import {DispatchArgs} from 'core/store';
 
 type SignInPayload = {
   login: string;

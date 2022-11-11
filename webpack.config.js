@@ -26,7 +26,7 @@ module.exports = {
     alias: {
       handlebars: 'handlebars/dist/cjs/handlebars.js',
       core: path.resolve(__dirname, 'src/core'),
-      api: path.resolve(__dirname, 'src/Api'),
+      api: path.resolve(__dirname, 'src/api'),
       pages: path.resolve(__dirname, 'src/pages'),
       components: path.resolve(__dirname, 'src/components'),
       helpers: path.resolve(__dirname, 'src/helpers'),
