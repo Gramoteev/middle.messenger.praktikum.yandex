@@ -4,7 +4,7 @@
 Дизайн: https://www.figma.com/file/fVGyq5RMFrvnacVRDUIBZW/Smiler-Design-by-Yandex
 
 ### Описание
-- **Parcel** - сборка проекта
+- **Webpack** - сборка проекта
 - **Handlebars** шаблонизатор
 - **PostCSS** - стилизация
 
