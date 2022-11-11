@@ -7,6 +7,7 @@ module.exports = {
   mode: 'development',
   entry: { main: './src/index.ts' },
   devServer: {
+    publicPath: "/assets/",
     static: path.join(__dirname, './dist'),
     compress: true,
     port: 4000,
@@ -53,7 +54,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(woff(2)?|eot|ttf|otf|svg|png|jpg)$/,
+        test: /\.(woff(2)?|eot|ttf|otf|svg|png|jpg|ico)$/,
         type: 'asset/resource',
       },
       {
