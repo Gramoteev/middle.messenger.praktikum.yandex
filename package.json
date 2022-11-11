@@ -21,7 +21,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit\""
+      "pre-commit": "npm run eslint && npm run stylelint"
     }
   },
   "repository": {
