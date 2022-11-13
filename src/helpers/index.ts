@@ -1,4 +1,3 @@
-export { default as queryStringify } from './query-stringify';
 export { default as validateFormElement } from './validate-form';
 export { default as isEqual } from './is-equal';
 export { default as getAvatar } from './get-avatar';

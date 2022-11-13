@@ -5,7 +5,7 @@ export enum PopupNames {
   isAddChatUserOpen = 'isAddChatUserOpen',
   isDeleteChatUserOpen = 'isDeleteChatUserOpen'
 }
-export type PopupName = PopupNames.isPopupOpen | PopupNames.isAddChatUserOpen | PopupNames.isDeleteChatUserOpen;
+export type PopupName = `${PopupNames}`;
 
 type WithPopups = {
     isPopupOpen: boolean;

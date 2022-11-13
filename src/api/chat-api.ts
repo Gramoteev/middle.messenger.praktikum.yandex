@@ -1,5 +1,5 @@
-import HTTPTransport from '../core/HTTP-transport';
 import {APIError, DialogDTO} from './types';
+import {EventBus, HTTPTransport} from 'core';
 
 type AddChatsRequest = {
   title?: string;
@@ -21,6 +21,7 @@ type GetTokenResponseData = Indexed | APIError;
 
 class ChatAPI {
   chatAPIInstance = new HTTPTransport('/chats');
+  eventbus = new EventBus();
 
   async create(title?: AddChatsRequest):Promise<AddChatsResponseData>{
       const response = (await this.chatAPIInstance.post('/', title)).response;

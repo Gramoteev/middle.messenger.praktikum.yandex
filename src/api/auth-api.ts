@@ -1,5 +1,5 @@
 import { APIError, UserDTO } from './types';
-import HTTPTransport from 'core/HTTP-transport';
+import {HTTPTransport} from 'core';
 
 type SignInRequestData = {
   login: string;

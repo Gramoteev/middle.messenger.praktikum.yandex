@@ -1,5 +1,8 @@
 ## Smiler - приложение для общения
-Демо: https://gentle-griffin-f3f916.netlify.app/
+
+Netlify: https://gentle-griffin-f3f916.netlify.app/
+
+Heroku: https://ya-smiler.herokuapp.com/
 
 Дизайн: https://www.figma.com/file/fVGyq5RMFrvnacVRDUIBZW/Smiler-Design-by-Yandex
 
@@ -8,6 +11,7 @@
 - **Handlebars** шаблонизатор
 - **PostCSS** - стилизация
 - **Husky** - precommit
+- **Jest** - тесты
 
 ### Основные команды
 
@@ -18,4 +22,6 @@
 `npm run start` — сборка проекта и запуск express сервера
 
 `npm run build` — сборка проекта
+
+`npm run test` — запуск тестов
 

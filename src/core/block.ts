@@ -12,7 +12,7 @@ export interface BlockClass<P> extends Function {
   componentName?: string;
 }
 
-export default class Block<P extends Indexed> {
+export default abstract class Block<P extends Indexed> {
   static componentName: string;
   static EVENTS = {
     INIT: 'init',
@@ -25,7 +25,7 @@ export default class Block<P extends Indexed> {
   public id = nanoid(6);
 
   protected _element: Nullable<HTMLElement> = null;
-  protected props: P;
+  protected props: Readonly<P>;
   protected children: {[id: string]: Block<Record<string, any>>} = {};
 
   eventBus: EventBus<Events>;
@@ -127,9 +127,7 @@ export default class Block<P extends Indexed> {
     this._addEvents();
   }
 
-  protected render(): string {
-    return '';
-  }
+  protected abstract render(): string;
 
   getContent(): HTMLElement {
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
