@@ -28,12 +28,12 @@ describe('core/Block', () => {
   });
 
   it('get content', () => {
-    expect(block.getContent().innerHTML).toBe("TestBlock");
+    expect(block.getContent().innerHTML).toBe('TestBlock');
   });
 
   it('update content', () => {
     block.setProps({id: 'NewBlock'})
-    expect(block.getContent().innerHTML).toBe("NewBlock");
+    expect(block.getContent().innerHTML).toBe('NewBlock');
   });
 
 });

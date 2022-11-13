@@ -16,7 +16,7 @@ type Options = {
 }
 
 export default class HTTPTransport {
-  constructor(_urlPrefix: string = '') {
+  constructor(_urlPrefix = '') {
     this._urlPrefix = _urlPrefix;
   }
   private readonly _urlPrefix: string;
