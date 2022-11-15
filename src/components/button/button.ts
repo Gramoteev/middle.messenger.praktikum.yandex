@@ -4,16 +4,22 @@ import './button.pcss';
 type ButtonProps = {
   text: string;
   type: string;
+  onSubmit?: () => void;
   onClick?: () => void;
   events: Indexed;
 }
 
 export class Button extends Block<ButtonProps> {
   static componentName = 'Button';
-  constructor({onClick, ...props}: ButtonProps) {
+  constructor({onSubmit, onClick, ...props}: ButtonProps) {
     super(props);
+    // const buttonEvents = {};
+    // if (this.props.onSubmit) {
+    //   buttonEvents.submit =
+    // }
+
     this.setProps({
-      events: {click: onClick}
+      events: {submit: onSubmit, click: onClick}
     });
   }
 

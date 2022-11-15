@@ -54,7 +54,7 @@ export class SignInPage extends Block<SignInPageProps> {
     return `
     {{#Layout type="auth" }}
         <div class="{{#if isLoading}}layout_loading{{else}}''{{/if}}"></div>
-        <form id="form" class="form auth-form">
+        {{#Form onSubmit=onSubmit class="form auth-form"}}
             <div class="auth-form__content">
                 <h1 class="auth-form__title">Sign in</h1>
                 {{{AuthField
@@ -74,10 +74,10 @@ export class SignInPage extends Block<SignInPageProps> {
             </div>
             <div class="auth-form__footer">
                 {{{Error class="error_common" text=formError }}}
-                {{{Button text="Sign in" type="submit" onClick=onSubmit}}}
+                {{{Button text="Sign in" type="submit"}}}
                 {{{Link class="auth-form__footer-link" text="Sign Up" to="${Paths.SignUp}" onClick=onNavigateNext}}}
             </div>
-        </form>
+        {{/Form}}
     {{/Layout}}
     `;
   }

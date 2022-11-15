@@ -1,7 +1,7 @@
 import {Block, Router, Store} from 'core';
 
 import './profile.pcss';
-import {getFormData, isValidFormData, Paths, Screens, withRouter, withUser} from 'helpers';
+import {getFormData, isValidFormData, Paths, Screens, withIsLoading, withRouter, withUser} from 'helpers';
 import {logout} from 'controllers/auth';
 import {changeProfile} from 'controllers/user';
 import {withIsChangingPassword} from '../../helpers/with-is-changing-password';
@@ -76,8 +76,8 @@ class ProfilePage extends Block<ProfilePageProps> {
           </div>
       {{else}}
           <div class="profile__data">
-              <form>
-                  {{{ProfileField
+          {{#Form onSubmit=onSubmitProfile}}
+              {{{ProfileField
                           ref="email"
                           onInput=onInput
                           onFocus=onFocus
@@ -147,9 +147,9 @@ class ProfilePage extends Block<ProfilePageProps> {
                       {{{Error class="error_common" text=formError }}}
                   </div>
                   <div class="profile__save" style="display: ${this.props.isReadonlyData ? 'none' : 'flex'}">
-                      {{{Button  text="Save" type="button" onClick=onSubmitProfile}}}
+                      {{{Button  text="Save" type="submit"}}}
                   </div>
-              </form>
+          {{/Form}}
           </div>
       {{/if}}
       {{#if isChangingPassword}}
@@ -179,4 +179,4 @@ class ProfilePage extends Block<ProfilePageProps> {
     `;
   }
 }
-export default withRouter(withUser(withIsChangingPassword(ProfilePage)));
+export default withRouter(withUser(withIsChangingPassword(withIsLoading(ProfilePage))));

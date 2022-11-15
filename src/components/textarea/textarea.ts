@@ -1,21 +1,21 @@
 import {Block} from 'core';
 
-type InputProps = {
+type TextareaProps = {
   onInput?: () => void;
-  onBlur?: () => void;
   onFocus?: () => void;
+  onKeypress?: () => void;
   placeholder?: string;
   events: Indexed;
   name?: string;
   rows?: string;
 }
 
-export class Textarea extends Block<InputProps> {
+export class Textarea extends Block<TextareaProps> {
   static componentName = 'Textarea';
-  constructor({onBlur, onInput, onFocus, ...props}: InputProps) {
+  constructor({onInput, onKeypress, onFocus, ...props}: TextareaProps) {
     super(props);
     this.setProps({
-      events: {input: onInput, focus: onFocus, blur: onBlur}
+      events: {input: onInput, focus: onFocus, keypress: onKeypress}
     });
   }
 

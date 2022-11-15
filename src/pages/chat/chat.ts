@@ -3,7 +3,7 @@ import './chat.pcss';
 import {
   getFormData,
   Paths,
-  Screens,
+  Screens, validateFormElement,
   withCurrentChatId,
   withDialogs,
   withIsLoading,
@@ -15,7 +15,7 @@ import {
 import {DialogDTO, MessageDTO} from 'api/types';
 import {addChat, addChatUser, deleteChatUser, getDialogs} from 'controllers/chat';
 import closePopup from 'helpers/close-popup';
-import {PopupNames} from '../../helpers/with-popups';
+import {PopupNames} from 'helpers/with-popups';
 
 type ChatPageProps = {
   user: User | null;
@@ -59,11 +59,21 @@ class ChatPage extends Block<ChatPageProps> {
       },
       onAddChatUser: (e: Event) => {
         e.preventDefault();
-        window.store.dispatch(addChatUser, getFormData(this.element!.querySelector('.popup-add-user')).login);
+        const form = this.element!.querySelector('.popup-add-user');
+        const loginField = form?.querySelector('#login') as HTMLInputElement;
+        const errorMessage = validateFormElement(loginField);
+        errorMessage ?
+          window.store.dispatch({ addChatUserFormError: errorMessage }) :
+          window.store.dispatch(addChatUser, loginField.value);
       },
       onDeleteChatUser: (e: Event) => {
         e.preventDefault();
-        window.store.dispatch(deleteChatUser, getFormData(this.element!.querySelector('.popup-delete-user')).login);
+        const form = this.element!.querySelector('.popup-delete-user');
+        const loginField = form?.querySelector('#login') as HTMLInputElement;
+        const errorMessage = validateFormElement(loginField);
+        errorMessage ?
+          window.store.dispatch({ deleteChatUserFormError: errorMessage }) :
+          window.store.dispatch(deleteChatUser, loginField.value);
       },
       onAddChat: (e: Event) => {
         e.preventDefault();
@@ -174,9 +184,7 @@ class ChatPage extends Block<ChatPageProps> {
                     {{/each}}
                 </div>
                 <div class="chat__footer">
-                    {{{ChatInput
-                        onSubmit=onSubmit
-                    }}}
+                    {{{ChatInput}}}
                 </div>
             {{else}}
                 <div class="chat__hello">Please select chat</div>
@@ -185,66 +193,56 @@ class ChatPage extends Block<ChatPageProps> {
 
 
         </main>
-        {{#if isPopupOpen}}
-            <div class="popup">
-            <div class="popup__content">
-                <form class="add-chat" name="form-add-chat">
-                    <h2>Add chat</h2>
-                    {{{AuthField
-                            ref="title"
-                            type="text"
-                            name="title"
-                            label="Chat name"
-                            placeholder=" "
-                    }}}
-                    <div class="profile__errors">
-                        {{{Error class="error_common" text=addChatFormError }}}
-                    </div>
-                    {{{Button text="Add chat" type="submit" onClick=onAddChat}}}
-                </form>
+        <div class="popup {{#if isPopupOpen}}{{else}}popup_hidden{{/if}}">
+          {{#Popup onSubmit=onAddChat}}
+            <h2 class="text-center">Add chat</h2>
+            {{{AuthField
+                    ref="title"
+                    type="text"
+                    name="title"
+                    label="Chat name"
+                    placeholder=" "
+            }}}
+            <div class="profile__errors">
+                {{{Error class="error_common" text=addChatFormError }}}
             </div>
+            {{{Button text="Add chat" type="submit"}}}
+          {{/Popup}}
+        </div>
+        <div class="popup popup-delete-user {{#if isDeleteChatUserOpen}}{{else}}popup_hidden{{/if}}">
+          {{#Popup onSubmit=onDeleteChatUser}}
+            <h2 class="text-center">Delete user</h2>
+            {{{AuthField
+                    ref="login"
+                    type="text"
+                    name="login"
+                    label="Login"
+                    placeholder=" "
+            }}}
+            <div class="profile__errors">
+                {{{Error class="error_common" text=deleteChatUserFormError }}}
             </div>
-        {{/if}}
-        {{#if isDeleteChatUserOpen}}
-            <div class="popup popup-delete-user">
-                <div class="popup__content">
-                    <form class="delete-chat-user" name="form-delete-chat-user">
-                        <h2>Delete user</h2>
-                        {{{AuthField
-                                ref="login"
-                                type="text"
-                                name="login"
-                                label="Login"
-                                placeholder=" "
-                        }}}
-                        <div class="profile__errors">
-                            {{{Error class="error_common" text=deleteChatUserFormError }}}
-                        </div>
-                        {{{Button text="Delete user" type="submit" onClick=onDeleteChatUser}}}
-                    </form>
+            {{{Button text="Delete user" type="submit"}}}
+          {{/Popup}}
+        </div>
+            <div class="popup popup-add-user {{#if isAddChatUserOpen}}{{else}}popup_hidden{{/if}}">
+              {{#Popup onSubmit=onAddChatUser}}
+                <h2 class="text-center">Add user</h2>
+                {{{AuthField
+                        ref="login"
+                        type="text"
+                        name="login"
+                        label="Login"
+                        placeholder=" "
+                }}}
+                <div class="profile__errors">
+                    {{{Error class="error_common" text=addChatUserFormError }}}
                 </div>
+                {{{Button text="Add user" type="submit"}}}
+              {{/Popup}}
             </div>
-        {{/if}}
-        {{#if isAddChatUserOpen}}
-            <div class="popup popup-add-user">
-                <div class="popup__content">
-                    <form class="add-chat-user" name="form-add-chat-user">
-                        <h2>Add user</h2>
-                        {{{AuthField
-                                ref="login"
-                                type="text"
-                                name="login"
-                                label="Login"
-                                placeholder=" "
-                        }}}
-                        <div class="profile__errors">
-                            {{{Error class="error_common" text=addChatUserFormError }}}
-                        </div>
-                        {{{Button text="Add user" type="submit" onClick=onAddChatUser}}}
-                    </form>
-                </div>
-            </div>
-        {{/if}}
+        </div>
+        </div>
     {{/Layout}}
     `;
   }
