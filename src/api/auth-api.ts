@@ -1,5 +1,6 @@
 import { APIError, UserDTO } from './types';
 import {HTTPTransport} from 'core';
+import checkResponse from 'helpers/check-response';
 
 type SignInRequestData = {
   login: string;
@@ -24,18 +25,12 @@ class AuthAPI {
 
   async signUp(data: SignUpRequestData): Promise<SignUpResponseData> {
      const response = (await this.authAPIInstance.post('/signup', data)).response;
-      if (response === 'OK') {
-        return {};
-      }
-      return JSON.parse(response);
+     return checkResponse(response)
   }
 
   async signIn(data: SignInRequestData): Promise<SignInResponseData> {
      const response = (await this.authAPIInstance.post('/signin', data)).response;
-      if (response === 'OK') {
-        return {};
-      }
-      return JSON.parse(response);
+     return checkResponse(response)
   }
 
   async me(): Promise<UserDTO | APIError>  {

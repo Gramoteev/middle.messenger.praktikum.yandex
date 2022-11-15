@@ -46,7 +46,7 @@ export class SignInPage extends Block<SignInPageProps> {
       return `
         {{#Layout type="auth" }}
           <h2 class="text-center">You are already logged in</h2>
-        {{{Button text="Go in app" type="submit" onClick=onNavigateNext}}}
+        {{{Button text="Go in app" type="button" onClick=onNavigateNext}}}
         {{/Layout}}
       `
     }

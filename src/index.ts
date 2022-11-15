@@ -1,5 +1,5 @@
 import {defaultState} from './store';
-import {registerComponent, Router, Store, StoreEvents} from 'core';
+import {registerComponent, Router, Store} from 'core';
 
 import 'styles/style.pcss';
 import * as components from 'components';
@@ -21,16 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   window.router = router;
   window.store = store;
-
-  store.on(StoreEvents.Updated, (nextState) => {
-    if (process.env.DEBUG) {
-      console.log(
-        '%cstore updated',
-        'background: #222; color: #bada55',
-        nextState,
-      );
-    }
-  });
 
   /**
    * Инициализируем роутер
