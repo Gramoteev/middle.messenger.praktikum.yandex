@@ -1,4 +1,4 @@
-import {HTTPTransport} from '../index';
+import {HTTPTransport} from './index';
 
 describe('core/HTTPTransport', () => {
   const http = new HTTPTransport();

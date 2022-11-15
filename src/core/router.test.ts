@@ -1,4 +1,4 @@
-import Router from '../router';
+import Router from './router';
 
 describe('core/Router', () => {
   const router = new Router();

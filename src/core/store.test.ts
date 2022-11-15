@@ -1,4 +1,4 @@
-import Store, {StoreEvents} from '../store';
+import Store, {StoreEvents} from './store';
 
 describe('core/Store', () => {
   it('should set state', () => {
