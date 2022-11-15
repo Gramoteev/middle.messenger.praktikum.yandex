@@ -18,7 +18,7 @@ class Message extends Block<MessageProps> {
     super(props);
   }
 
-  author(userId: number) {
+  author(userId: number): 'own' | 'incoming' {
     return userId === this.props.currentUserId ? 'own' : 'incoming';
   }
 

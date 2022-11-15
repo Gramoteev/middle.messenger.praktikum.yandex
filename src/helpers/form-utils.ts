@@ -1,5 +1,5 @@
 import {validateFormElement} from './index';
-import { BlockRefs } from 'core';
+import {BlockRefs} from 'core';
 
 export function isValidFormData(e: Event, refs: BlockRefs) {
   e.preventDefault();
@@ -17,7 +17,7 @@ export function isValidFormData(e: Event, refs: BlockRefs) {
 }
 export function getFormData(element: Nullable<HTMLElement>, returnFormData = false) {
   let formObj: Indexed = {};
-  const form = element?.querySelector('form') as HTMLFormElement;
+  const form = element?.tagName === 'FORM' ? element as HTMLFormElement : element?.querySelector('form') as HTMLFormElement;
 
   const formData = new FormData(form);
   if (returnFormData) {

@@ -1,19 +1,18 @@
 import Handlebars from 'handlebars';
 import {nanoid} from 'nanoid';
 import {EventBus} from 'core';
-import mergeDeep from 'helpers/merge-deep';
 
 type Events = Values<typeof Block.EVENTS>;
 export type BlockRefs = {
-  [key: string]: Block<{}>
+  [key: string]: Block<Record<string, any>>
 }
 
 export interface BlockClass<P> extends Function {
-  new (props: P): Block<{}>;
+  new (props: P): Block<Record<string, any>>;
   componentName?: string;
 }
 
-export default class Block<P extends Indexed> {
+export default abstract class Block<P extends Indexed> {
   static componentName: string;
   static EVENTS = {
     INIT: 'init',
@@ -26,8 +25,8 @@ export default class Block<P extends Indexed> {
   public id = nanoid(6);
 
   protected _element: Nullable<HTMLElement> = null;
-  protected readonly props: P;
-  protected children: {[id: string]: Block<{}>} = {};
+  protected props: Readonly<P>;
+  protected children: {[id: string]: Block<Record<string, any>>} = {};
 
   eventBus: EventBus<Events>;
 
@@ -36,7 +35,7 @@ export default class Block<P extends Indexed> {
   public constructor(props?: P) {
     this.eventBus = new EventBus<Events>();
 
-    this.props = this._makePropsProxy(props || {} as P);
+    this.props = props || ({} as P);
 
 
     this._registerEvents(this.eventBus);
@@ -63,12 +62,12 @@ export default class Block<P extends Indexed> {
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  private _componentDidMount(props: P) {
+  private _componentDidMount() {
     this._checkInDom();
-    this.componentDidMount(props);
+    this.componentDidMount();
   }
 
-  componentDidMount(props: P) {}
+  componentDidMount() {}
   componentWillUnmount() {}
 
   private _checkInDom() {
@@ -87,25 +86,29 @@ export default class Block<P extends Indexed> {
   }
 
 
-  private _componentDidUpdate(oldProps: P, newProps: P) {
-    const propsDidUpdate = this.componentDidUpdate(oldProps, newProps);
+  private _componentDidUpdate() {
+    const propsDidUpdate = this.componentDidUpdate();
     if (!propsDidUpdate) {
       return;
     }
     this._render();
   }
 
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate() {
     this.children = {};
     return true;
   }
 
-  setProps = (nextProps: Partial<P>) => {
-    if (!nextProps) {
+  setProps = (nextPartialProps: Partial<P>) => {
+    if (!nextPartialProps) {
       return;
     }
+    const prevProps = this.props
+    const nextProps = { ...prevProps, ...nextPartialProps }
 
-    Object.assign(this.props, nextProps);
+    this.props = nextProps
+
+    this.eventBus.emit(Block.EVENTS.FLOW_CDU, prevProps, nextProps);
   };
 
   get element() {
@@ -124,9 +127,7 @@ export default class Block<P extends Indexed> {
     this._addEvents();
   }
 
-  protected render(): string {
-    return '';
-  }
+  protected abstract render(): string;
 
   getContent(): HTMLElement {
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
@@ -137,24 +138,6 @@ export default class Block<P extends Indexed> {
       }, 100)
     }
     return this.element!;
-  }
-
-  private _makePropsProxy(props: any): any {
-    return new Proxy(props as unknown as object, {
-      get: (target: Record<string, unknown>, prop: string) => {
-        const value = target[prop];
-        return typeof value === 'function' ? value.bind(target) : value;
-      },
-      set: (target: Record<string, unknown>, prop: string, value: unknown) => {
-        target[prop] = value;
-
-        this.eventBus.emit(Block.EVENTS.FLOW_CDU, {...target}, target);
-        return true;
-      },
-      deleteProperty: () => {
-        throw new Error('Нет доступа');
-      },
-    }) as unknown as P;
   }
 
   private _createDocumentElement(tagName: string) {
@@ -213,6 +196,7 @@ export default class Block<P extends Indexed> {
 
       if (slotContent && stubChildren.length) {
         slotContent.append(...stubChildren);
+        delete slotContent.dataset.slot;
       }
     });
 

@@ -1,9 +1,10 @@
 import {Block, Router, Store} from 'core';
 
 import './profile.pcss';
-import {getFormData, isValidFormData, Paths, withRouter, withStore, withUser} from 'helpers';
-import {logout} from '../../controllers/auth';
-import {changeProfile} from '../../controllers/user';
+import {getFormData, isValidFormData, Paths, Screens, withIsLoading, withRouter, withUser} from 'helpers';
+import {logout} from 'controllers/auth';
+import {changeProfile} from 'controllers/user';
+import {withIsChangingPassword} from '../../helpers/with-is-changing-password';
 
 type ProfilePageProps = {
   user: User | null;
@@ -18,8 +19,8 @@ type ProfilePageProps = {
   onChangePassword?: (e: Event) => void;
   onBack?: (e: Event) => void;
   onLogout?: (e: Event) => void;
-  isReadonlyData?: boolean;
-  isChangingPassword?: boolean;
+  isReadonlyData: boolean;
+  isChangingPassword: boolean;
 };
 
 class ProfilePage extends Block<ProfilePageProps> {
@@ -28,34 +29,36 @@ class ProfilePage extends Block<ProfilePageProps> {
     super(props);
 
     this.setProps({
-      user: this.props.store.getState().user,
       isReadonlyData: true,
-      isChangingPassword: false,
-      formError: () => this.props.store.getState().changeProfileFormError,
+      formError: () => window.store.getState().changeProfileFormError,
       onBack: (e: Event) => {
         e.preventDefault();
         this.props.router.go(Paths.Chat)
       },
       onChangeData: (e: Event) => {
         e.preventDefault();
-        this.props.isReadonlyData = false;
+        this.setProps({isReadonlyData: false})
       },
       onChangePassword: (e: Event) => {
         e.preventDefault();
-        this.props.store.dispatch({isChangingPassword: true})
+        window.store.dispatch({isChangingPassword: true})
       },
       onLogout: (e: Event) => {
         e.preventDefault();
-        return this.props.store.dispatch(logout)
+        return window.store.dispatch(logout)
       },
       onSubmitProfile: (e: Event) => {
         const formIsValid = isValidFormData(e, this.refs);
         if (formIsValid) {
-          this.props.store.dispatch(changeProfile, getFormData(this.element!.querySelector('.profile__data')));
-          this.props.isReadonlyData = true;
+          window.store.dispatch(changeProfile, getFormData(this.element!.querySelector('.profile__data')));
+          this.setProps({isReadonlyData: true})
         }
       },
     });
+  }
+
+  componentDidUpdate() {
+    return window.store.getState().screen === Screens.Profile;
   }
 
   render() {
@@ -65,7 +68,7 @@ class ProfilePage extends Block<ProfilePageProps> {
         <div class="{{#if isLoading}}layout_loading{{else}}''{{/if}}"></div>
       <div class="profile">
         <div class="profile__header">
-            {{{EditAvatar user=user }}}
+            {{{EditAvatar }}}
         </div>
       {{#if isChangingPassword}}
           <div class="profile__password">
@@ -73,8 +76,8 @@ class ProfilePage extends Block<ProfilePageProps> {
           </div>
       {{else}}
           <div class="profile__data">
-              <form>
-                  {{{ProfileField
+          {{#Form onSubmit=onSubmitProfile}}
+              {{{ProfileField
                           ref="email"
                           onInput=onInput
                           onFocus=onFocus
@@ -144,24 +147,27 @@ class ProfilePage extends Block<ProfilePageProps> {
                       {{{Error class="error_common" text=formError }}}
                   </div>
                   <div class="profile__save" style="display: ${this.props.isReadonlyData ? 'none' : 'flex'}">
-                      {{{Button  text="Save" type="button" onClick=onSubmitProfile}}}
+                      {{{Button  text="Save" type="submit"}}}
                   </div>
-              </form>
+          {{/Form}}
           </div>
       {{/if}}
-        <div class="profile__footer">
-            <div class="profile__menu" style="display: ${this.props.isReadonlyData && !this.props.isChangingPassword ? 'block': 'none'}">
-                <div class="profile__menu-link">
-                    {{{Link text="Change data" to="/" onClick=onChangeData}}}
-                </div>
-                <div class="profile__menu-link">
-                    {{{Link text="Change password" to="/" onClick=onChangePassword}}}
-                </div>
-                <div class="profile__menu-link">
-                    {{{Link class="text-danger" text="Logout" to="/"  onClick=onLogout}}}
-                </div>
-            </div>
-        </div>
+      {{#if isChangingPassword}}
+      {{else}}
+          <div class="profile__footer"  style="display: ${this.props.isReadonlyData ? 'block': 'none'}">
+              <div class="profile__menu">
+                  <div class="profile__menu-link">
+                      {{{Link text="Change data" to="/" onClick=onChangeData}}}
+                  </div>
+                  <div class="profile__menu-link">
+                      {{{Link text="Change password" to="/" onClick=onChangePassword}}}
+                  </div>
+                  <div class="profile__menu-link">
+                      {{{Link class="text-danger" text="Logout" to="/"  onClick=onLogout}}}
+                  </div>
+              </div>
+          </div>
+      {{/if}}
       </div>
       {{#ButtonIcon style="layout-back" circle=true type="button" onClick=onBack }}
           <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -173,4 +179,4 @@ class ProfilePage extends Block<ProfilePageProps> {
     `;
   }
 }
-export default withRouter(withStore(ProfilePage));
+export default withRouter(withUser(withIsChangingPassword(withIsLoading(ProfilePage))));

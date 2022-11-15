@@ -1,9 +1,12 @@
-export default function closePopup(props: Indexed, ...titles: string[]) {
+
+export default function closePopup(...names: string[]) {
+
   return (e: Event) => {
-      if (e.target.classList[0] === 'popup') {
-        titles.forEach(value => {
-          props[value] = false;
-        });
-      }
+    const target = e.target as Element;
+    if (target.classList[0] === 'popup') {
+      names.forEach(value => {
+        window.store.dispatch({[value]: false})
+      });
+    }
     }
 }

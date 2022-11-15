@@ -1,4 +1,4 @@
-import {Paths, withRouter, withStore, withUser} from 'helpers';
+import {Paths, Screens, withRouter} from 'helpers';
 import {Block, Router, Store} from 'core';
 
 import './error.pcss';
@@ -22,11 +22,15 @@ class ErrorPage extends Block<ErrorPageProps> {
   }
   onNavigateNext(e: Event) {
     e.preventDefault();
-    if (this.props.store.getState().user?.id) {
+    if (window.store.getState().user?.id) {
       this.props.router.go(Paths.Chat);
     } else {
       this.props.router.go(Paths.SignIn);
     }
+  }
+
+  componentDidUpdate() {
+    return window.store.getState().screen === Screens.Error;
   }
 
   render() {
@@ -44,4 +48,4 @@ class ErrorPage extends Block<ErrorPageProps> {
     `;
   }
 }
-export default withRouter(withStore(ErrorPage));
+export default withRouter(ErrorPage);

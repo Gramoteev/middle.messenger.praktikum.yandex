@@ -18,6 +18,7 @@
     "noUnusedParameters": true,
     "noImplicitThis": true,
     "strictBindCallApply": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
   }
 }

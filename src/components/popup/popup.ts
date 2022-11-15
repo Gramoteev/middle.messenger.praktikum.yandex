@@ -1,32 +1,29 @@
-import {Block, Router, Store} from 'core';
+import {Block} from 'core';
 
 import './popup.pcss';
+import {withPopups} from 'helpers';
+import closePopup from 'helpers/close-popup';
+import {PopupNames} from 'helpers/with-popups';
 
 type PopupProps = {
-  user: User | null;
-  router: Router;
-  store: Store<AppState>;
   isLoading: boolean;
   isPopupOpen: boolean;
   formError?: () => string | null;
   onSubmitPassword?: (e: InputEvent) => void;
   isChangingPassword?: boolean;
   events?: Indexed;
+  onSubmit?: () => void;
 }
 
 class Popup extends Block<PopupProps> {
   static componentName = 'Popup';
-  constructor(props: PopupProps) {
+  constructor({onSubmit, ...props}: PopupProps) {
     super(props);
 
     this.setProps({
-      isPopupOpen: false,
       events: {
-        click: (e: Event) => {
-          if (e.target.classList[0] === 'popup') {
-            this.props.isPopupOpen = false;
-          }
-        }
+        click: closePopup( PopupNames.isPopupOpen ),
+        submit: onSubmit
       }
     })
   }
@@ -34,11 +31,11 @@ class Popup extends Block<PopupProps> {
   protected render(): string {
     // language=hbs
     return `
-
-            <div class="popup {{#if isPopupOpen}}popup_hidden{{/if}}">
-              <div class="popup__content" data-slot=1></div>
-            </div>
+          <form class="popup__content">
+              <div data-slot=1></div>
+          </form>
+      </div>
     `
   }
 }
-export default Popup;
+export default withPopups(Popup);

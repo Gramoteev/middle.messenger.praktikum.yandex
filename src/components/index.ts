@@ -7,6 +7,7 @@ export {default as Input} from 'components/input';
 export {default as ChatInput} from 'components/chat-input';
 export {default as Layout} from 'components/layout';
 export {default as Popup} from 'components/popup';
+export {default as Form} from 'components/form';
 export {default as ErrorComponent} from 'components/error';
 export {default as AuthField} from 'components/auth-field';
 export {default as ProfileField} from 'components/profile-field';

@@ -1,27 +1,34 @@
 import {BlockClass, StoreEvents} from 'core';
 
-type WithPopup = {
-  isPopupOpen: boolean;
+export enum ErrorNames {
+  changePasswordFormError = 'changePasswordFormError',
+}
+export type ErrorName = `${ErrorNames}`;
+
+type WithErrors = {
+    changePasswordFormError: boolean;
 }
 
-export function withPopup<P extends WithPopup>(WrappedBlock: BlockClass<P>) {
+export function withErrors<P extends WithErrors>(WrappedBlock: BlockClass<P>) {
   // @ts-expect-error No base constructor has the specified number of type arguments
   return class extends WrappedBlock<P> {
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
 
     constructor(props: P) {
-      super({ ...props, isPopupOpen: () => window.store.getState().isPopupOpen });
+      super({ ...props,
+        changePasswordFormError: window.store.getState().changePasswordFormError,
+      });
     }
 
     __onChangePopupCallback = (prevState: AppState, nextState: AppState) => {
-      if (prevState.isPopupOpen !== nextState.isPopupOpen) {
+      if (prevState.changePasswordFormError !== nextState.changePasswordFormError) {
         // @ts-expect-error this is not typed
-        this.setProps({ ...this.props, isPopupOpen: nextState.isPopupOpen });
+        this.setProps({ ...this.props, changePasswordFormError: nextState.changePasswordFormError });
       }
     }
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
+    componentDidMount() {
+      super.componentDidMount();
       window.store.on(StoreEvents.Updated, this.__onChangePopupCallback);
     }
 
@@ -29,5 +36,5 @@ export function withPopup<P extends WithPopup>(WrappedBlock: BlockClass<P>) {
       super.componentWillUnmount();
       window.store.off(StoreEvents.Updated, this.__onChangePopupCallback);
     }
-  } as BlockClass<Omit<P, 'isPopupOpen'>>;
+  } as BlockClass<Omit<P, ErrorName>>;
 }

@@ -7,7 +7,8 @@ type BlockConstructable<Props = any> = {
 }
 
 export default function registerComponent<Props extends any>(Component: BlockConstructable<Props>) {
-  Handlebars.registerHelper(Component.componentName || Component.name, function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
+  Handlebars.registerHelper(Component.componentName || Component.name,
+    function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
     if (!data.root.children) {
       data.root.children = {};
     }
@@ -20,8 +21,7 @@ export default function registerComponent<Props extends any>(Component: BlockCon
 
     (Object.keys(hash) as any).forEach((key: keyof Props) => {
       if (this[key] && typeof this[key] === 'string') {
-        // @ts-ignore
-        hash[key] = hash[key].replace(new RegExp(`{{${key}}}`, 'i'), this[key]);
+        hash[key] = hash[key].replace(new RegExp(`{{${String(key)}}}`, 'i'), this[key]);
       }
     });
 

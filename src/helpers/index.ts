@@ -1,12 +1,8 @@
-export { default as queryStringify } from './query-stringify';
 export { default as validateFormElement } from './validate-form';
 export { default as isEqual } from './is-equal';
 export { default as getAvatar } from './get-avatar';
 export { isValidFormData, getFormData } from './form-utils';
-export { default as mergeDeep } from './merge-deep';
-export { diffObjectsDeep } from './diffObjectsDeep';
-export { withPopup } from './with-popup';
-export { withStore } from './with-store';
+export { withPopups } from './with-popups';
 export { withUser } from './with-user';
 export { withDialogs } from './with-dialogs';
 export { withCurrentChatId } from './with-current-chat-id';

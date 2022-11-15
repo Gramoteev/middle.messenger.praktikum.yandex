@@ -10,6 +10,8 @@ declare global {
 
   export type Indexed = { [key: string]: any };
 
+  export module '*.png';
+
   interface Window {
     store: Store<AppState>;
     router: Router;

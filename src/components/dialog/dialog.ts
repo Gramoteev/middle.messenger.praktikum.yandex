@@ -2,7 +2,7 @@ import {Block, Router, Store} from 'core';
 
 import './dialog.pcss';
 import {getAvatar} from 'helpers';
-import {getCurrentDialog} from '../../controllers/chat';
+import {getCurrentDialog} from 'controllers/chat';
 
 type DialogProps = {
   id: number;
@@ -24,7 +24,8 @@ class Dialog extends Block<DialogProps> {
     this.setProps({
       events: {
         click: (e: Event) => {
-          window.store.dispatch(getCurrentDialog, e.currentTarget?.id);
+          const currentTarget = e.currentTarget as Element;
+          window.store.dispatch(getCurrentDialog, currentTarget?.id);
         }
       }
     })

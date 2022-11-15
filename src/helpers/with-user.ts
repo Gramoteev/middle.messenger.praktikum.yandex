@@ -19,8 +19,8 @@ export function withUser<P extends WithUserProps>(WrappedBlock: BlockClass<P>) {
       }
     }
 
-    componentDidMount(props: P) {
-      super.componentDidMount(props);
+    componentDidMount() {
+      super.componentDidMount();
       window.store.on(StoreEvents.Updated, this.__onChangeUserCallback);
     }
 

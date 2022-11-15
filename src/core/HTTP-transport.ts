@@ -1,4 +1,4 @@
-import {queryStringify} from 'helpers';
+import queryStringify from '../helpers/query-stringify';
 
 export enum Methods {
   GET = 'GET',
@@ -15,12 +15,11 @@ type Options = {
   withCredentials?: boolean;
 }
 
-
 export default class HTTPTransport {
-  private readonly _urlPrefix: string;
-  constructor(urlPrefix: string) {
-    this._urlPrefix = urlPrefix;
+  constructor(_urlPrefix = '') {
+    this._urlPrefix = _urlPrefix;
   }
+  private readonly _urlPrefix: string;
   get(url:string, data?: Record<string, any>): Promise<XMLHttpRequest> {
     if (data) {
       url = url + queryStringify(data);
@@ -64,7 +63,6 @@ export default class HTTPTransport {
       }
 
       xhr.onload = function() {
-        // @ts-ignore
         resolve(xhr);
       };
 

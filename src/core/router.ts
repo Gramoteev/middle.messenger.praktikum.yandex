@@ -1,5 +1,5 @@
 export default class Router {
-  private routes: Record<string, Function> = {};
+  private routes: Record<string, () => void> = {};
 
   private isStarted = false;
 
@@ -7,7 +7,7 @@ export default class Router {
     if (!this.isStarted) {
       this.isStarted = true;
 
-      window.onpopstate = (event: PopStateEvent) => {
+      window.onpopstate = () => {
         this.onRouteChange.call(this);
       };
 
@@ -29,7 +29,7 @@ export default class Router {
     }
   }
 
-  use(hash: string, callback: Function) {
+  use(hash: string, callback: () => void) {
     this.routes[hash] = callback;
     return this;
   }

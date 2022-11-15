@@ -1,15 +1,17 @@
 import {EventBus} from 'core';
 
 export type Dispatch<State> = (
-  nextStateOrAction: Partial<State> | Action<State>,
+  nextStateOrAction: Partial<State> | DispatchAction<State>,
   payload?: any,
 ) => void;
 
-export type Action<State> = (
+export type DispatchAction<State> = ( args: DispatchArgs<State>) => void;
+
+export type DispatchArgs<State, Action = any> = {
   dispatch: Dispatch<State>,
   state: State,
-  payload: any,
-) => void;
+  action: Action,
+}
 
 export enum StoreEvents {
   Updated = 'updated',
@@ -37,9 +39,13 @@ export default class Store<State extends Record<string, any>> extends EventBus {
     this.emit(StoreEvents.Updated, prevState, nextState);
   }
 
-  dispatch(nextStateOrAction: Partial<State> | Action<State>, payload?: any) {
+  dispatch(nextStateOrAction: Partial<State> | DispatchAction<State>, payload?: any) {
     if (typeof nextStateOrAction === 'function') {
-      nextStateOrAction(this.dispatch.bind(this), this.state, payload);
+      nextStateOrAction({
+        dispatch: this.dispatch.bind(this),
+        state: this.state,
+        action: payload
+      });
     } else {
       this.set({ ...this.state, ...nextStateOrAction });
     }

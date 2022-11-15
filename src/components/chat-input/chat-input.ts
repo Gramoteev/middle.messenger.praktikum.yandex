@@ -1,13 +1,14 @@
 import {Block, Store, StoreEvents} from 'core';
 import './chat-input.pcss';
-import {withStore} from 'helpers';
-import {sendMessage} from '../../controllers/chat';
+import {sendMessage} from 'controllers/chat';
 
 type ChatInputProps = {
   onSubmit?: (e: Event) => void;
-  onInput?: () => void;
-  onFocus?: () => void;
+  onInput?: (e: InputEvent) => void;
+  onFocus?: (e: Event) => void;
+  onKeypress?: (e: KeyboardEvent) => void;
   store: Store<AppState>;
+  events: object;
 }
 
 export class ChatInput extends Block<ChatInputProps> {
@@ -16,23 +17,32 @@ export class ChatInput extends Block<ChatInputProps> {
     super(props);
 
     this.setProps({
-      onSubmit: (e: Event) => {
-        e.preventDefault();
-        let isValid = true;
-        const element = this.refs.message.element as HTMLTextAreaElement;
-        if (element.value.length === 0) {
-          isValid = false;
+      onKeypress: (event: KeyboardEvent) => {
+        if(event.key === 'Enter' && !event.shiftKey){
+          const form = document.querySelector('form') as HTMLFormElement;
+          form.dispatchEvent(new Event('submit', {cancelable: true}));
+          event.preventDefault();
         }
-        if (isValid) {
-          window.store.dispatch(sendMessage, element.value);
-        }
-        element.value = '';
-        window.store.on(StoreEvents.Updated, () => {
-          const chat = document.querySelector(`.chat__messages`);
-          if (chat) {
-            chat.scrollTop = chat.scrollHeight;
+      },
+      events: {
+        submit: (e: SubmitEvent) => {
+          e.preventDefault();
+          let isValid = true;
+          const element = this.refs.message.element as HTMLTextAreaElement;
+          if (element.value.length === 0) {
+            isValid = false;
           }
-        });
+          if (isValid) {
+            window.store.dispatch(sendMessage, element.value);
+          }
+          element.value = '';
+          window.store.on(StoreEvents.Updated, () => {
+            const chat = document.querySelector(`.chat__messages`);
+            if (chat) {
+              chat.scrollTop = chat.scrollHeight;
+            }
+          });
+        }
       }
     });
   }
@@ -40,7 +50,6 @@ export class ChatInput extends Block<ChatInputProps> {
   protected render(): string {
     // language=hbs
     return `
-        <div>
         <form class="{{class}} chat-input">
             {{#ButtonIcon type="button" onClick=onChatSettings class="chat-input__attach" }}
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,16 +70,15 @@ export class ChatInput extends Block<ChatInputProps> {
                     rows="1"
                     onFocus=onFocus
                     onInput=onInput
-                    onBlur=onBlur
+                    onKeypress=onKeypress
             }}}
-            {{#ButtonIcon type="submit" circle=true onClick=onSubmit }}
+            {{#ButtonIcon type="submit" circle=true}}
                 <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect y="5.19995" width="11" height="1.6" fill="white"/>
                     <path d="M7 1L11 6L7 11" stroke="white" stroke-width="1.6"/>
                 </svg>
             {{/ButtonIcon}}
         </form>
-        </div>
     `
   }
 

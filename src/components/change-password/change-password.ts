@@ -1,14 +1,15 @@
 import {Block, Router, Store} from 'core';
 import {getFormData, isValidFormData, withRouter} from 'helpers';
-import {changePassword} from '../../controllers/user';
+import {changePassword} from 'controllers/user';
+import {withErrors} from '../../helpers/with-errors';
 
 type ChangePasswordProps = {
   user: User | null;
   router: Router;
   store: Store<AppState>;
   isLoading: boolean;
-  formError?: () => string | null;
-  onSubmitPassword?: (e: InputEvent) => void;
+  changePasswordFormError: boolean;
+  events?: Indexed;
 }
 
 class ChangePassword extends Block<ChangePasswordProps> {
@@ -17,12 +18,13 @@ class ChangePassword extends Block<ChangePasswordProps> {
     super(props);
 
     this.setProps({
-      formError: () => window.store.getState().changePasswordFormError,
-      onSubmitPassword: (e: Event) => {
-        const formIsValid = isValidFormData(e, this.refs);
-        if (formIsValid) {
-          const test = getFormData(this.element)
-          window.store.dispatch(changePassword, test);
+      events: {
+        submit:(e: Event) => {
+          const formIsValid = isValidFormData(e, this.refs);
+          if (formIsValid) {
+            const test = getFormData(this.element)
+            window.store.dispatch(changePassword, test);
+          }
         }
       }
     })
@@ -31,7 +33,6 @@ class ChangePassword extends Block<ChangePasswordProps> {
   protected render(): string {
     // language=hbs
     return `
-      <div>
       <form>
           {{{ProfileField
                   ref="oldPassword"
@@ -52,14 +53,13 @@ class ChangePassword extends Block<ChangePasswordProps> {
                   placeholder=" "
           }}}
           <div class="profile__errors">
-              {{{Error class="error_common" text=formError }}}
+              {{{Error class="error_common" text=changePasswordFormError }}}
           </div>
           <div class="profile__save">
-              {{{Button  text="Save" type="submit" onClick=onSubmitPassword}}}
+              {{{Button  text="Save" type="submit"}}}
           </div>
       </form>
-      </div>
     `;
   }
 }
-export default withRouter(ChangePassword);
+export default withRouter(withErrors(ChangePassword));
